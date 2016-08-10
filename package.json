@@ -1,17 +1,17 @@
 {
-  "name": "timetracker",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "gulp": "node gulpfile.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-preset-es2015": "^6.13.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-react": "^3.1.0"
-  }
+    "name": "timetracker",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "gulp": "gulp watch"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-preset-es2015": "^6.13.2",
+        "gulp": "^3.9.1",
+        "gulp-babel": "^6.1.2",
+        "gulp-react": "^3.1.0"
+    }
 }

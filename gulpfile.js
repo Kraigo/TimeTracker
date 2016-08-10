@@ -16,5 +16,3 @@ gulp.task('jsx', () => {
 gulp.task('watch', () => {
     gulp.watch('./public/scripts/*.jsx', ['jsx']);
 });
-
-gulp.start('watch');
