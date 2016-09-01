@@ -13,4 +13,19 @@ module.exports = function(app) {
     //         }
     //     }
     // }])
+
+
+    app.directive('taskInput', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: './application/common/templates/task.html'
+        }
+    })
+
+    app.filter('secondsToDateTime', [function() {
+        return function(seconds) {
+            return new Date(1970, 0, 1).setSeconds(seconds);
+        };
+    }])
 }

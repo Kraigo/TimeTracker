@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Track your time</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-6" ng-repeat="day in days">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{day.date | date : 'd MMM, EEEE'}}
+                    <span class="pull-right">
+                        {{day.tasks | tasksTime | secondsToDateTime | date:'HH:mm:ss'}}
+                    </span>
+
+                </div>
+                <div class="list-group">
+                    <div class="list-group-item" ng-repeat="task in day.tasks track by $index">
+                        <task-input></task-input>
+                    </div>
+                    <div class="list-group-item">
+                        <button ng-click="addTask(day)" class="btn btn-primary">Add Task</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

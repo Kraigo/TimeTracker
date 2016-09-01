@@ -2,10 +2,20 @@ module.exports = function(app) {
     app.controller('HomeCtrl', ['$scope', 'Task',
         function($scope, Task) {
 
+            var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+            $scope.days = [{
+                date: new Date,
+                tasks: [new Task(), new Task()]
+            }, {
+                date: tomorrow,
+                tasks: []
+            }]
+
             $scope.hi = 'hello!';
-            $scope.tasks = [];
-            $scope.addTask = function() {
-                $scope.tasks.push(new Task());
+
+            $scope.addTask = function(day) {
+                day.tasks.push(new Task());
             }
 
             $scope.trackTask = function(task) {

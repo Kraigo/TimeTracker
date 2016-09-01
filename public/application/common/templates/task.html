@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-xs-8">
+        <input type="text" class="form-control" ng-model="task.description">
+    </div>
+    <div class="col-xs-4">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="task.time" ng-disabled="task.isTracking" />
+
+            <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">
+                    <i class="glyphicon glyphicon-time"></i>
+                </button>
+            </pan>
+        </div>
+    </div>
+</div>

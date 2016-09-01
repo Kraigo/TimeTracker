@@ -2,11 +2,15 @@ module.exports = function(app) {
     app.factory('Task', ['$interval',
         function($interval) {
 
-            var Task = function() {
+            var Task = function(options) {
+                this.userId = null;
+                this.date = new Date();
                 this.time = 0;
                 this.description = '';
                 this.track = null;
                 this.isTracking = false;
+
+                angular.extend(this, options);
             };
 
             Task.prototype = {
@@ -27,7 +31,7 @@ module.exports = function(app) {
                 },
                 update: function() {
                     var trackTime = new Date() - this.track;
-                    this.time += parseInt(trackTime);
+                    this.time += parseInt(trackTime / 1000);
                     this.track = new Date();
                 }
             }

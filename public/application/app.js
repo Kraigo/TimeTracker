@@ -4,6 +4,8 @@
 // import ngAnimate from 'angular-animate';
 // import bootstrap from 'bootstrap';
 var angular = require('angular');
+require('../styles/main.scss');
+require('bootstrap/dist/css/bootstrap.css');
 require('angular-route');
 require('angular-resource');
 require('angular-animate');
@@ -16,7 +18,7 @@ app.config([
 
         $routeProvider
             .when('/', {
-                templateUrl: './home/views/home.html',
+                templateUrl: './application/home/views/home.html',
                 controller: 'HomeCtrl'
             })
 
@@ -27,3 +29,4 @@ app.config([
 require('./home/controllers/homeCtrl')(app);
 require('./common/factories/taskFactory')(app);
 require('./common/directives/directives')(app);
+require('./common/filters/filters')(app);
