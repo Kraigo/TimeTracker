@@ -1,0 +1,14 @@
+</div>Wold {{hi}}</div>
+
+<h3>Todays tasks</h3>
+<ul>
+    <li ng-repeat="task in tasks track by $index">
+        <input type="text" ng-model="task.description" />
+        <input type="text" ng-model="task.time" ng-disabled="task.isTracking" />
+        <button ng-click="trackTask(task)">&#9728;</button>
+    </li>
+
+    <li>
+        <button ng-click="addTask()">Add Task</button>
+    </li>
+</ul>
