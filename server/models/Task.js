@@ -5,6 +5,7 @@ var shema = new mongoose.Schema({
     time: Number,
     date: Date,
     description: String,
+    category: String,
     user: { type: ObjectId, ref: 'User' }
 });
 

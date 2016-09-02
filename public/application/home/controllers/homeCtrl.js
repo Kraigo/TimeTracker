@@ -3,15 +3,20 @@ module.exports = function(app) {
         function($scope, $timeout, Task, repository) {
 
             var tomorrow = new Date();
+            var changeTimer;
             tomorrow.setDate(tomorrow.getDate() + 1);
 
             $scope.days = [{
                 date: new Date,
-                tasks: [new Task(), new Task()]
+                tasks: []
             }, {
                 date: tomorrow,
                 tasks: []
-            }]
+            }];
+
+            $scope.categories = [
+                'Homing', 'SBC'
+            ]
 
             $scope.addTask = function(day) {
                 day.tasks.push(new Task());
@@ -37,9 +42,21 @@ module.exports = function(app) {
             })
 
             $scope.taskChanged = function(task) {
-                repository.saveTask($scope.currentUser, task).then(function(response) {
-                    console.log('task saved!');
-                });
+                $timeout.cancel(changeTimer);
+                changeTimer = $timeout(function() {
+                    repository.saveTask($scope.currentUser, task).then(function(response) {
+                        if (response.data._id) {
+                            task._id = response.data._id;
+                        }
+                    });
+                }, 800);
+            }
+
+            $scope.removeTask = function(task, collection, index) {
+                repository.removeTask(task).then(function() {
+                    // delete task;
+                    collection.splice(index, 1);
+                })
             }
         }
     ]);

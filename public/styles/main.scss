@@ -1,3 +1,13 @@
 body {
-    background-color: #fff;
+    background-color: red;
+}
+
+.btn.btn-delete {
+    border: 0;
+    &:hover,
+    &:active,
+    &:hover:active {
+        background: none;
+        color: red;
+    }
 }

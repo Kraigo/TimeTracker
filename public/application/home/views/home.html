@@ -12,14 +12,7 @@
                     </span>
 
                 </div>
-                <div class="list-group">
-                    <div class="list-group-item" ng-repeat="task in day.tasks track by $index">
-                        <task-input></task-input>
-                    </div>
-                    <div class="list-group-item">
-                        <button ng-click="addTask(day)" class="btn btn-primary">Add Task</button>
-                    </div>
-                </div>
+                <tasks-table></tasks-table>
             </div>
         </div>
     </div>

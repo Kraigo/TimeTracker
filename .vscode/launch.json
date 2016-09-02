@@ -14,7 +14,8 @@
             "--nolazy"
         ],
         "env": {
-            "NODE_ENV": "development"
+            "NODE_ENV": "development",
+            "MONGO_DB": "mongodb://kraigo:traktor@ds044699.mlab.com:44699/timetracker"
         },
         "externalConsole": false,
         "sourceMaps": false,

@@ -17,10 +17,17 @@ module.exports = function(app) {
                 var data = {
                     user: user._id,
                     description: task.description,
+                    category: task.category,
                     time: task.time,
                     date: task.date
                 }
-                return $http.post(baseUrl + '/tasks', data);
+                
+                return task._id
+                    ? $http.put(baseUrl + '/tasks/' + task._id, data)
+                    : $http.post(baseUrl + '/tasks', data);
+            },
+            removeTask: function(task) {
+                return $http.delete(baseUrl + '/tasks/' + task._id);
             }
         }
     }]);

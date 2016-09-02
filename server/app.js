@@ -6,7 +6,7 @@ var bodyParser = require('body-parser')
 var app = express();
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://aa:bb@ds044699.mlab.com:44699/cc');
+mongoose.connect(process.env.MONGO_DB);
 mongoose.connection.on('error', console.error);
 
 var User = require('./models/User');
@@ -33,10 +33,29 @@ app.get('/tasks/:id', function(req, res) {
 });
 
 app.post('/tasks', function(req, res) {
-    Task.update({ _id: req.body._id }, req.body, { upsert: true }, function(err, task) {
+    var data = req.body;
+
+    Task.create(data, function(err, task) {
         res.send(task);
     });
-})
+});
+
+app.put('/tasks/:id', function(req, res) {
+    var data = req.body;
+    var condition = { _id: req.params.id };
+
+    Task.update(condition, data, function(err, task) {
+        res.send(task);
+    });
+});
+
+app.delete('/tasks/:id', function(req, res) {
+    var condition = { _id: req.params.id };
+
+    Task.find(condition).remove().exec(function(err, task) {
+        res.send(task);
+    });
+});
 
 // var user = new User({
 //     firstName: 'Igor',

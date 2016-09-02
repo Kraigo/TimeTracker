@@ -15,7 +15,7 @@ module.exports = function(app) {
     // }])
 
 
-    app.directive('taskInput', function() {
+    app.directive('tasksTable', function() {
         return {
             restrict: 'E',
             replace: true,

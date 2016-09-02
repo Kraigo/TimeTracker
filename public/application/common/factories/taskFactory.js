@@ -31,7 +31,7 @@ module.exports = function(app) {
                 },
                 update: function() {
                     var trackTime = new Date() - this.track;
-                    this.time += parseInt(trackTime / 1000);
+                    this.time = parseInt(this.time) + parseInt(trackTime / 1000);
                     this.track = new Date();
                 }
             }

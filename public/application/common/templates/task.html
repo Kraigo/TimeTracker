@@ -1,16 +1,40 @@
-<div class="row">
-    <div class="col-xs-8">
-        <input type="text" class="form-control" ng-model="task.description" ng-change="taskChanged(task)">
-    </div>
-    <div class="col-xs-4">
-        <div class="input-group">
-            <input type="text" class="form-control" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" />
-
-            <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">
-                    <i class="glyphicon glyphicon-time"></i>
+<table class="table tasks-table">
+    <colgroup>
+        <col width="1">
+        <col width="200px">
+        <col>
+        <col width="120px">
+    </colgroup>
+    <tbody>
+        <tr ng-repeat="task in day.tasks track by $index">
+            <td>
+                <button class="btn btn-default btn-delete" ng-click="removeTask(task, day.tasks, $index)">
+                    <i class="glyphicon glyphicon-trash"></i>
                 </button>
-            </pan>
-        </div>
-    </div>
-</div>
+            </td>
+            <td>
+                <select class="form-control" ng-model="task.category" ng-options="category for category in categories" ng-change="taskChanged(task)">
+                </select>
+            </td>
+            <td>
+                <input type="text" class="form-control" ng-model="task.description" ng-change="taskChanged(task)">
+            </td>
+            <td width=>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" />
+
+                    <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </button>
+            </span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button ng-click="addTask(day)" class="btn btn-default">Add Task</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
