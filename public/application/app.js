@@ -30,3 +30,4 @@ require('./home/controllers/homeCtrl')(app);
 require('./common/factories/taskFactory')(app);
 require('./common/directives/directives')(app);
 require('./common/filters/filters')(app);
+require('./common/services/repositorySrv')(app);

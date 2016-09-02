@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-xs-8">
-        <input type="text" class="form-control" ng-model="task.description">
+        <input type="text" class="form-control" ng-model="task.description" ng-change="taskChanged(task)">
     </div>
     <div class="col-xs-4">
         <div class="input-group">
-            <input type="text" class="form-control" ng-model="task.time" ng-disabled="task.isTracking" />
+            <input type="text" class="form-control" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" />
 
             <span class="input-group-btn">
                 <button class="btn btn-secondary" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">

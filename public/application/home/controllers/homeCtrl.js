@@ -1,9 +1,10 @@
 module.exports = function(app) {
-    app.controller('HomeCtrl', ['$scope', 'Task',
-        function($scope, Task) {
+    app.controller('HomeCtrl', ['$scope', '$timeout', 'Task', 'repository',
+        function($scope, $timeout, Task, repository) {
 
             var tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
             $scope.days = [{
                 date: new Date,
                 tasks: [new Task(), new Task()]
@@ -11,8 +12,6 @@ tomorrow.setDate(tomorrow.getDate() + 1);
                 date: tomorrow,
                 tasks: []
             }]
-
-            $scope.hi = 'hello!';
 
             $scope.addTask = function(day) {
                 day.tasks.push(new Task());
@@ -24,6 +23,23 @@ tomorrow.setDate(tomorrow.getDate() + 1);
                 } else {
                     task.start();
                 }
+                $scope.taskChanged(task);
+            }
+
+            repository.getUser().then(function(response) {
+                $scope.currentUser = response.data;
+
+                repository.getTasks($scope.currentUser).then(function(response) {
+                    response.data.forEach(function(task) {
+                        $scope.days[0].tasks.push(new Task(task));
+                    })
+                });
+            })
+
+            $scope.taskChanged = function(task) {
+                repository.saveTask($scope.currentUser, task).then(function(response) {
+                    console.log('task saved!');
+                });
             }
         }
     ]);
