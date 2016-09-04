@@ -4,14 +4,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "webpack-dev-server --content-base public",
-    "server": "node server/app.js"
+    "server": "webpack-dev-server --content-base public",
+    "build": "webpack",
+    "start": "node server/app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
+    "angular-filter": "^0.5.11",
     "angular-loading-bar": "^0.9.0",
     "angular-resource": "^1.5.8",
     "angular-route": "^1.5.8",

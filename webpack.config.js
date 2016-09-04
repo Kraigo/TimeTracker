@@ -2,8 +2,8 @@ module.exports = {
     // context: __dirname + '',
     entry: './public/application/app.js',
     output: {
-        path: __dirname + '/public/application',
-        filename: 'app.bundle.js'
+        path: __dirname + '/public',
+        filename: '/application/dist/app.bundle.js'
     },
     module: {
         loaders: [{
@@ -13,10 +13,10 @@ module.exports = {
             query: {
                 presets: ['es2015']
             }
-        },{ 
-        test: /\.css$/, 
-        loader: "style-loader!css-loader" 
-      }, {
+        }, {
+            test: /\.css$/,
+            loader: "style-loader!css-loader"
+        }, {
             test: /\.scss$/,
             loader: 'style!css!sass'
         }, {
