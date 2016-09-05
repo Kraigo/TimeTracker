@@ -5,7 +5,8 @@ var shema = new mongoose.Schema({
     username: String,
     password: String,
     firstName: String,
-    lastName: String
+    lastName: String,
+    email: String
 });
 
 // shema.setters = {
