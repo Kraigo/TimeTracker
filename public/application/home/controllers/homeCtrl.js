@@ -8,10 +8,8 @@ module.exports = function(app) {
 
             $scope.days = [{
                 date: new Date,
-                tasks: []
-            }, {
-                date: tomorrow,
-                tasks: []
+                tasks: [],
+                isToday: true
             }];
 
             $scope.categories = [
@@ -19,7 +17,7 @@ module.exports = function(app) {
             ]
 
             $scope.addTask = function(day) {
-                day.tasks.push(new Task());
+                day.tasks.push(new Task({ date: day.date }));
             }
 
             $scope.trackTask = function(task) {
@@ -36,7 +34,24 @@ module.exports = function(app) {
 
                 repository.getTasks($scope.currentUser).then(function(response) {
                     response.data.forEach(function(task) {
-                        $scope.days[0].tasks.push(new Task(task));
+
+                        for (var i = 0, day; i < $scope.days.length; i++) {
+                            day = $scope.days[i];;
+
+                            if (moment(day.date).diff(task.date, 'days') === 0) {
+                                day.tasks.push(task);
+                                return;
+                            }
+                        }
+                        $scope.days.push({
+                            date: task.date,
+                            tasks: [task]
+                        })
+                        return;
+                    });
+
+                    $scope.days.sort(function(a, b) {
+                        return new Date(a.date) - new Date(b.date);
                     })
                 });
             })

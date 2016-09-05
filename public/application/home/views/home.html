@@ -4,7 +4,7 @@
     </div>
     <div class="row">
         <div class="col-md-6" ng-repeat="day in days">
-            <div class="panel panel-default">
+            <div class="panel " ng-class="day.isToday ? 'panel-primary' : 'panel-default'">
                 <div class="panel-heading">
                     {{day.date | date : 'd MMM, EEEE'}}
                     <span class="pull-right">
