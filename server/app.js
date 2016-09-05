@@ -1,6 +1,6 @@
 var express = require('express');
-var session = require('express-session')
-var MongoStore = require('connect-mongo')(session);
+// var session = require('express-session')
+// var MongoStore = require('connect-mongo')(session);
 var cors = require('cors');
 var bodyParser = require('body-parser');
 

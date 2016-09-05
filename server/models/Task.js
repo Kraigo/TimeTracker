@@ -6,7 +6,9 @@ var shema = new mongoose.Schema({
     date: Date,
     description: String,
     category: String,
-    user: { type: ObjectId, ref: 'User' }
+    user: { type: ObjectId, ref: 'User' },
+    lastTrack: Date,
+    isTracking: Boolean
 });
 
 var Model = mongoose.model('Task', shema);

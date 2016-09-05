@@ -7,16 +7,21 @@ module.exports = function(app) {
                 this.date = new Date();
                 this.time = 0;
                 this.description = '';
-                this.track = null;
+                this.lastTrack = null;
                 this.isTracking = false;
 
                 angular.extend(this, options);
+
+                if (this.isTracking) {
+                    this.update();
+                    this.start();
+                }
             };
 
             Task.prototype = {
-                start: function() {
+                start: function(froDate) {
                     var self = this;
-                    this.track = new Date();
+                    this.lastTrack = new Date();
                     this.isTracking = true;
 
                     this.timer = $interval(function() {
@@ -26,14 +31,17 @@ module.exports = function(app) {
                 stop: function() {
                     $interval.cancel(this.timer);
                     this.update();
-                    this.track = null;
+                    this.lastTrack = null;
                     this.isTracking = false;
                 },
                 update: function() {
+                    if (this.lastTrack instanceof Date === false) {
+                        this.lastTrack = new Date(this.lastTrack);
+                    }
                     var now = new Date();
-                    var trackTime = now - this.track;
+                    var trackTime = now - this.lastTrack;
+                    this.lastTrack = now;
                     this.time = parseInt(this.time) + parseInt(trackTime);
-                    this.track = now;
                 }
             }
             return Task;

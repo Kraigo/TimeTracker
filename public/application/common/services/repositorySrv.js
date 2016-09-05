@@ -19,12 +19,12 @@ module.exports = function(app) {
                     description: task.description,
                     category: task.category,
                     time: task.time,
-                    date: task.date
+                    date: task.date,
+                    lastTrack: task.lastTrack,
+                    isTracking: task.isTracking
                 }
-                
-                return task._id
-                    ? $http.put(baseUrl + '/tasks/' + task._id, data)
-                    : $http.post(baseUrl + '/tasks', data);
+
+                return task._id ? $http.put(baseUrl + '/tasks/' + task._id, data) : $http.post(baseUrl + '/tasks', data);
             },
             removeTask: function(task) {
                 return $http.delete(baseUrl + '/tasks/' + task._id);
