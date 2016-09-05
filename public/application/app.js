@@ -3,11 +3,14 @@
 // import ngResource from 'angular-resource';
 // import ngAnimate from 'angular-animate';
 // import bootstrap from 'bootstrap';
-var angular = require('angular');
+
 require('../styles/main.scss');
 require('angular-loading-bar/build/loading-bar.min.css');
-
 require('bootstrap/dist/css/bootstrap.css');
+
+// window.moment = require('moment');
+var angular = require('angular');
+
 require('angular-route');
 require('angular-resource');
 require('angular-animate');

@@ -3,7 +3,7 @@
         <col width="1">
         <col width="200px">
         <col>
-        <col width="120px">
+        <col width="140px">
     </colgroup>
     <tbody>
         <tr ng-repeat="task in day.tasks track by $index">
@@ -19,16 +19,17 @@
             <td>
                 <input type="text" class="form-control" ng-model="task.description" ng-change="taskChanged(task)">
             </td>
-            <td width=>
+            <td>
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" />
+                    <input type="text" class="form-control" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" input-date/>
 
                     <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">
-                        <i class="glyphicon glyphicon-time"></i>
-                    </button>
-            </span>
+                        <button class="btn btn-secondary" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">
+                            <i class="glyphicon glyphicon-time"></i>
+                        </button>
+                    </span>
                 </div>
+                {{task.time}}
             </td>
         </tr>
         <tr>
