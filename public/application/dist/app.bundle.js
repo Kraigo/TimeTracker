@@ -44,6 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	// import angular from 'angular';
 	// import ngRoute from 'angular-route';
 	// import ngResource from 'angular-resource';
@@ -65,32 +67,26 @@
 
 	var app = angular.module('timetracker', ['ngRoute', 'ngResource', 'ngAnimate', 'angular-loading-bar', 'angular.filter']);
 
-	app.config([
-	    '$routeProvider', '$locationProvider',
-	    function($routeProvider, $locationProvider) {
+	app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
-	        $routeProvider
-	            .when('/', {
-	                templateUrl: './application/home/views/home.html',
-	                controller: 'HomeCtrl'
-	            })
-	            .when('/login', {
-	                templateUrl: './application/login/views/login.html',
-	                controller: 'LoginCtrl'
-	            })
-	            .when('/report', {
-	                templateUrl: './application/report/views/report.html',
-	                controller: 'ReportCtrl'
-	            })
+	    $routeProvider.when('/', {
+	        templateUrl: './application/home/views/home.html',
+	        controller: 'HomeCtrl'
+	    }).when('/login', {
+	        templateUrl: './application/login/views/login.html',
+	        controller: 'LoginCtrl'
+	    }).when('/report', {
+	        templateUrl: './application/report/views/report.html',
+	        controller: 'ReportCtrl'
+	    });
 
-	        //         $locationProvider.html5Mode({
-	        //   enabled: true,
-	        //   requireBase: false
-	        // });
-	    }
-	]);
+	    //         $locationProvider.html5Mode({
+	    //   enabled: true,
+	    //   requireBase: false
+	    // });
+	}]);
 
-	app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+	app.config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
 	    cfpLoadingBarProvider.includeSpinner = false;
 	}]);
 
@@ -138,7 +134,7 @@
 
 
 	// module
-	exports.push([module.id, ".btn.btn-delete {\n  border: 0; }\n  .btn.btn-delete:hover, .btn.btn-delete:active, .btn.btn-delete:hover:active {\n    background: none;\n    color: red; }\n", ""]);
+	exports.push([module.id, ".btn.btn-delete {\n  border: 0; }\n  .btn.btn-delete:hover, .btn.btn-delete:active, .btn.btn-delete:hover:active {\n    color: red; }\n\n.noresize {\n  resize: none; }\n\ntextarea[expand-focus]:focus {\n  margin-bottom: -1.5em;\n  z-index: 1;\n  position: relative;\n  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.15); }\n", ""]);
 
 	// exports
 
@@ -55106,196 +55102,226 @@
 /* 123 */
 /***/ function(module, exports) {
 
-	module.exports = function(app) {
-	    app.controller('HomeCtrl', ['$scope', '$timeout', 'Task', 'repository',
-	        function($scope, $timeout, Task, repository) {
+	'use strict';
 
-	            var tomorrow = new Date();
-	            var changeTimer;
-	            tomorrow.setDate(tomorrow.getDate() + 1);
+	module.exports = function (app) {
+	    app.controller('HomeCtrl', ['$scope', '$timeout', 'Task', 'repository', function ($scope, $timeout, Task, repository) {
 
-	            $scope.days = [{
-	                date: new Date,
-	                tasks: [],
-	                isToday: true
-	            }];
+	        var tomorrow = new Date();
+	        var changeTimer;
 
-	            $scope.categories = [
-	                'Homing', 'SBC'
-	            ]
+	        tomorrow.setDate(tomorrow.getDate() + 1);
 
-	            $scope.addTask = function(day) {
-	                day.tasks.push(new Task({ date: day.date }));
+	        $scope.currentDay = new Date();
+	        $scope.today = new Date();
+
+	        $scope.week = [];
+
+	        $scope.categories = ['Homing', 'SBC'];
+
+	        $scope.addTask = function (day) {
+	            day.tasks.push(new Task({ date: day.date }));
+	        };
+
+	        $scope.trackTask = function (task) {
+	            if (task.isTracking) {
+	                task.stop();
+	            } else {
+	                task.start();
 	            }
+	            $scope.taskChanged(task);
+	        };
 
-	            $scope.trackTask = function(task) {
-	                if (task.isTracking) {
-	                    task.stop();
-	                } else {
-	                    task.start();
-	                }
-	                $scope.taskChanged(task);
-	            }
+	        repository.getUser().then(function (response) {
+	            $scope.currentUser = response.data;
 
-	            repository.getUser().then(function(response) {
-	                $scope.currentUser = response.data;
+	            repository.getTasks($scope.currentUser).then(function (response) {
+	                response.data.forEach(function (task) {
 
-	                repository.getTasks($scope.currentUser).then(function(response) {
-	                    response.data.forEach(function(task) {
+	                    for (var i = 0, day; i < $scope.week.length; i++) {
+	                        day = $scope.week[i];
 
-	                        for (var i = 0, day; i < $scope.days.length; i++) {
-	                            day = $scope.days[i];;
+	                        var dayDate = moment(day.date).startOf('day');
+	                        var taskDate = moment(task.date).startOf('day');
 
-	                            if (moment(day.date).diff(task.date, 'days') === 0) {
-	                                day.tasks.push(new Task(task));
-	                                return;
-	                            }
+	                        if (dayDate.isSame(taskDate)) {
+	                            day.tasks.push(new Task(task));
+	                            return;
 	                        }
-	                        $scope.days.push({
-	                            date: task.date,
-	                            tasks: [new Task(task)]
-	                        })
-	                        return;
-	                    });
-
-	                    $scope.days.sort(function(a, b) {
-	                        return new Date(a.date) - new Date(b.date);
-	                    })
+	                    }
+	                    // $scope.week.push({
+	                    //     date: taskDate.toDate(),
+	                    //     tasks: [new Task(task)]
+	                    // })
+	                    return;
 	                });
-	            })
 
-	            $scope.taskChanged = function(task) {
-	                $timeout.cancel(changeTimer);
-	                changeTimer = $timeout(function() {
-	                    repository.saveTask($scope.currentUser, task).then(function(response) {
-	                        if (response.data._id) {
-	                            task._id = response.data._id;
-	                        }
-	                    });
-	                }, 800);
+	                // $scope.week.sort(function(a, b) {
+	                //     return new Date(a.date) - new Date(b.date);
+	                // })
+	            });
+	        });
+
+	        $scope.taskChanged = function (task) {
+	            $timeout.cancel(changeTimer);
+	            changeTimer = $timeout(function () {
+	                repository.saveTask($scope.currentUser, task).then(function (response) {
+	                    if (response.data._id) {
+	                        task._id = response.data._id;
+	                    }
+	                });
+	            }, 800);
+	        };
+
+	        $scope.removeTask = function (task, collection, index) {
+	            repository.removeTask(task).then(function () {
+	                // delete task;
+	                collection.splice(index, 1);
+	            });
+	        };
+
+	        $scope.selectDay = function (day) {
+	            $scope.currentDay = day;
+	        };
+
+	        $scope.fillWeek = function () {
+	            var startWeek = moment().day("Monday").startOf('day');
+
+	            $scope.week.push({
+	                date: startWeek.toDate(),
+	                tasks: [new Task({ date: startWeek.toDate() })]
+	            });
+
+	            for (var i = 0; i < 4; i++) {
+	                var weekDate = startWeek.add(1, 'day').toDate();
+	                $scope.week.push({
+	                    date: weekDate,
+	                    tasks: [new Task({ date: weekDate })]
+	                });
 	            }
 
-	            $scope.removeTask = function(task, collection, index) {
-	                repository.removeTask(task).then(function() {
-	                    // delete task;
-	                    collection.splice(index, 1);
-	                })
-	            }
-	        }
-	    ]);
+	            $scope.week.forEach(function (day) {
+	                if (moment().startOf('day').isSame(moment(day.date).startOf('day'))) {
+	                    day.isToday = true;
+	                    $scope.selectDay(day);
+	                }
+	            });
+	        };
+	        $scope.fillWeek();
+	    }]);
 	};
 
 /***/ },
 /* 124 */
 /***/ function(module, exports) {
 
-	module.exports = function(app) {
-	    app.controller('LoginCtrl', ['$scope',
+	'use strict';
 
-	        function($scope) {
+	module.exports = function (app) {
+	    app.controller('LoginCtrl', ['$scope', function ($scope) {
 
-	            $scope.user = {
-	                name: '',
-	                password: ''
-	            }
-	        }
-	    ]);
+	        $scope.user = {
+	            name: '',
+	            password: ''
+	        };
+	    }]);
 	};
 
 /***/ },
 /* 125 */
 /***/ function(module, exports) {
 
-	module.exports = function(app) {
-	    app.controller('ReportCtrl', ['$scope', 'Task', 'repository',
+	'use strict';
 
-	        function($scope, Task, repository) {
+	module.exports = function (app) {
+	    app.controller('ReportCtrl', ['$scope', 'Task', 'repository', function ($scope, Task, repository) {
 
-	            $scope.user = {
-	                name: '',
-	                password: ''
-	            }
-	            $scope.tasks = [];
-	            repository.getUser().then(function(response) {
-	                $scope.currentUser = response.data;
+	        $scope.user = {
+	            name: '',
+	            password: ''
+	        };
+	        $scope.tasks = [];
+	        repository.getUser().then(function (response) {
+	            $scope.currentUser = response.data;
 
-	                repository.getTasks($scope.currentUser).then(function(response) {
-	                    $scope.tasks = response.data;
-	                    $scope.tasks.map(function(item){
-	                        return new Task(item);
-	                    })
+	            repository.getTasks($scope.currentUser).then(function (response) {
+	                $scope.tasks = response.data;
+	                $scope.tasks.map(function (item) {
+	                    return new Task(item);
 	                });
-	            })
-	        }
-	    ]);
+	            });
+	        });
+	    }]);
 	};
 
 /***/ },
 /* 126 */
 /***/ function(module, exports) {
 
-	module.exports = function(app) {
-	    app.factory('Task', ['$interval',
-	        function($interval) {
+	'use strict';
 
-	            var Task = function(options) {
-	                this.userId = null;
-	                this.date = new Date();
-	                this.time = 0;
-	                this.description = '';
+	module.exports = function (app) {
+	    app.factory('Task', ['$interval', function ($interval) {
+
+	        var Task = function Task(options) {
+	            this.userId = null;
+	            this.date = new Date();
+	            this.time = 0;
+	            this.description = '';
+	            this.lastTrack = null;
+	            this.isTracking = false;
+
+	            angular.extend(this, options);
+
+	            if (this.isTracking) {
+	                this.update();
+	                this.start();
+	            }
+	        };
+
+	        Task.prototype = {
+	            start: function start(froDate) {
+	                var self = this;
+	                this.lastTrack = new Date();
+	                this.isTracking = true;
+
+	                this.timer = $interval(function () {
+	                    self.update();
+	                }, 1000);
+	            },
+	            stop: function stop() {
+	                $interval.cancel(this.timer);
+	                this.update();
 	                this.lastTrack = null;
 	                this.isTracking = false;
-
-	                angular.extend(this, options);
-
-	                if (this.isTracking) {
-	                    this.update();
-	                    this.start();
+	            },
+	            update: function update() {
+	                if (this.lastTrack instanceof Date === false) {
+	                    this.lastTrack = new Date(this.lastTrack);
 	                }
-	            };
-
-	            Task.prototype = {
-	                start: function(froDate) {
-	                    var self = this;
-	                    this.lastTrack = new Date();
-	                    this.isTracking = true;
-
-	                    this.timer = $interval(function() {
-	                        self.update();
-	                    }, 1000)
-	                },
-	                stop: function() {
-	                    $interval.cancel(this.timer);
-	                    this.update();
-	                    this.lastTrack = null;
-	                    this.isTracking = false;
-	                },
-	                update: function() {
-	                    if (this.lastTrack instanceof Date === false) {
-	                        this.lastTrack = new Date(this.lastTrack);
-	                    }
-	                    var now = new Date();
-	                    var trackTime = now - this.lastTrack;
-	                    this.lastTrack = now;
-	                    this.time = parseInt(this.time) + parseInt(trackTime);
-	                }
+	                var now = new Date();
+	                var trackTime = now - this.lastTrack;
+	                this.lastTrack = now;
+	                this.time = parseInt(this.time) + parseInt(trackTime);
 	            }
-	            return Task;
-	        }
-	    ]);
-	}
+	        };
+	        return Task;
+	    }]);
+	};
 
 /***/ },
 /* 127 */
 /***/ function(module, exports) {
 
-	module.exports = function(app) {
+	'use strict';
 
-	    app.directive('inputDate', ['$filter', function($filter) {
+	module.exports = function (app) {
+
+	    app.directive('inputDate', ['$filter', function ($filter) {
 	        return {
 	            require: 'ngModel',
-	            link: function(scope, element, attrs, modelCtrl) {
-	                modelCtrl.$formatters.unshift(function(inputValue) {
+	            link: function link(scope, element, attrs, modelCtrl) {
+	                modelCtrl.$formatters.unshift(function (inputValue) {
 	                    var seconds = Math.floor(inputValue / 1000) % 60;
 	                    var minutes = Math.floor(inputValue / 1000 / 60) % 60;
 	                    var hours = Math.floor(inputValue / 1000 / (60 * 60)) % 60;
@@ -55308,7 +55334,7 @@
 	                    return dateValue;
 	                });
 
-	                modelCtrl.$parsers.unshift(function(inputValue) {
+	                modelCtrl.$parsers.unshift(function (inputValue) {
 	                    if (typeof inputValue === 'number') return inputValue;
 
 	                    var newValue = 0;
@@ -55321,72 +55347,94 @@
 	                    // modelCtrl.$setViewValue(newValue);
 	                    // modelCtrl.$render();
 	                    return newValue * 1000;
-	                })
+	                });
 	            }
-	        }
-	    }])
+	        };
+	    }]);
 
-
-	    app.directive('tasksTable', function() {
+	    app.directive('tasksTable', function () {
 	        return {
 	            restrict: 'E',
 	            replace: true,
 	            templateUrl: './application/home/templates/task.html'
-	        }
-	    })
-
-	    app.filter('secondsToDateTime', [function() {
-	        return function(seconds) {
-	            return new Date(1970, 0, 1).setMilliseconds(seconds);
 	        };
-	    }])
-	}
+	    });
+
+	    app.directive('expandFocus', function () {
+	        return {
+	            restrict: 'A',
+	            link: function link(scope, element, attrs) {
+	                var elm = element[0];
+	                elm.setAttribute('rows', 1);
+
+	                element.bind('focus', function () {
+	                    elm.setAttribute('rows', 2);
+	                });
+
+	                element.bind('blur', function () {
+	                    elm.setAttribute('rows', 1);
+	                });
+	            }
+	        };
+	    });
+	};
 
 /***/ },
 /* 128 */
 /***/ function(module, exports) {
 
-	module.exports = function(app) {
-	    app.filter('tasksTime', function() {
-	        return function(input) {
-	            return input.map(function(item) {
-	                return parseInt(item.time)
-	            }).reduce(function(sum, item) {
+	'use strict';
+
+	module.exports = function (app) {
+	    app.filter('tasksTime', function () {
+	        return function (input) {
+	            return input.map(function (item) {
+	                return parseInt(item.time);
+	            }).reduce(function (sum, item) {
 	                return sum += item;
-	            }, 0)
-	        }
+	            }, 0);
+	        };
 	    });
 
-	    app.filter('toLocalDate', function() {
-	        return function(input, field) {
-	            return input.map(function(a) {
+	    app.filter('toLocalDate', function () {
+	        return function (input, field) {
+	            return input.map(function (a) {
 	                var target = new Date(field ? a[field] : a);
 	                a.localDate = target.toLocaleDateString();
 	                return a;
-	            })
-	        }
-	    })
-	}
+	            });
+	        };
+	    });
+
+	    app.filter('secondsToDateTime', [function () {
+	        return function (seconds) {
+	            return new Date(1970, 0, 1).setMilliseconds(seconds);
+	        };
+	    }]);
+	};
 
 /***/ },
 /* 129 */
 /***/ function(module, exports) {
 
-	module.exports = function(app) {
-	    app.service('repository', ['$resource', '$http', function($resource, $http) {
+	'use strict';
+
+	module.exports = function (app) {
+	    app.service('repository', ['$resource', '$http', function ($resource, $http) {
 
 	        var baseUrl = '/api';
+	        // var baseUrl = 'http://localhost:3000/api';
 	        // var User = $resource(baseUrl + '/user');
 	        // var Task = $resource(baseUrl + '/task');
 
 	        return {
-	            getUser: function() {
+	            getUser: function getUser() {
 	                return $http.get(baseUrl + '/user');
 	            },
-	            getTasks: function(user) {
+	            getTasks: function getTasks(user) {
 	                return $http.get(baseUrl + '/tasks/' + user._id);
 	            },
-	            saveTask: function(user, task) {
+	            saveTask: function saveTask(user, task) {
 
 	                var data = {
 	                    user: user._id,
@@ -55396,16 +55444,16 @@
 	                    date: task.date,
 	                    lastTrack: task.lastTrack,
 	                    isTracking: task.isTracking
-	                }
+	                };
 
 	                return task._id ? $http.put(baseUrl + '/tasks/' + task._id, data) : $http.post(baseUrl + '/tasks', data);
 	            },
-	            removeTask: function(task) {
+	            removeTask: function removeTask(task) {
 	                return $http.delete(baseUrl + '/tasks/' + task._id);
 	            }
-	        }
+	        };
 	    }]);
-	}
+	};
 
 /***/ }
 /******/ ]);

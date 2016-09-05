@@ -1,5 +1,5 @@
 var express = require('express');
-var pasport = require('passport');
+var passport = require('passport');
 
 var User = require('./../models/User');
 var Task = require('./../models/Task');

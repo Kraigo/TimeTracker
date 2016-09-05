@@ -2,15 +2,20 @@
     <div class="page-header">
         <h1>Track your time</h1>
     </div>
-    <div class="panel" ng-repeat="day in days" ng-class="day.isToday ? 'panel-primary' : 'panel-default'">
+
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" ng-repeat="day in week" ng-click="selectDay(day)" ng-class="{active: day === currentDay}">
+            <a ng-bind="day.date | date : ' EEEE (M/d)'"></a>
+        </li>
+    </ul>
+    
+    <div class="panel" ng-class="currentDay.isToday ? 'panel-primary' : 'panel-default'">
         <div class="panel-heading">
-            {{day.date | date : 'd MMM, EEEE'}}
-            <span class="pull-right">
-                        {{day.tasks | tasksTime | secondsToDateTime | date:'HH:mm:ss'}}
-                    </span>
+            {{currentDay.date | date : 'MMMM d, yyyy'}}
+            <span class="pull-right">Total: {{currentDay.tasks | tasksTime | secondsToDateTime | date:'HH:mm:ss'}}</span>
 
         </div>
-        <tasks-table></tasks-table>
+        <tasks-table day="currentDay"></tasks-table>
     </div>
 </div>
 

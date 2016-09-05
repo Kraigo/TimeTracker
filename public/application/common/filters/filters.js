@@ -17,5 +17,11 @@ module.exports = function(app) {
                 return a;
             })
         }
-    })
+    });
+
+    app.filter('secondsToDateTime', [function() {
+        return function(seconds) {
+            return new Date(1970, 0, 1).setMilliseconds(seconds);
+        };
+    }]);
 }

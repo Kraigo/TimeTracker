@@ -44,9 +44,21 @@ module.exports = function(app) {
         }
     })
 
-    app.filter('secondsToDateTime', [function() {
-        return function(seconds) {
-            return new Date(1970, 0, 1).setMilliseconds(seconds);
-        };
-    }])
+    app.directive('expandFocus', function() {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                var elm = element[0];
+                elm.setAttribute('rows', 1);
+
+                element.bind('focus', function() {
+                    elm.setAttribute('rows', 2);
+                })
+
+                element.bind('blur', function() {
+                    elm.setAttribute('rows', 1);
+                })
+            }
+        }
+    })
 }

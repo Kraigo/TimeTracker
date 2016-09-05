@@ -4,13 +4,14 @@ module.exports = function(app) {
 
             var tomorrow = new Date();
             var changeTimer;
+
             tomorrow.setDate(tomorrow.getDate() + 1);
 
-            $scope.days = [{
-                date: new Date,
-                tasks: [],
-                isToday: true
-            }];
+            $scope.currentDay = new Date();
+            $scope.today = new Date();
+
+
+            $scope.week = [];
 
             $scope.categories = [
                 'Homing', 'SBC'
@@ -35,24 +36,27 @@ module.exports = function(app) {
                 repository.getTasks($scope.currentUser).then(function(response) {
                     response.data.forEach(function(task) {
 
-                        for (var i = 0, day; i < $scope.days.length; i++) {
-                            day = $scope.days[i];;
+                        for (var i = 0, day; i < $scope.week.length; i++) {
+                            day = $scope.week[i];
 
-                            if (moment(day.date).diff(task.date, 'days') === 0) {
+                            var dayDate = moment(day.date).startOf('day');
+                            var taskDate = moment(task.date).startOf('day');
+
+                            if (dayDate.isSame(taskDate)) {
                                 day.tasks.push(new Task(task));
                                 return;
                             }
                         }
-                        $scope.days.push({
-                            date: task.date,
-                            tasks: [new Task(task)]
-                        })
+                        // $scope.week.push({
+                        //     date: taskDate.toDate(),
+                        //     tasks: [new Task(task)]
+                        // })
                         return;
                     });
 
-                    $scope.days.sort(function(a, b) {
-                        return new Date(a.date) - new Date(b.date);
-                    })
+                    // $scope.week.sort(function(a, b) {
+                    //     return new Date(a.date) - new Date(b.date);
+                    // })
                 });
             })
 
@@ -73,6 +77,36 @@ module.exports = function(app) {
                     collection.splice(index, 1);
                 })
             }
+
+            $scope.selectDay = function(day) {
+                $scope.currentDay = day;
+            }
+
+            $scope.fillWeek = function() {
+                var startWeek = moment().day("Monday").startOf('day');
+
+                $scope.week.push({
+                    date: startWeek.toDate(),
+                    tasks: [new Task({ date: startWeek.toDate() })]
+                });
+
+                for (var i = 0; i < 4; i++) {
+                    var weekDate = startWeek.add(1, 'day').toDate()
+                    $scope.week.push({
+                        date: weekDate,
+                        tasks: [new Task({ date: weekDate })]
+                    });
+                }
+
+                $scope.week.forEach(function(day) {
+                    if (moment().startOf('day').isSame(moment(day.date).startOf('day'))) {
+                        day.isToday = true;
+                        $scope.selectDay(day);
+                    }
+                })
+
+            };
+            $scope.fillWeek();
         }
     ]);
 };
