@@ -55375,7 +55375,7 @@
 	module.exports = function(app) {
 	    app.service('repository', ['$resource', '$http', function($resource, $http) {
 
-	        var baseUrl = 'http://localhost:3000/api';
+	        var baseUrl = '/api';
 	        // var User = $resource(baseUrl + '/user');
 	        // var Task = $resource(baseUrl + '/task');
 
