@@ -6,7 +6,7 @@
 
 require('../styles/main.scss');
 require('angular-loading-bar/build/loading-bar.min.css');
-require('bootstrap/dist/css/bootstrap.css');
+// require('bootstrap/dist/css/bootstrap.css');
 
 window.moment = require('moment');
 var angular = require('angular');

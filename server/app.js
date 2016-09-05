@@ -4,6 +4,7 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var cors = require('cors');
 var bodyParser = require('body-parser');
+var port = process.env.PORT || 3000;
 
 var mongoose = require('mongoose');
 
@@ -51,6 +52,6 @@ app.use('/auth', require('./routes/auth'));
 
 app.use('/api', require('./routes/api'));
 
-app.listen(3000, function() {
-    console.log('Example app listening on port 3000!');
+app.listen(port, function() {
+    console.log('Example app listening on port', port);
 });
