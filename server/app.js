@@ -1,7 +1,8 @@
 var express = require('express');
 var session = require('express-session')
+var MongoStore = require('connect-mongo')(session);
 var cors = require('cors');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -14,9 +15,14 @@ var Task = require('./models/Task');
 
 app.use(cors());
 app.options('*', cors());
-app.use(session({ secret: 'no' }));
+// app.use(session({
+//     store: new MongoStore({ mongooseConnection: mongoose.connection })
+// }));
+// http://nodeguide.ru/doc/dailyjs-nodepad/node-tutorial-5/
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use('/', express.static(__dirname + '/../public'));
 
 app.get('/user', function(req, res) {
     User.findOne({

@@ -30,9 +30,10 @@ module.exports = function(app) {
                     this.isTracking = false;
                 },
                 update: function() {
-                    var trackTime = new Date() - this.track;
-                    this.time = parseInt(this.time) + parseInt(trackTime / 1000);
-                    this.track = new Date();
+                    var now = new Date();
+                    var trackTime = now - this.track;
+                    this.time = parseInt(this.time) + parseInt(trackTime);
+                    this.track = now;
                 }
             }
             return Task;

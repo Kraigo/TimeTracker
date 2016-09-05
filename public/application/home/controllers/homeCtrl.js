@@ -39,13 +39,13 @@ module.exports = function(app) {
                             day = $scope.days[i];;
 
                             if (moment(day.date).diff(task.date, 'days') === 0) {
-                                day.tasks.push(task);
+                                day.tasks.push(new Task(task));
                                 return;
                             }
                         }
                         $scope.days.push({
                             date: task.date,
-                            tasks: [task]
+                            tasks: [new Task(task)]
                         })
                         return;
                     });
