@@ -7,5 +7,15 @@ module.exports = function(app) {
                 return sum += item;
             }, 0)
         }
+    });
+
+    app.filter('toLocalDate', function() {
+        return function(input, field) {
+            return input.map(function(a) {
+                var target = new Date(field ? a[field] : a);
+                a.localDate = target.toLocaleDateString();
+                return a;
+            })
+        }
     })
 }
