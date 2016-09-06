@@ -20,8 +20,8 @@ require('angular-loading-bar');
 var app = angular.module('timetracker', ['ngRoute', 'ngResource', 'ngAnimate', 'angular-loading-bar', 'angular.filter']);
 
 app.config([
-    '$routeProvider', '$locationProvider',
-    function($routeProvider, $locationProvider) {
+    '$routeProvider', '$locationProvider', '$httpProvider', 'cfpLoadingBarProvider',
+    function($routeProvider, $locationProvider, $httpProvider, cfpLoadingBarProvider) {
 
         $routeProvider
             .when('/', {
@@ -36,23 +36,25 @@ app.config([
                 templateUrl: './application/report/views/report.html',
                 controller: 'ReportCtrl'
             })
+            .otherwise({ redirectTo: '/login' })
 
         //         $locationProvider.html5Mode({
         //   enabled: true,
         //   requireBase: false
         // });
+        $httpProvider.interceptors.push('interseptorAuth');
+        cfpLoadingBarProvider.includeSpinner = false;
     }
 ]);
 
-app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-    cfpLoadingBarProvider.includeSpinner = false;
-}]);
 
 require('./home/controllers/homeCtrl')(app);
 require('./login/controllers/loginCtrl')(app);
 require('./report/controllers/reportCtrl')(app);
 
 require('./common/factories/taskFactory')(app);
+require('./common/factories/interseptorAuthFactory')(app);
+
 require('./common/directives/directives')(app);
 require('./common/filters/filters')(app);
 require('./common/services/repositorySrv')(app);

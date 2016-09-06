@@ -48,6 +48,6 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.status(403);
+    res.status(401);
     res.send('No Authorization');
 }
