@@ -55132,40 +55132,28 @@
 	            $scope.taskChanged(task);
 	        };
 
-	        repository.getUser().then(function (response) {
-	            $scope.currentUser = response.data;
+	        repository.getTasks().then(function (response) {
+	            response.data.forEach(function (task) {
 
-	            repository.getTasks($scope.currentUser).then(function (response) {
-	                response.data.forEach(function (task) {
+	                for (var i = 0, day; i < $scope.week.length; i++) {
+	                    day = $scope.week[i];
 
-	                    for (var i = 0, day; i < $scope.week.length; i++) {
-	                        day = $scope.week[i];
+	                    var dayDate = moment(day.date).startOf('day');
+	                    var taskDate = moment(task.date).startOf('day');
 
-	                        var dayDate = moment(day.date).startOf('day');
-	                        var taskDate = moment(task.date).startOf('day');
-
-	                        if (dayDate.isSame(taskDate)) {
-	                            day.tasks.push(new Task(task));
-	                            return;
-	                        }
+	                    if (dayDate.isSame(taskDate)) {
+	                        day.tasks.push(new Task(task));
+	                        return;
 	                    }
-	                    // $scope.week.push({
-	                    //     date: taskDate.toDate(),
-	                    //     tasks: [new Task(task)]
-	                    // })
-	                    return;
-	                });
-
-	                // $scope.week.sort(function(a, b) {
-	                //     return new Date(a.date) - new Date(b.date);
-	                // })
+	                }
+	                return;
 	            });
 	        });
 
 	        $scope.taskChanged = function (task) {
 	            $timeout.cancel(changeTimer);
 	            changeTimer = $timeout(function () {
-	                repository.saveTask($scope.currentUser, task).then(function (response) {
+	                repository.saveTask(task).then(function (response) {
 	                    if (response.data._id) {
 	                        task._id = response.data._id;
 	                    }
@@ -55175,7 +55163,6 @@
 
 	        $scope.removeTask = function (task, collection, index) {
 	            repository.removeTask(task).then(function () {
-	                // delete task;
 	                collection.splice(index, 1);
 	            });
 	        };
@@ -55431,13 +55418,12 @@
 	            getUser: function getUser() {
 	                return $http.get(baseUrl + '/user');
 	            },
-	            getTasks: function getTasks(user) {
-	                return $http.get(baseUrl + '/tasks/' + user._id);
+	            getTasks: function getTasks() {
+	                return $http.get(baseUrl + '/tasks');
 	            },
-	            saveTask: function saveTask(user, task) {
+	            saveTask: function saveTask(task) {
 
 	                var data = {
-	                    user: user._id,
 	                    description: task.description,
 	                    category: task.category,
 	                    time: task.time,

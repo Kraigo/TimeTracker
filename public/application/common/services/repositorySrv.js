@@ -10,13 +10,12 @@ module.exports = function(app) {
             getUser: function() {
                 return $http.get(baseUrl + '/user');
             },
-            getTasks: function(user) {
-                return $http.get(baseUrl + '/tasks/' + user._id);
+            getTasks: function() {
+                return $http.get(baseUrl + '/tasks');
             },
-            saveTask: function(user, task) {
+            saveTask: function(task) {
 
                 var data = {
-                    user: user._id,
                     description: task.description,
                     category: task.category,
                     time: task.time,

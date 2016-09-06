@@ -15,7 +15,9 @@
         ],
         "env": {
             "NODE_ENV": "development",
-            "MONGO_DB": "mongodb://kraigo:traktor@ds044699.mlab.com:44699/timetracker"
+            "MONGO_DB": "mongodb://kraigo:traktor@ds044699.mlab.com:44699/timetracker",
+            "GOOGLE_CLIENT": "1097551658786-q5crer3k32blo1dm3hatkl6cvtba4tp9.apps.googleusercontent.com",
+            "GOOGLE_SECRET": "cD69a_SNACLhIJdZjIjQ2fQA"
         },
         "externalConsole": false,
         "sourceMaps": false,

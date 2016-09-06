@@ -12,20 +12,21 @@ router.get('/', function(req, res) {
 
 router.get('/user', function(req, res) {
     User.findOne({
-        firstName: 'Igor'
+        _id: req.session.passport.user
     }, function(err, user) {
         res.send(user);
     })
 });
 
-router.get('/tasks/:id', function(req, res) {
-    Task.find({ 'user': req.params.id }).exec(function(err, tasks) {
+router.get('/tasks', function(req, res) {
+    Task.find({ 'user': req.session.passport.user }).exec(function(err, tasks) {
         res.send(tasks);
     });
 });
 
 router.post('/tasks', function(req, res) {
     var data = req.body;
+    data.user = req.session.passport.user;
 
     Task.create(data, function(err, task) {
         res.send(task);

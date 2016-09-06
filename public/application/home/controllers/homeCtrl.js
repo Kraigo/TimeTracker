@@ -30,40 +30,30 @@ module.exports = function(app) {
                 $scope.taskChanged(task);
             }
 
-            repository.getUser().then(function(response) {
-                $scope.currentUser = response.data;
 
-                repository.getTasks($scope.currentUser).then(function(response) {
-                    response.data.forEach(function(task) {
 
-                        for (var i = 0, day; i < $scope.week.length; i++) {
-                            day = $scope.week[i];
+            repository.getTasks().then(function(response) {
+                response.data.forEach(function(task) {
 
-                            var dayDate = moment(day.date).startOf('day');
-                            var taskDate = moment(task.date).startOf('day');
+                    for (var i = 0, day; i < $scope.week.length; i++) {
+                        day = $scope.week[i];
 
-                            if (dayDate.isSame(taskDate)) {
-                                day.tasks.push(new Task(task));
-                                return;
-                            }
+                        var dayDate = moment(day.date).startOf('day');
+                        var taskDate = moment(task.date).startOf('day');
+
+                        if (dayDate.isSame(taskDate)) {
+                            day.tasks.push(new Task(task));
+                            return;
                         }
-                        // $scope.week.push({
-                        //     date: taskDate.toDate(),
-                        //     tasks: [new Task(task)]
-                        // })
-                        return;
-                    });
-
-                    // $scope.week.sort(function(a, b) {
-                    //     return new Date(a.date) - new Date(b.date);
-                    // })
+                    }
+                    return;
                 });
-            })
+            });
 
             $scope.taskChanged = function(task) {
                 $timeout.cancel(changeTimer);
                 changeTimer = $timeout(function() {
-                    repository.saveTask($scope.currentUser, task).then(function(response) {
+                    repository.saveTask(task).then(function(response) {
                         if (response.data._id) {
                             task._id = response.data._id;
                         }
@@ -73,7 +63,6 @@ module.exports = function(app) {
 
             $scope.removeTask = function(task, collection, index) {
                 repository.removeTask(task).then(function() {
-                    // delete task;
                     collection.splice(index, 1);
                 })
             }

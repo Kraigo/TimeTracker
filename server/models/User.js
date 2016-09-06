@@ -1,12 +1,16 @@
 var mongoose = require('mongoose');
-var crypto = require('crypto');
+// var crypto = require('crypto');
 
 var shema = new mongoose.Schema({
-    username: String,
-    password: String,
     firstName: String,
     lastName: String,
-    email: String
+    email: String,
+    avatar: String,
+    google: {
+        id: String,
+        token: String
+    }
+
 });
 
 // shema.setters = {

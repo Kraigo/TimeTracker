@@ -1,57 +1,53 @@
+var cors = require('cors');
 var express = require('express');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var port = process.env.PORT || 3000;
-
 var mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
+var port = process.env.PORT || 3000;
+var app = express();
 
 mongoose.connect(process.env.MONGO_DB);
 mongoose.connection.on('error', console.error);
 
-var app = express();
+require('./config/passport')(passport);
 
 app.use(cors());
 app.options('*', cors());
 
-
-// passport.serializeUser(function(user, done) {
-//     done(null, user);
-// });
-
-// passport.deserializeUser(function(obj, done) {
-//     done(null, obj);
-// });
-
-// passport.use(new GoogleStrategy({
-//         clientID: process.env.GOOGLE_CLIENT_ID,
-//         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//         callbackURL: "http://yourdormain:3000/auth/google/callback",
-//         passReqToCallback: true
-//     },
-//     function(request, accessToken, refreshToken, profile, done) {
-//         process.nextTick(function() {
-//             return done(null, profile);
-//         });
-//     }
-// ));
-
-// app.use(session({ secret: 'hardworking' }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-app.use(bodyParser.urlencoded())
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+app.use(session({
+    secret: 'hardworking',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', express.static(__dirname + '/../public'));
 
 app.use('/auth', require('./routes/auth'));
 
-app.use('/api', require('./routes/api'));
+app.use('/api', isLoggedIn, require('./routes/api'));
 
 app.listen(port, function() {
     console.log('Example app listening on port', port);
 });
+
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.status(403);
+    res.send('No Authorization');
+}
