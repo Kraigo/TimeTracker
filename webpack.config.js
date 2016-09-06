@@ -2,7 +2,7 @@ module.exports = {
     // context: __dirname + '',
     entry: './public/application/app.js',
     output: {
-        path: __dirname + '/public',
+        path: '/public',
         filename: '/application/dist/app.bundle.js'
     },
     module: {

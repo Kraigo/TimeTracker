@@ -5,15 +5,13 @@ module.exports = function(app) {
             require: 'ngModel',
             link: function(scope, element, attrs, modelCtrl) {
                 modelCtrl.$formatters.unshift(function(inputValue) {
-                    var seconds = Math.floor(inputValue / 1000) % 60;
                     var minutes = Math.floor(inputValue / 1000 / 60) % 60;
                     var hours = Math.floor(inputValue / 1000 / (60 * 60)) % 60;
 
-                    seconds = seconds.toString().length === 1 ? '0' + seconds : seconds;
                     minutes = minutes.toString().length === 1 ? '0' + minutes : minutes;
                     hours = hours.toString().length === 1 ? '0' + hours : hours;
 
-                    var dateValue = hours + ':' + minutes + ':' + seconds;
+                    var dateValue = hours + ':' + minutes;
                     return dateValue;
                 });
 
@@ -22,15 +20,24 @@ module.exports = function(app) {
 
                     var newValue = 0;
                     var input = inputValue.split(':');
+                    var hours = input[0] || 0;
+                    var minutes = input[1] || 0;
 
-                    newValue += parseInt(input[0]) * 60 * 60;
-                    newValue += parseInt(input[1]) * 60;
-                    newValue += parseInt(input[2]);
+                    hours = hours > 60 ? 0 : hours;
+                    minutes = minutes > 60 ? 0 : minutes;
 
-                    // modelCtrl.$setViewValue(newValue);
+                    newValue += parseInt(hours) * 60 * 60;
+                    newValue += parseInt(minutes) * 60;
+                    // modelCtrl.$setViewValue(newValue * 1000);
                     // modelCtrl.$render();
                     return newValue * 1000;
                 })
+
+                // element.bind('blur', function() {
+                //     scope.$apply();
+                //     // modelCtrl.$modelValue = modelCtrl.$modelValue 
+                //     // modelCtrl.$render();
+                // })
             }
         }
     }])
