@@ -67,7 +67,7 @@
 
 	var app = angular.module('timetracker', ['ngRoute', 'ngResource', 'ngAnimate', 'angular-loading-bar', 'angular.filter']);
 
-	app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+	app.config(['$routeProvider', '$locationProvider', '$httpProvider', 'cfpLoadingBarProvider', function ($routeProvider, $locationProvider, $httpProvider, cfpLoadingBarProvider) {
 
 	    $routeProvider.when('/', {
 	        templateUrl: './application/home/views/home.html',
@@ -78,15 +78,13 @@
 	    }).when('/report', {
 	        templateUrl: './application/report/views/report.html',
 	        controller: 'ReportCtrl'
-	    });
+	    }).otherwise({ redirectTo: '/login' });
 
 	    //         $locationProvider.html5Mode({
 	    //   enabled: true,
 	    //   requireBase: false
 	    // });
-	}]);
-
-	app.config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
+	    $httpProvider.interceptors.push('interseptorAuth');
 	    cfpLoadingBarProvider.includeSpinner = false;
 	}]);
 
@@ -96,8 +94,10 @@
 
 	__webpack_require__(126)(app);
 	__webpack_require__(127)(app);
+
 	__webpack_require__(128)(app);
 	__webpack_require__(129)(app);
+	__webpack_require__(130)(app);
 
 /***/ },
 /* 1 */
@@ -134,7 +134,7 @@
 
 
 	// module
-	exports.push([module.id, ".btn.btn-delete {\n  border: 0; }\n  .btn.btn-delete:hover, .btn.btn-delete:active, .btn.btn-delete:hover:active {\n    color: red; }\n\n.noresize {\n  resize: none; }\n\ntextarea[expand-focus]:focus {\n  margin-bottom: -1.5em;\n  z-index: 1;\n  position: relative;\n  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.15); }\n", ""]);
+	exports.push([module.id, ".btn-social {\n  position: relative;\n  padding-left: 44px;\n  text-align: left;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis; }\n\n.btn-social > :first-child {\n  position: absolute;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  width: 32px;\n  line-height: 34px;\n  font-size: 1.6em;\n  text-align: center;\n  border-right: 1px solid rgba(0, 0, 0, 0.2); }\n\n.btn-social.btn-lg {\n  padding-left: 61px; }\n\n.btn-social.btn-lg > :first-child {\n  line-height: 59px;\n  width: 45px;\n  font-size: 1.8em; }\n\n.btn-social.btn-sm {\n  padding-left: 38px; }\n\n.btn-social.btn-sm > :first-child {\n  line-height: 28px;\n  width: 28px;\n  font-size: 1.4em; }\n\n.btn-social.btn-xs {\n  padding-left: 30px; }\n\n.btn-social.btn-xs > :first-child {\n  line-height: 20px;\n  width: 20px;\n  font-size: 1.2em; }\n\n.btn.btn-delete {\n  border: 0; }\n  .btn.btn-delete:hover, .btn.btn-delete:active, .btn.btn-delete:hover:active {\n    color: red; }\n\n.noresize {\n  resize: none; }\n\ntextarea[expand-focus]:focus {\n  margin-bottom: -1.5em;\n  z-index: 1;\n  position: relative;\n  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.15); }\n", ""]);
 
 	// exports
 
@@ -55303,6 +55303,27 @@
 	'use strict';
 
 	module.exports = function (app) {
+	    app.factory('interseptorAuth', ['$q', '$location', function ($q, $location) {
+	        var responseInterceptor = {
+	            responseError: function responseError(response) {
+	                if (response.status == 401) {
+	                    $location.path('/login');
+	                }
+	                return $q.reject(response);
+	            }
+	        };
+
+	        return responseInterceptor;
+	    }]);
+	};
+
+/***/ },
+/* 128 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
 
 	    app.directive('inputDate', ['$filter', function ($filter) {
 	        return {
@@ -55367,7 +55388,7 @@
 	};
 
 /***/ },
-/* 128 */
+/* 129 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55401,7 +55422,7 @@
 	};
 
 /***/ },
-/* 129 */
+/* 130 */
 /***/ function(module, exports) {
 
 	'use strict';
