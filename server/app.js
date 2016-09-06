@@ -35,15 +35,15 @@ app.use(passport.session());
 
 //
 
-var webpackDevMiddleware = require("webpack-dev-middleware");
-var webpack = require("webpack");
+// var webpackDevMiddleware = require("webpack-dev-middleware");
+// var webpack = require("webpack");
 
-var webpackConfig = require('../webpack.config');
-webpackConfig.output = {
-    path: '/'
-}
+// var webpackConfig = require('../webpack.config');
+// webpackConfig.output = {
+//     path: '/'
+// }
 
-app.use(webpackDevMiddleware(webpack(webpackConfig), { quiet: false }));
+// app.use(webpackDevMiddleware(webpack(webpackConfig), { quiet: false }));
 
 //
 
