@@ -55121,7 +55121,7 @@
 
 	        $scope.week = [];
 
-	        $scope.categories = ['Homing', 'SBC', 'Aya', 'Marine Sync'];
+	        $scope.categories = ['Homing', 'SBC', 'Aya', 'Marine Sync', 'Bridgewest'];
 
 	        $scope.addTask = function (day) {
 	            day.tasks.push(new Task({ date: day.date }));
@@ -55231,19 +55231,12 @@
 	module.exports = function (app) {
 	    app.controller('ReportCtrl', ['$scope', 'Task', 'repository', function ($scope, Task, repository) {
 
-	        $scope.user = {
-	            name: '',
-	            password: ''
-	        };
 	        $scope.tasks = [];
-	        repository.getUser().then(function (response) {
-	            $scope.currentUser = response.data;
 
-	            repository.getTasks($scope.currentUser).then(function (response) {
-	                $scope.tasks = response.data;
-	                $scope.tasks.map(function (item) {
-	                    return new Task(item);
-	                });
+	        repository.getTasks().then(function (response) {
+	            $scope.tasks = response.data;
+	            $scope.tasks.map(function (item) {
+	                return new Task(item);
 	            });
 	        });
 	    }]);
@@ -55256,7 +55249,15 @@
 	'use strict';
 
 	module.exports = function (app) {
-	    app.controller('AccountCtrl', ['$scope', function ($scope) {}]);
+	    app.controller('ProfileCtrl', ['$scope', 'repository', function ($scope, repository) {
+	        $scope.currentUser = null;
+
+	        repository.getUser().then(function (response) {
+	            $scope.currentUser = response.data;
+
+	            $scope.currentUser.avatar = $scope.currentUser.avatar.replace(/\?sz=\d*$/, '');
+	        });
+	    }]);
 	};
 
 /***/ },
