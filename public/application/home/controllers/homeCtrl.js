@@ -12,6 +12,7 @@ module.exports = function(app) {
 
 
             $scope.week = [];
+            $scope.projects = [];
 
             $scope.categories = [
                 'Homing', 'SBC', 'Aya', 'Marine Sync', 'Bridgewest'
@@ -52,6 +53,12 @@ module.exports = function(app) {
                 $scope.week.forEach(function(day) {
                     day.tasks.push(new Task({ date: day.date }))
                 })
+            });
+
+            repository.getTeams().then(function(response) {
+                $scope.projects = response.data.reduce(function(projects, team) {
+                    return projects.concat(team.projects);
+                }, [])
             });
 
             $scope.taskChanged = function(task) {

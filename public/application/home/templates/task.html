@@ -13,7 +13,7 @@
                 </button>
             </td>
             <td>
-                <select class="form-control input-sm" ng-model="task.category" ng-options="category for category in categories" ng-change="taskChanged(task)">
+                <select class="form-control input-sm" ng-model="task.project" ng-options="project as project.title for project in projects track by project._id" ng-change="taskChanged(task)">
                 </select>
             </td>
             <td>
@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td colspan="4">
-                <button ng-click="addTask(currentDay)" class="btn btn-default">Add Task</button>
+                <button ng-click="addTask(currentDay)" class="btn btn-default btn-block">Add more</button>
             </td>
         </tr>
     </tbody>

@@ -1,0 +1,55 @@
+<div class="container">
+
+    <div class="page-header">
+        <h2>Teams</h2>
+    </div>
+    
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="New Team Title" ng-model="newTeam.title">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="addTeam()">Add Team</button>
+                </span>
+            </div>
+            <br>
+
+            <div class="panel panel-default" ng-repeat="team in teams">
+                <div class="panel-heading">
+                    Team: <b ng-bind="team.title"></b>
+                </div>
+                <div class="panel-body">
+                    <button class="btn btn primary">Invite to team</button>
+                </div>
+
+                <table class="table" ng-repeat="project in team.projects">
+                    <colgroup>
+                        <col width="1">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <button class="btn btn-default btn-delete btn-sm" ng-click="removeProject(project, team)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </td>
+                        <td><input type="text" class="form-control input-sm" ng-model="project.title"></td>
+                    </tr>
+                    <tr ng-if="!team.projects.length">
+                        <td colspan="2" align="center">
+                            <p>No one ptojects in this team</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="New project" ng-model="newProjectTitle">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="addProject(team, newProjectTitle); newProjectTitle = ''">Add Project</button>
+                        </span>
+                    </div>
+                </div>
+
+
+</div>

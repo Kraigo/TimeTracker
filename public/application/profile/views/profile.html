@@ -25,40 +25,6 @@
                     <div class="col-lg-8"><input type="text" class="form-control" ng-model="currentUser.email" ng-disabled="true"></div>
                 </div>
             </form>
-            <h4>Team</h4>
-
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="New Team" ng-model="newTeam.title">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="addTeam()">Add Team</button>
-                </span>
-            </div>
-
-            <div class="panel panel-default" ng-repeat="team in teams">
-                <div class="panel-heading">
-                    Team: {{team.title}}
-                </div>
-                <div class="panel-body">
-
-                    <form class="form-horizontal">
-                        <div class="form-group" ng-repeat="project in team.projects">
-                            <label class="col-lg-3 control-label">Project Title</label>
-                            <div class="col-lg-8"><input type="text" class="form-control" ng-model="project.title"></div>
-                        </div>
-
-                        <p ng-if="!team.projects.length">No one ptojects in this team</p>
-                    </form>
-                </div>
-                <div class="panel-footer">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="New project" ng-model="newProjectTitle">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" ng-click="addProject(team, newProjectTitle); newProjectTitle = ''">Add Project</button>
-                        </span>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
 

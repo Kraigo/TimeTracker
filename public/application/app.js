@@ -40,6 +40,10 @@ app.config([
                 templateUrl: './application/profile/views/profile.html',
                 controller: 'ProfileCtrl'
             })
+            .when('/team', {
+                templateUrl: './application/team/views/team.html',
+                controller: 'TeamCtrl'
+            })
             .otherwise({ redirectTo: '/login' })
 
         //         $locationProvider.html5Mode({
@@ -56,6 +60,7 @@ require('./home/controllers/homeCtrl')(app);
 require('./login/controllers/loginCtrl')(app);
 require('./report/controllers/reportCtrl')(app);
 require('./profile/controllers/profileCtrl')(app);
+require('./team/controllers/teamCtrl')(app);
 
 require('./common/factories/taskFactory')(app);
 require('./common/factories/interseptorAuthFactory')(app);

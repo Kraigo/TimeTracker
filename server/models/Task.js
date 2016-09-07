@@ -5,7 +5,10 @@ var shema = new mongoose.Schema({
     time: Number,
     date: Date,
     description: String,
-    category: String,
+    project: {
+        type: ObjectId,
+        ref: "Project"
+    },
     user: {
         type: ObjectId,
         ref: 'User'

@@ -5,7 +5,10 @@
 
     <ul class="nav nav-tabs nav-justified">
         <li role="presentation" ng-repeat="day in week" ng-click="selectDay(day)" ng-class="{active: day === currentDay}">
-            <a ng-bind="day.date | date : ' EEEE (M/d)'"></a>
+            <a>
+                {{day.date | date : 'EEEE'}}
+                <small class="pull-right">{{day.tasks | tasksTime | secondsToDateTime | date:'HH:mm'}}</small>
+            </a>
         </li>
     </ul>
     

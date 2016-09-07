@@ -5,7 +5,7 @@
   "main": "server/app.js",
   "scripts": {
     "server": "webpack-dev-server --content-base public",
-    "build": "webpack",
+    "build": "webpack -p",
     "start": "node server/app.js"
   },
   "author": "",

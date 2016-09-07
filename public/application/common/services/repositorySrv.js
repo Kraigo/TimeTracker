@@ -17,7 +17,7 @@ module.exports = function(app) {
 
                 var data = {
                     description: task.description,
-                    category: task.category,
+                    project: task.project._id,
                     time: task.time,
                     date: task.date,
                     lastTrack: task.lastTrack,
@@ -41,6 +41,7 @@ module.exports = function(app) {
                 return $http.post(baseUrl + '/teams', data);
             },
 
+            // PROJECT //
             addProject: function(teamId, title) {
                 var data = {
                     team: teamId,
@@ -48,6 +49,9 @@ module.exports = function(app) {
                 }
                 
                 return $http.post(baseUrl + '/projects', data);
+            },
+            removeProject: function(project) {
+                return $http.delete(baseUrl + '/projects/'+project._id);
             }
         }
     }]);

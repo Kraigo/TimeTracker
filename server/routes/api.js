@@ -21,7 +21,7 @@ router.get('/user', function(req, res) {
 });
 
 router.get('/tasks', function(req, res) {
-    Task.find({ 'user': req.session.passport.user }).exec(function(err, tasks) {
+    Task.find({ 'user': req.session.passport.user }).populate('project').exec(function(err, tasks) {
         res.send(tasks);
     });
 });
@@ -83,6 +83,13 @@ router.post('/projects', function(req, res) {
             function(err, team) {
                 res.send(team);
             })
+    });
+});
+router.delete('/projects/:id', function(req, res) {    
+    Project.findById(req.params.id, function(err, project) {
+        project.remove(function() {
+            res.send();
+        })
     });
 });
 
