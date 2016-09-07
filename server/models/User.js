@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-// var crypto = require('crypto');
+var ObjectId = mongoose.Schema.ObjectId;
 
 var shema = new mongoose.Schema({
     firstName: String,
@@ -10,7 +10,6 @@ var shema = new mongoose.Schema({
         id: String,
         token: String
     }
-
 });
 
 // shema.setters = {

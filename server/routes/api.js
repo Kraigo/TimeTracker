@@ -3,6 +3,8 @@ var passport = require('passport');
 
 var User = require('./../models/User');
 var Task = require('./../models/Task');
+var Team = require('./../models/Team');
+var Project = require('./../models/Project');
 
 var router = express.Router();
 
@@ -47,6 +49,41 @@ router.delete('/tasks/:id', function(req, res) {
 
     Task.find(condition).remove().exec(function(err, task) {
         res.send(task);
+    });
+});
+
+router.get('/teams', function(req, res) {
+    Team.find({ users: req.session.passport.user }).populate(['users', 'projects']).exec(function(err, teams) {
+        res.send(teams);
+    });
+});
+router.post('/teams', function(req, res) {
+    var data = {
+        title: req.body.title,
+        owner: req.session.passport.user,
+        users: [req.session.passport.user]
+    }
+    Team.create(data, function(err, team) {
+        Team
+            .findById(team._id)
+            .populate(['users', 'projects'])
+            .exec(function(err, team) {
+                res.send(team);
+            })
+    });
+});
+
+router.post('/projects', function(req, res) {
+    var data = {
+        title: req.body.title
+    }
+    Project.create(data, function(err, project) {
+        Team.findByIdAndUpdate(
+            req.body.team,
+            { $push: { projects: project._id }},
+            function(err, team) {
+                res.send(team);
+            })
     });
 });
 

@@ -28,6 +28,26 @@ module.exports = function(app) {
             },
             removeTask: function(task) {
                 return $http.delete(baseUrl + '/tasks/' + task._id);
+            },
+
+            // TEAMS //
+            getTeams: function() {
+                return $http.get(baseUrl + '/teams');
+            },
+            addTeam: function(title) {
+                var data = {
+                    title: title
+                }
+                return $http.post(baseUrl + '/teams', data);
+            },
+
+            addProject: function(teamId, title) {
+                var data = {
+                    team: teamId,
+                    title: title
+                }
+                
+                return $http.post(baseUrl + '/projects', data);
             }
         }
     }]);
