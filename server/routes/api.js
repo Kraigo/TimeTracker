@@ -79,8 +79,7 @@ router.post('/projects', function(req, res) {
     }
     Project.create(data, function(err, project) {
         Team.findByIdAndUpdate(
-            req.body.team,
-            { $push: { projects: project._id }},
+            req.body.team, { $push: { projects: project._id } },
             function(err, team) {
                 res.send(team);
             })
