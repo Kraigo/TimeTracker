@@ -36,6 +36,10 @@ app.config([
                 templateUrl: './application/report/views/report.html',
                 controller: 'ReportCtrl'
             })
+            .when('/profile', {
+                templateUrl: './application/profile/views/profile.html',
+                controller: 'ProfileCtrl'
+            })
             .otherwise({ redirectTo: '/login' })
 
         //         $locationProvider.html5Mode({
@@ -51,6 +55,7 @@ app.config([
 require('./home/controllers/homeCtrl')(app);
 require('./login/controllers/loginCtrl')(app);
 require('./report/controllers/reportCtrl')(app);
+require('./profile/controllers/profileCtrl')(app);
 
 require('./common/factories/taskFactory')(app);
 require('./common/factories/interseptorAuthFactory')(app);

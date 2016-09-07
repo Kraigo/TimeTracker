@@ -78,6 +78,9 @@
 	    }).when('/report', {
 	        templateUrl: './application/report/views/report.html',
 	        controller: 'ReportCtrl'
+	    }).when('/profile', {
+	        templateUrl: './application/profile/views/profile.html',
+	        controller: 'ProfileCtrl'
 	    }).otherwise({ redirectTo: '/login' });
 
 	    //         $locationProvider.html5Mode({
@@ -91,13 +94,14 @@
 	__webpack_require__(123)(app);
 	__webpack_require__(124)(app);
 	__webpack_require__(125)(app);
-
 	__webpack_require__(126)(app);
-	__webpack_require__(127)(app);
 
+	__webpack_require__(127)(app);
 	__webpack_require__(128)(app);
+
 	__webpack_require__(129)(app);
 	__webpack_require__(130)(app);
+	__webpack_require__(131)(app);
 
 /***/ },
 /* 1 */
@@ -55148,6 +55152,10 @@
 	                }
 	                return;
 	            });
+
+	            $scope.week.forEach(function (day) {
+	                day.tasks.push(new Task({ date: day.date }));
+	            });
 	        });
 
 	        $scope.taskChanged = function (task) {
@@ -55176,14 +55184,14 @@
 
 	            $scope.week.push({
 	                date: startWeek.toDate(),
-	                tasks: [new Task({ date: startWeek.toDate() })]
+	                tasks: []
 	            });
 
 	            for (var i = 0; i < 4; i++) {
 	                var weekDate = startWeek.add(1, 'day').toDate();
 	                $scope.week.push({
 	                    date: weekDate,
-	                    tasks: [new Task({ date: weekDate })]
+	                    tasks: []
 	                });
 	            }
 
@@ -55248,6 +55256,16 @@
 	'use strict';
 
 	module.exports = function (app) {
+	    app.controller('AccountCtrl', ['$scope', function ($scope) {}]);
+	};
+
+/***/ },
+/* 127 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
 	    app.factory('Task', ['$interval', function ($interval) {
 
 	        var Task = function Task(options) {
@@ -55297,7 +55315,7 @@
 	};
 
 /***/ },
-/* 127 */
+/* 128 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55318,7 +55336,7 @@
 	};
 
 /***/ },
-/* 128 */
+/* 129 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55395,7 +55413,7 @@
 	};
 
 /***/ },
-/* 129 */
+/* 130 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -55429,7 +55447,7 @@
 	};
 
 /***/ },
-/* 130 */
+/* 131 */
 /***/ function(module, exports) {
 
 	'use strict';

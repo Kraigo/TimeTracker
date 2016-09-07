@@ -48,6 +48,10 @@ module.exports = function(app) {
                     }
                     return;
                 });
+
+                $scope.week.forEach(function(day) {
+                    day.tasks.push(new Task({ date: day.date }))
+                })
             });
 
             $scope.taskChanged = function(task) {
@@ -76,14 +80,14 @@ module.exports = function(app) {
 
                 $scope.week.push({
                     date: startWeek.toDate(),
-                    tasks: [new Task({ date: startWeek.toDate() })]
+                    tasks: []
                 });
 
                 for (var i = 0; i < 4; i++) {
                     var weekDate = startWeek.add(1, 'day').toDate()
                     $scope.week.push({
                         date: weekDate,
-                        tasks: [new Task({ date: weekDate })]
+                        tasks: []
                     });
                 }
 
