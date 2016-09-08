@@ -1,4 +1,6 @@
 @import "social";
+$primary-color: #008cba;
+$primary-border-color: #0079a1;
 body {}
 
 .btn.btn-delete {
@@ -20,4 +22,29 @@ textarea[expand-focus]:focus {
     z-index: 1;
     position: relative;
     box-shadow: 0 2px 9px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Tabs */
+
+.nav-tabs {
+    .tab-primary a {
+        border-color: $primary-border-color;
+        &:hover {
+            border-color: $primary-border-color $primary-border-color #dddddd;
+        }
+    }
+    .tab-primary.active {
+        &>a,
+        &:hover>a,
+        &:focus>a {
+            border-color: $primary-border-color $primary-border-color #fff;
+        }
+    }
+    .active .badge {
+        visibility: hidden;
+    }
+    .badge {
+        background-color: #bdbdbd;
+    }
 }

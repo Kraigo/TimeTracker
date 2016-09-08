@@ -4,14 +4,14 @@
     </div>
 
     <ul class="nav nav-tabs nav-justified">
-        <li role="presentation" ng-repeat="day in week" ng-click="selectDay(day)" ng-class="{active: day === currentDay}">
+        <li ng-repeat="day in week" ng-click="selectDay(day)" ng-class="{active: day === currentDay, 'tab-primary': day.isToday}">
             <a>
-                {{day.date | date : 'EEEE'}}
-                <small class="pull-right">{{day.tasks | tasksTime | secondsToDateTime | date:'HH:mm'}}</small>
+                <b>{{day.date | date : 'EEEE'}}</b>, <small>{{day.date | date : 'MMM dd'}}</small>
+                <span class="badge" ng-bind="day.tasks | tasksTime | secondsToDateTime | date:'HH:mm'"></span>
             </a>
         </li>
     </ul>
-    
+
     <div class="panel" ng-class="currentDay.isToday ? 'panel-primary' : 'panel-default'">
         <div class="panel-heading">
             {{currentDay.date | date : 'MMMM d, yyyy'}}
