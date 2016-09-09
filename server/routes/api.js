@@ -78,14 +78,15 @@ router.post('/projects', function(req, res) {
         title: req.body.title
     }
     Project.create(data, function(err, project) {
-        Team.findByIdAndUpdate(
-            req.body.team, { $push: { projects: project._id } },
+        Team.findOneAndUpdate(
+            {_id: req.body.team},
+            { $push: { projects: project._id } },
             function(err, team) {
-                res.send(team);
+                res.send(project);
             })
     });
 });
-router.delete('/projects/:id', function(req, res) {    
+router.delete('/projects/:id', function(req, res) {
     Project.findById(req.params.id, function(err, project) {
         project.remove(function() {
             res.send();

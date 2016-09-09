@@ -1,8 +1,8 @@
 module.exports = function(app) {
-    app.controller('TeamCtrl', ['$scope', 'repository',
+    app.controller('TeamCtrl', ['$scope', 'repository', 'modal',
 
-        function($scope, repository) {
-          
+        function($scope, repository, modal) {
+
             $scope.teams = [];
             $scope.newTeam = null;
 
@@ -17,15 +17,22 @@ module.exports = function(app) {
                 $scope.newTeam = null;
             }
 
-            $scope.addProject = function(team, title) {
-                repository.addProject(team._id, title).then(function(response) {
-                    // team.projects = response.data;
+            $scope.openProjects = function(team) {
+                modal.open({
+                    templateUrl: "application/team/views/projects.html",
+                    controller: 'ProjectCtrl',
+                    inputs: {
+                        team: team
+                    }
                 })
             }
-
-            $scope.removeProject = function(project, team) {
-                repository.removeProject(project).then(function(response) {
-                    team.projects.splice(team.projects.indexOf(project), 1)
+            $scope.openMembers = function(team) {
+                modal.open({
+                    templateUrl: "application/team/views/members.html",
+                    controller: 'MemberCtrl',
+                    inputs: {
+                        team: team
+                    }
                 })
             }
         }

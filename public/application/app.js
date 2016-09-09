@@ -16,8 +16,9 @@ require('angular-resource');
 require('angular-animate');
 require('angular-filter');
 require('angular-loading-bar');
+require('angular-modal-service');
 
-var app = angular.module('timetracker', ['ngRoute', 'ngResource', 'ngAnimate', 'angular-loading-bar', 'angular.filter']);
+var app = angular.module('timetracker', ['ngRoute', 'ngResource', 'ngAnimate', 'angular-loading-bar', 'angular.filter', 'angularModalService']);
 
 app.config([
     '$routeProvider', '$locationProvider', '$httpProvider', 'cfpLoadingBarProvider',
@@ -61,6 +62,8 @@ require('./login/controllers/loginCtrl')(app);
 require('./report/controllers/reportCtrl')(app);
 require('./profile/controllers/profileCtrl')(app);
 require('./team/controllers/teamCtrl')(app);
+require('./team/controllers/projectCtrl')(app);
+require('./team/controllers/memberCtrl')(app);
 
 require('./common/factories/taskFactory')(app);
 require('./common/factories/interseptorAuthFactory')(app);
@@ -68,3 +71,4 @@ require('./common/factories/interseptorAuthFactory')(app);
 require('./common/directives/directives')(app);
 require('./common/filters/filters')(app);
 require('./common/services/repositorySrv')(app);
+require('./common/services/modalSrv')(app);

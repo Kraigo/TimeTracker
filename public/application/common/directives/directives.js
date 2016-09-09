@@ -47,7 +47,7 @@ module.exports = function(app) {
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: './application/home/templates/task.html'
+            templateUrl: './application/home/views/task.html'
         }
     })
 

@@ -48,3 +48,19 @@ textarea[expand-focus]:focus {
         background-color: #bdbdbd;
     }
 }
+
+.table-borderless tbody tr td,
+.table-borderless tbody tr th,
+.table-borderless thead tr th {
+    border: none;
+}
+
+.table-valign tbody tr td,
+.table-valign tbody tr th,
+.table-valign thead tr th {
+    vertical-align: middle;
+}
+
+.table-modal tbody tr th {
+    border-top: none;
+}

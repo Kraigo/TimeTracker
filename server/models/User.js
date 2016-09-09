@@ -10,7 +10,13 @@ var shema = new mongoose.Schema({
         id: String,
         token: String
     }
+}, {
+    toJSON: { virtuals: true }
 });
+
+shema.virtual('fullName').get(function() {
+    return this.firstName + ' ' + this.lastName;
+})
 
 // shema.setters = {
 //     password: function(password) {
