@@ -14,10 +14,6 @@ module.exports = function(app) {
             $scope.week = [];
             $scope.projects = [];
 
-            $scope.categories = [
-                'Homing', 'SBC', 'Aya', 'Marine Sync', 'Bridgewest'
-            ]
-
             $scope.addTask = function(day) {
                 day.tasks.push(new Task({ date: day.date }));
             }
