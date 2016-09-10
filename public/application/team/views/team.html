@@ -4,6 +4,14 @@
         <h2>Teams</h2>
     </div>
 
+    <div class="alert alert-info" role="alert" ng-repeat="invitation in invitations">
+        You has been invited to team <b ng-bind="invitation.team"></b>
+        <div class="pull-right" style="margin-top: -6px">
+            <button class="btn btn-default btn-xs" ng-click="acceptInvitation(invitation)">Accept</button>
+            <button class="btn btn-danger btn-xs" ng-click="refuseInvitation(invitation)">Refuse</button>
+        </div>
+    </div>
+
 
     <div class="input-group">
         <input type="text" class="form-control" placeholder="New Team Title" ng-model="newTeam.title">
@@ -35,6 +43,5 @@
                 </tr>
             </tbody>
         </table>
-
 
     </div>

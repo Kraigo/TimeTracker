@@ -4,7 +4,11 @@ module.exports = function(app) {
         function($scope, repository, team) {
             $scope.team = team;
 
-            $scope.addMember = function(team, title) {
+            $scope.addMember = function(team, email) {
+
+                repository.addInvitation(team._id, email).then(function(response) {
+
+                })
 
                 // repository.addProject(team._id, title).then(function(response) {
                 //     // team.projects = response.data;

@@ -4,10 +4,15 @@ module.exports = function(app) {
         function($scope, repository, modal) {
 
             $scope.teams = [];
+            $scope.invitations = [];
             $scope.newTeam = null;
 
             repository.getTeams().then(function(response) {
                 $scope.teams = response.data;
+            })
+
+            repository.getInvitations().then(function(response) {
+                $scope.invitations = response.data;
             })
 
             $scope.addTeam = function() {
@@ -33,6 +38,12 @@ module.exports = function(app) {
                     inputs: {
                         team: team
                     }
+                })
+            }
+
+            $scope.acceptInvitation = function(invitation) {
+                repository.acceptInvitation(invitation._id).then(function(response) {
+                    $scope.invitations.splice($scope.invitations.indexOf(invitation), 1);
                 })
             }
         }

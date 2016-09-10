@@ -47,11 +47,32 @@ module.exports = function(app) {
                     team: teamId,
                     title: title
                 }
-                
+
                 return $http.post(baseUrl + '/projects', data);
             },
             removeProject: function(project) {
-                return $http.delete(baseUrl + '/projects/'+project._id);
+                return $http.delete(baseUrl + '/projects/' + project._id);
+            },
+
+            // INVITATION //
+            getInvitations: function() {
+                return $http.get(baseUrl + '/invitations');
+            },
+
+            addInvitation: function(teamId, email) {
+                var data = {
+                    team: teamId,
+                    email: email
+                }
+
+                return $http.post(baseUrl + '/invitations', data);
+            },
+            acceptInvitation: function(invintationId) {
+                var data = {
+                    id: invintationId
+                }
+
+                return $http.put(baseUrl + '/invitations/accept', data);
             }
         }
     }]);

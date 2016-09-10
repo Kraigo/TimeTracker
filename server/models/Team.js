@@ -11,6 +11,13 @@ var shema = new mongoose.Schema({
     users: [{
         type: ObjectId,
         ref: "User"
+    }],
+    invitations: [{
+        email: String,
+        accepted: {
+            type: String,
+            default: false
+        }
     }]
 });
 
