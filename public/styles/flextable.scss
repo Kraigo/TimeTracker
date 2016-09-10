@@ -1,0 +1,38 @@
+@import "variables";
+.flex-table {
+    & .flex-row:not(:first-child) {
+        border-top: 1px solid #dddddd;
+    }
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.flex-cell {
+    padding: 8px;
+    flex-grow: 1;
+    order: 1;
+    
+    @media (min-width: 768px) {
+        flex-grow: initial;
+    }
+    
+    &_grow {
+        flex-grow: 1;
+    }
+    &_nogrow {
+        flex-grow: 0;
+    }
+    &_wrap {
+        order: 2;
+        flex-basis: 100%;
+        @media (min-width: 768px) {
+            order: 1;
+            flex-basis: initial;
+        }
+    }
+}

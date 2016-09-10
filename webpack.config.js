@@ -20,7 +20,7 @@ module.exports = {
             loader: "style-loader!css-loader"
         }, {
             test: /\.scss$/,
-            loader: 'style!css!sass'
+            loader: 'style!!css!sass'
         }, {
             test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
             loader: 'url?limit=10000&mimetype=application/font-woff'
@@ -36,6 +36,6 @@ module.exports = {
         }]
     },
     plugins: [
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/)
-  ]
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|ru/)
+    ]
 };

@@ -86,7 +86,7 @@ module.exports = function(app) {
                     tasks: []
                 });
 
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 6; i++) {
                     var weekDate = startWeek.add(1, 'day').toDate()
                     $scope.week.push({
                         date: weekDate,

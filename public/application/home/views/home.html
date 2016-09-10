@@ -6,8 +6,8 @@
     <ul class="nav nav-tabs nav-justified">
         <li ng-repeat="day in week" ng-click="selectDay(day)" ng-class="{active: day === currentDay, 'tab-primary': day.isToday}">
             <a>
-                <b>{{day.date | date : 'EEEE'}}</b>, <small>{{day.date | date : 'MMM dd'}}</small>
-                <span class="badge" ng-bind="day.tasks | tasksTime | secondsToDateTime | date:'HH:mm'"></span>
+                <b>{{ $index > 4 ? (day.date | date : 'EEE') : (day.date | date : 'EEEE')}}</b>, <small>{{day.date | date : 'MMM dd'}}</small>
+                <!--<span class="badge" ng-bind="day.tasks | tasksTime | secondsToDateTime | date:'HH:mm'"></span>-->
             </a>
         </li>
     </ul>
