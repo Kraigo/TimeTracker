@@ -2,13 +2,12 @@ module.exports = function(app) {
     app.controller('HomeCtrl', ['$scope', '$timeout', 'Task', 'repository',
         function($scope, $timeout, Task, repository) {
 
-            var tomorrow = new Date();
+            //TODO Change time for each elements;
             var changeTimer;
+            var startWeek = moment().startOf('isoweek');
 
-            tomorrow.setDate(tomorrow.getDate() + 1);
-
-            $scope.currentDay = new Date();
-            $scope.today = new Date();
+            $scope.today = moment().startOf('day').toDate();
+            $scope.currentDay = $scope.today;
 
 
             $scope.week = [];
@@ -29,7 +28,7 @@ module.exports = function(app) {
 
 
 
-            repository.getTasks().then(function(response) {
+            repository.getTasks(startWeek.toDate()).then(function(response) {
                 response.data.forEach(function(task) {
 
                     for (var i = 0, day; i < $scope.week.length; i++) {
@@ -79,7 +78,6 @@ module.exports = function(app) {
             }
 
             $scope.fillWeek = function() {
-                var startWeek = moment().day("Monday").startOf('day');
 
                 $scope.week.push({
                     date: startWeek.toDate(),

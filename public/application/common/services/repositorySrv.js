@@ -10,8 +10,13 @@ module.exports = function(app) {
             getUser: function() {
                 return $http.get(baseUrl + '/user');
             },
-            getTasks: function() {
-                return $http.get(baseUrl + '/tasks');
+            getTasks: function(weekStart) {
+                var config = {
+                    params: {
+                        weekStart: weekStart
+                    }
+                }
+                return $http.get(baseUrl + '/tasks', config);
             },
             saveTask: function(task) {
 

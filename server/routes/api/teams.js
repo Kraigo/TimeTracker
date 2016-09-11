@@ -6,6 +6,12 @@ var User = require(appRoot + '/server/models/User');
 
 router.get('/teams', function(req, res) {
     Team.find({ users: req.session.passport.user }).populate(['users', 'projects']).exec(function(err, teams) {
+
+        // var transformedTeams = teams.map(function(team) {
+        //     team.isOwner = req.session.passport.user === team.owner;
+        //     return team;
+        // });
+
         res.send(teams);
     });
 });

@@ -4,7 +4,18 @@ var appRoot = require('app-root-path');
 var Task = require(appRoot + '/server/models/Task');
 
 router.get('/tasks', function(req, res) {
-    Task.find({ 'user': req.session.passport.user }).populate('project').exec(function(err, tasks) {
+    var condition = {
+        'user': req.session.passport.user
+    }
+    if (req.query.weekStart) {
+        var weekDate = new Date(req.query.weekStart);
+        var nextWeekDate = new Date(new Date(req.query.weekStart).setDate(weekDate.getDate() + 7));
+        condition.date = {
+            $gte: weekDate,
+            $lt: nextWeekDate
+        }
+    }
+    Task.find(condition).populate('project').exec(function(err, tasks) {
         res.send(tasks);
     });
 });

@@ -16,15 +16,15 @@
     <div class="input-group">
         <input type="text" class="form-control" placeholder="New Team Title" ng-model="newTeam.title">
         <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="addTeam()">Add Team</button>
-                </span>
+            <button class="btn btn-default" type="button" ng-click="addTeam()">Add Team</button>
+        </span>
     </div>
     <br>
 
     <div class="panel panel-default" ng-repeat="team in teams">
         <div class="panel-heading">
             Team: <b ng-bind="team.title"></b>
-            <span class="pull-right label label-info">Owner</span>
+            <span class="pull-right label label-info" ng-if="team.isOwner">Owner</span>
         </div>
         <div class="panel-body">
             <button class="btn btn-primary" ng-click="openProjects(team)">Projects</button>
