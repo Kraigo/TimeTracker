@@ -44,6 +44,7 @@ module.exports = function(app) {
             $scope.acceptInvitation = function(invitation) {
                 repository.acceptInvitation(invitation._id).then(function(response) {
                     $scope.invitations.splice($scope.invitations.indexOf(invitation), 1);
+                    $scope.teams.push(response.data);
                 })
             }
         }
