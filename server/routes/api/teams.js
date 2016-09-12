@@ -5,14 +5,13 @@ var Team = require(appRoot + '/server/models/Team');
 var User = require(appRoot + '/server/models/User');
 
 router.get('/teams', function(req, res) {
-    Team.find({ users: req.session.passport.user }).populate(['users', 'projects']).exec(function(err, teams) {
+    Team.find({ users: req.session.passport.user }).populate(['users', 'projects']).lean().exec(function(err, teams) {
 
-        // var transformedTeams = teams.map(function(team) {
-        //     team.isOwner = req.session.passport.user === team.owner;
-        //     return team;
-        // });
-
-        res.send(teams);
+        var transformedTeams = teams.map(function(team) {
+            team.isOwner = req.session.passport.user === team.owner.toString();
+            return team;
+        });
+        res.send(transformedTeams);
     });
 });
 router.post('/teams', function(req, res) {
@@ -59,7 +58,7 @@ router.post('/invitations', function(req, res) {
         }
     }
 
-    Team.findOneAndUpdate(condition, data, function(err, team) {
+    Team.findOneAndUpdate(condition, data, { new: true }, function(err, team) {
         res.send(team);
     });
 });
@@ -78,7 +77,7 @@ router.put('/invitations/accept', function(req, res) {
         }
     }
 
-    Team.findOneAndUpdate(condition, data, function(err, team) {
+    Team.findOneAndUpdate(condition, data, { new: true }).populate(['projects', 'users']).exec(function(err, team) {
         res.send(team);
     });
 })

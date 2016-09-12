@@ -26,19 +26,27 @@
             Team: <b ng-bind="team.title"></b>
             <span class="pull-right label label-info" ng-if="team.isOwner">Owner</span>
         </div>
-        <div class="panel-body">
-            <button class="btn btn-primary" ng-click="openProjects(team)">Projects</button>
-            <button class="btn btn-primary" ng-click="openMembers(team)">Members</button>
+        <div class="panel-body" ng-if="team.isOwner">
+            <button class="btn btn-primary btn-xs" ng-click="openProjects(team)">Projects</button>
+            <button class="btn btn-primary btn-xs" ng-click="openMembers(team)">Members</button>
         </div>
 
-        <table class="table">
+        <table class="table table-condensed">
             <tbody>
                 <tr>
                     <td>
-                        <p class="form-control-static">Projects Count</p>
+                        Projects Count
                     </td>
                     <td>
-                        <p class="form-control-static" ng-bind="team.projects.length"></p>
+                        <span ng-bind="team.projects.length"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Members Count
+                    </td>
+                    <td>
+                        <span ng-bind="team.users.length"></span>
                     </td>
                 </tr>
             </tbody>
