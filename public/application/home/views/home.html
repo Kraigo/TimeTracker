@@ -3,6 +3,13 @@
         <h1>Track your time</h1>
     </div>
 
+    <nav>
+        <ul class="pager">
+            <li class="previous"><a href ng-click="changeWeek(-1)"><span>&larr;</span> Older</a></li>
+            <li class="next"><a href ng-click="changeWeek(1)">Newer <span>&rarr;</span></a></li>
+        </ul>
+    </nav>
+
     <ul class="nav nav-tabs nav-justified">
         <li ng-repeat="day in week" ng-click="selectDay(day)" ng-class="{active: day === currentDay, 'tab-primary': day.isToday}">
             <a>

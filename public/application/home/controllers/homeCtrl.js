@@ -4,10 +4,11 @@ module.exports = function(app) {
 
             //TODO Change time for each elements;
             var changeTimer;
-            var startWeek = moment().startOf('isoweek');
 
             $scope.today = moment().startOf('day').toDate();
-            $scope.currentDay = $scope.today;
+            $scope.startWeek = moment($scope.today).startOf('isoweek').toDate();
+
+            $scope.currentDay = null;
 
 
             $scope.week = [];
@@ -27,28 +28,30 @@ module.exports = function(app) {
             }
 
 
+            $scope.getTasks = function() {
+                repository.getTasks($scope.startWeek).then(function(response) {
+                    response.data.forEach(function(task) {
 
-            repository.getTasks(startWeek.toDate()).then(function(response) {
-                response.data.forEach(function(task) {
+                        for (var i = 0, day; i < $scope.week.length; i++) {
+                            day = $scope.week[i];
 
-                    for (var i = 0, day; i < $scope.week.length; i++) {
-                        day = $scope.week[i];
+                            var dayDate = moment(day.date).startOf('day');
+                            var taskDate = moment(task.date).startOf('day');
 
-                        var dayDate = moment(day.date).startOf('day');
-                        var taskDate = moment(task.date).startOf('day');
-
-                        if (dayDate.isSame(taskDate)) {
-                            day.tasks.push(new Task(task));
-                            return;
+                            if (dayDate.isSame(taskDate)) {
+                                day.tasks.push(new Task(task));
+                                return;
+                            }
                         }
-                    }
-                    return;
-                });
+                        return;
+                    });
 
-                $scope.week.forEach(function(day) {
-                    day.tasks.push(new Task({ date: day.date }))
-                })
-            });
+                    $scope.week.forEach(function(day) {
+                        day.tasks.push(new Task({ date: day.date }))
+                    })
+                });
+            }
+
 
             repository.getTeams().then(function(response) {
                 $scope.projects = response.data.reduce(function(projects, team) {
@@ -79,13 +82,10 @@ module.exports = function(app) {
 
             $scope.fillWeek = function() {
 
-                $scope.week.push({
-                    date: startWeek.toDate(),
-                    tasks: []
-                });
+                $scope.week.length = [];
 
-                for (var i = 0; i < 6; i++) {
-                    var weekDate = startWeek.add(1, 'day').toDate()
+                for (var i = 0; i < 7; i++) {
+                    var weekDate = moment($scope.startWeek).add(i, 'day').toDate()
                     $scope.week.push({
                         date: weekDate,
                         tasks: []
@@ -100,6 +100,17 @@ module.exports = function(app) {
                 })
 
             };
+
+
+            $scope.changeWeek = function(direction) {
+                var selectedDayIndex = $scope.week.indexOf($scope.currentDay);
+                $scope.startWeek = moment($scope.currentDay.date).add(direction, 'weeks').startOf('isoweek').toDate();
+                $scope.fillWeek();
+                $scope.getTasks();
+                $scope.selectDay($scope.week[selectedDayIndex]);
+            }
+
+            $scope.getTasks();
             $scope.fillWeek();
         }
     ]);
