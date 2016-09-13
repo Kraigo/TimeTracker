@@ -51,6 +51,14 @@ module.exports = function(app) {
         }
     })
 
+    app.directive('tasksFooter', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: './application/home/views/footer.html'
+        }
+    })
+
     app.directive('expandFocus', function() {
         return {
             restrict: 'A',

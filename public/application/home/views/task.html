@@ -1,7 +1,7 @@
 <div class="flex-table">
     <div class="flex-row" ng-repeat="task in currentDay.tasks track by $index">
         <div class="flex-cell flex-cell_nogrow">
-            <button class="btn btn-default btn-delete btn-sm" ng-click="removeTask(task, currentDay.tasks, $index)">
+            <button class="btn btn-default btn-delete btn-sm" ng-click="removeTask(task, currentDay.tasks)">
                     <i class="glyphicon glyphicon-trash"></i>
                 </button>
         </div>

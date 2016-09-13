@@ -72,7 +72,7 @@ module.exports = function(app) {
 
             $scope.removeTask = function(task, collection, index) {
                 repository.removeTask(task).then(function() {
-                    collection.splice(index, 1);
+                    collection.splice(collection.indexOf(task), 1);
                 })
             }
 

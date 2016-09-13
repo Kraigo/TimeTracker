@@ -1,0 +1,30 @@
+<footer class="footer navbar-fixed-bottom">
+    <div class="container">
+        <h4>Current Tracking</h4>
+        <div class="flex-row">
+            <div class="flex-cell flex-cell_nogrow">
+                <button class="btn btn-default btn-delete btn-sm">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+            </div>
+            <div class="flex-cell" style="flex-basis: 200px">
+                <select class="form-control input-sm" ng-model="currentTask.project" ng-options="project as project.title for project in projects track by project._id" ng-change="taskChanged(currentTask)">
+                    </select>
+            </div>
+            <div class="flex-cell flex-cell_wrap flex-cell_grow">
+                <textarea expand-focus type="text" class="form-control input-sm noresize" ng-model="currentTask.description" ng-change="taskChanged(currentTask)"></textarea>
+            </div>
+            <div class="flex-cell" style="flex-basis: 140px">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" ng-model="currentTask.time" ng-disabled="currentTask.isTracking" ng-change="taskChanged(currentTask)" input-date/>
+
+                    <span class="input-group-btn">
+                            <button class="btn btn-secondary btn-sm" type="button" ng-click="trackTask(currentTask)" ng-class="{'btn-warning': currentTask.isTracking}">
+                                <i class="glyphicon glyphicon-time"></i>
+                            </button>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
