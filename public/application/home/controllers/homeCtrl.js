@@ -40,7 +40,7 @@ module.exports = function(app) {
                             day = $scope.week[i];
 
                             var dayDate = moment(day.date).startOf('day');
-                            var taskDate = moment(_task.date).startOf('day');
+                            var taskDate = moment(task.date).startOf('day');
 
                             if (dayDate.isSame(taskDate)) {
                                 day.tasks.push(task);
@@ -48,7 +48,7 @@ module.exports = function(app) {
                             }
                         }
 
-                        if (_task.isTracking) {
+                        if (task.isTracking) {
                             $scope.currentTask = task;
                         }
                         return;
