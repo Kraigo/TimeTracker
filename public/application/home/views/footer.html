@@ -1,18 +1,18 @@
-<footer class="footer navbar-fixed-bottom">
+<footer class="footer navbar-fixed-bottom slide-top" ng-show="currentTask">
     <div class="container">
-        <h4>Current Tracking</h4>
+        <h4>Current Tracking <button class="btn btn-default btn-xs">Go to task</button></h4>
         <div class="flex-row">
             <div class="flex-cell flex-cell_nogrow">
-                <button class="btn btn-default btn-delete btn-sm">
+                <button class="btn btn-default btn-delete btn-sm" style="visibility: hidden">
                         <i class="glyphicon glyphicon-trash"></i>
                     </button>
             </div>
             <div class="flex-cell" style="flex-basis: 200px">
-                <select class="form-control input-sm" ng-model="currentTask.project" ng-options="project as project.title for project in projects track by project._id" ng-change="taskChanged(currentTask)">
+                <select class="form-control input-sm" ng-model="currentTask.project" ng-options="project as project.title for project in projects track by project._id" ng-change="taskChanged(currentTask)" ng-disabled="true">
                     </select>
             </div>
             <div class="flex-cell flex-cell_wrap flex-cell_grow">
-                <textarea expand-focus type="text" class="form-control input-sm noresize" ng-model="currentTask.description" ng-change="taskChanged(currentTask)"></textarea>
+                <textarea expand-focus type="text" class="form-control input-sm noresize" ng-model="currentTask.description" ng-change="taskChanged(currentTask)" ng-disabled="true"></textarea>
             </div>
             <div class="flex-cell" style="flex-basis: 140px">
                 <div class="input-group">
