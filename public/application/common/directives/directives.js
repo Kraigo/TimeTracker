@@ -1,9 +1,50 @@
 module.exports = function(app) {
 
-    app.directive('inputDate', ['$filter', function($filter) {
+    app.directive('inputDate', ['$timeout', function($timeout) {
         return {
             require: 'ngModel',
+            restrict: 'A',
             link: function(scope, element, attrs, modelCtrl) {
+
+                modelCtrl.$parsers.unshift(function(inputValue) {
+                    if (typeof inputValue === 'number') return inputValue;
+
+                    var newValue = 0;
+                    var hours = 0;
+                    var minutes = 0;
+
+                    var splitByDot = inputValue.split('.');
+                    var splitByColon = inputValue.split(':');
+                    var splitBySpace = inputValue.split(' ');
+
+                    if (splitByDot.length > 1) {
+                        hours = splitByDot[0] || 0;
+                        minutes = splitByDot[1] || 0;
+                        minutes = parseInt(60 * parseFloat('0.' + minutes));
+                    } else if (splitByColon.length > 1) {
+                        hours = splitByColon[0] || 0;
+                        minutes = splitByColon[1] || 0;
+                    } else if (splitBySpace.length > 1) {
+                        hours = splitBySpace[0] || 0;
+                        minutes = splitBySpace[1] || 0;
+                    } else {
+                        hours = inputValue;
+                        minutes = 0;
+                    }
+
+                    hours = hours > 60 ? 0 : hours;
+                    if (minutes.length === 1) {
+                        minutes += '0';
+                    }
+                    minutes = minutes > 60 ? 0 : minutes;
+
+                    newValue += parseInt(hours) * 60 * 60;
+                    newValue += parseInt(minutes) * 60;
+
+                    var input = inputValue.split(':');
+                    return newValue * 1000;
+                });
+
                 modelCtrl.$formatters.unshift(function(inputValue) {
                     var minutes = Math.floor(inputValue / 1000 / 60) % 60;
                     var hours = Math.floor(inputValue / 1000 / (60 * 60)) % 60;
@@ -15,29 +56,17 @@ module.exports = function(app) {
                     return dateValue;
                 });
 
-                modelCtrl.$parsers.unshift(function(inputValue) {
-                    if (typeof inputValue === 'number') return inputValue;
+                element.bind('blur', function() {
+                    $timeout(function() {
+                        var formattedValue = modelCtrl.$formatters.reduce(function(value, formatter) {
+                            return formatter(value)
+                        }, modelCtrl.$modelValue)
 
-                    var newValue = 0;
-                    var input = inputValue.split(':');
-                    var hours = input[0] || 0;
-                    var minutes = input[1] || 0;
+                        modelCtrl.$setViewValue(formattedValue);
+                        modelCtrl.$render();
+                    })
 
-                    hours = hours > 60 ? 0 : hours;
-                    minutes = minutes > 60 ? 0 : minutes;
-
-                    newValue += parseInt(hours) * 60 * 60;
-                    newValue += parseInt(minutes) * 60;
-                    // modelCtrl.$setViewValue(newValue * 1000);
-                    // modelCtrl.$render();
-                    return newValue * 1000;
                 })
-
-                // element.bind('blur', function() {
-                //     scope.$apply();
-                //     // modelCtrl.$modelValue = modelCtrl.$modelValue 
-                //     // modelCtrl.$render();
-                // })
             }
         }
     }])
