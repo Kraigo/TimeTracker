@@ -22,7 +22,7 @@ module.exports = function(app) {
 
                 var data = {
                     description: task.description,
-                    project: task.project._id,
+                    project: task.project,
                     time: task.time,
                     date: task.date,
                     lastTrack: task.lastTrack,
@@ -45,6 +45,9 @@ module.exports = function(app) {
                 }
                 return $http.post(baseUrl + '/teams', data);
             },
+            removeTeam: function(teamId) {
+                return $http.delete(baseUrl + '/teams/' + teamId);
+            },
 
             // PROJECT //
             addProject: function(teamId, title) {
@@ -55,8 +58,8 @@ module.exports = function(app) {
 
                 return $http.post(baseUrl + '/projects', data);
             },
-            removeProject: function(project) {
-                return $http.delete(baseUrl + '/projects/' + project._id);
+            removeProject: function(projectId) {
+                return $http.delete(baseUrl + '/projects/' + projectId);
             },
 
             // INVITATION //

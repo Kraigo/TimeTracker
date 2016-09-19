@@ -21,6 +21,11 @@ module.exports = function(app) {
                 })
                 $scope.newTeam = null;
             }
+            $scope.removeTeam = function(team) {
+                repository.removeTeam(team._id).then(function(response) {
+                    $scope.teams.splice($scope.teams.indexOf(team), 1);
+                })
+            }
 
             $scope.openProjects = function(team) {
                 modal.open({

@@ -6,7 +6,7 @@
                 </button>
         </div>
         <div class="flex-cell" style="flex-basis: 200px">
-            <select class="form-control input-sm" ng-model="task.project" ng-options="project as project.title for project in projects track by project._id" ng-change="taskChanged(task)">
+            <select class="form-control input-sm" ng-model="task.project" ng-options="project._id as project.title for project in projects" ng-change="taskChanged(task)">
                 </select>
         </div>
         <div class="flex-cell flex-cell_wrap flex-cell_grow">

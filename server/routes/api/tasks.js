@@ -15,7 +15,7 @@ router.get('/tasks', function(req, res) {
             $lt: nextWeekDate
         }
     }
-    Task.find(condition).populate('project').exec(function(err, tasks) {
+    Task.find(condition).exec(function(err, tasks) {
         res.send(tasks);
     });
 });

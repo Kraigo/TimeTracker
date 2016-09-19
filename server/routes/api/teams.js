@@ -2,10 +2,9 @@ var express = require('express');
 var router = express.Router();
 var appRoot = require('app-root-path');
 var Team = require(appRoot + '/server/models/Team');
-var User = require(appRoot + '/server/models/User');
 
 router.get('/teams', function(req, res) {
-    Team.find({ users: req.session.passport.user }).populate(['users', 'projects']).lean().exec(function(err, teams) {
+    Team.find({ users: req.session.passport.user }).populate(['users']).lean().exec(function(err, teams) {
 
         var transformedTeams = teams.map(function(team) {
             team.isOwner = req.session.passport.user === team.owner.toString();
@@ -14,6 +13,7 @@ router.get('/teams', function(req, res) {
         res.send(transformedTeams);
     });
 });
+
 router.post('/teams', function(req, res) {
     var data = {
         title: req.body.title,
@@ -23,62 +23,21 @@ router.post('/teams', function(req, res) {
     Team.create(data, function(err, team) {
         Team
             .findById(team._id)
-            .populate(['users', 'projects'])
+            .populate(['users'])
             .exec(function(err, team) {
                 res.send(team);
             })
     });
 });
 
-router.get('/invitations', function(req, res) {
-    User.findById(req.session.passport.user, function(err, user) {
-
-        Team.find({ 'invitations.email': user.email }, function(err, teams) {
-            var invitations = teams.map(function(team) {
-                return {
-                    _id: team.invitations.filter(item => item.email === user.email)[0]._id,
-                    team: team.title
-                }
-            })
-            res.send(invitations)
-        })
-
+router.delete('/teams/:id', function(req, res) {
+    Team.findByIdAndRemove(req.params.id, function(err, team) {
+        res.send();
     })
 });
-router.post('/invitations', function(req, res) {
-    var condition = {
-        _id: req.body.team
-    };
 
-    var data = {
-        $push: {
-            invitations: {
-                email: req.body.email
-            }
-        }
-    }
-
-    Team.findOneAndUpdate(condition, data, { new: true }, function(err, team) {
-        res.send(team);
-    });
+router.put('/teams/leave/:id', function(req, res) {
+    //TODO Leave from team
 });
 
-router.put('/invitations/accept', function(req, res) {
-    var condition = {
-        'invitations._id': req.body.id
-    };
-
-    var data = {
-        $pull: {
-            invitations: { _id: req.body.id }
-        },
-        $push: {
-            users: req.session.passport.user
-        }
-    }
-
-    Team.findOneAndUpdate(condition, data, { new: true }).populate(['projects', 'users']).exec(function(err, team) {
-        res.send(team);
-    });
-})
 module.exports = router;

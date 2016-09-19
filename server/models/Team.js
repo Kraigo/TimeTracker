@@ -5,8 +5,7 @@ var shema = new mongoose.Schema({
     title: String,
     owner: ObjectId,
     projects: [{
-        type: ObjectId,
-        ref: "Project"
+        title: String
     }],
     users: [{
         type: ObjectId,

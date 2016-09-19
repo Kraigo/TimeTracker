@@ -9,12 +9,13 @@ module.exports = function(app) {
                 $scope.newProjectTitle = '';
 
                 repository.addProject(team._id, title).then(function(response) {
-                    team.projects.push(response.data);
+                    // team.projects.push(response.data);
+                    team.projects = response.data;
                 })
             }
 
             $scope.removeProject = function(project, team) {
-                repository.removeProject(project).then(function(response) {
+                repository.removeProject(project._id).then(function(response) {
                     team.projects.splice(team.projects.indexOf(project), 1)
                 })
             }

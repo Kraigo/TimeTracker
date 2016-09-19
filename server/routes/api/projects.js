@@ -1,27 +1,27 @@
 var express = require('express');
 var router = express.Router();
 var appRoot = require('app-root-path');
-var Projects = require(appRoot + '/server/models/Project');
 var Team = require(appRoot + '/server/models/Team');
+var Task = require(appRoot + '/server/models/Task');
 
 router.post('/projects', function(req, res) {
     var data = {
         title: req.body.title
     }
-    Project.create(data, function(err, project) {
-        Team.findOneAndUpdate({ _id: req.body.team }, { $push: { projects: project._id } },
-            function(err, team) {
-                res.send(project);
-            })
-    });
+    Team.findOneAndUpdate({ _id: req.body.team }, { $push: { projects: data } }, { new: true },
+        function(err, team) {
+            res.send(team.projects);
+        })
 });
 
 router.delete('/projects/:id', function(req, res) {
-    Project.findById(req.params.id, function(err, project) {
-        project.remove(function() {
-            res.send();
+
+    Team.findOneAndUpdate({ 'projects._id': req.params.id }, { $pull: { projects: { _id: req.params.id } } },
+        function(err, team) {
+            Task.find({ project: req.params.id }).remove().exec(function(err, task) {
+                res.send();
+            })
         })
-    });
 });
 
 module.exports = router;
