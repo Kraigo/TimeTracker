@@ -16,9 +16,9 @@ require('angular-resource');
 require('angular-animate');
 require('angular-filter');
 require('angular-loading-bar');
-require('angular-modal-service');
+require('angular-ui-bootstrap');
 
-var app = angular.module('timetracker', ['ngRoute', 'ngResource', 'ngAnimate', 'angular-loading-bar', 'angular.filter', 'angularModalService']);
+var app = angular.module('timetracker', ['ngRoute', 'ngResource', 'ngAnimate', 'angular-loading-bar', 'angular.filter', 'ui.bootstrap']);
 
 app.config([
     '$routeProvider', '$locationProvider', '$httpProvider', 'cfpLoadingBarProvider',

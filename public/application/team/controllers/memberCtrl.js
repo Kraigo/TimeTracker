@@ -1,8 +1,12 @@
 module.exports = function(app) {
-    app.controller('MemberCtrl', ['$scope', 'repository', 'team',
+    app.controller('MemberCtrl', ['$scope', '$uibModalInstance', 'repository', 'team',
 
-        function($scope, repository, team) {
+        function($scope, $uibModalInstance, repository, team) {
             $scope.team = team;
+
+            $scope.closeModal = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
             $scope.addMember = function(team, email) {
 

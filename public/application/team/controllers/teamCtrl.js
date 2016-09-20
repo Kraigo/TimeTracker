@@ -22,8 +22,10 @@ module.exports = function(app) {
                 $scope.newTeam = null;
             }
             $scope.removeTeam = function(team) {
-                repository.removeTeam(team._id).then(function(response) {
-                    $scope.teams.splice($scope.teams.indexOf(team), 1);
+                modal.confirmation('Are you want to remove team ' + team.title + '?').then(function(confirm) {
+                    repository.removeTeam(team._id).then(function(response) {
+                        $scope.teams.splice($scope.teams.indexOf(team), 1);
+                    })
                 })
             }
 
@@ -31,7 +33,7 @@ module.exports = function(app) {
                 modal.open({
                     templateUrl: "application/team/views/projects.html",
                     controller: 'ProjectCtrl',
-                    inputs: {
+                    resolve: {
                         team: team
                     }
                 })
@@ -40,7 +42,7 @@ module.exports = function(app) {
                 modal.open({
                     templateUrl: "application/team/views/members.html",
                     controller: 'MemberCtrl',
-                    inputs: {
+                    resolve: {
                         team: team
                     }
                 })

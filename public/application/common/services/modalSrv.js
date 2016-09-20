@@ -1,18 +1,28 @@
 module.exports = function(app) {
-    app.service('modal', ['$q', 'ModalService', function($q, ModalService) {
+    app.service('modal', ['$q', '$uibModal', function($q, $uibModal) {
         return {
             open: function(options) {
-                var deferred = $q.defer();
+                var modalInstance = $uibModal.open(options);
+                return modalInstance.result;
+            },
+            confirmation: function(message, title) {
+                var options = {
+                    templateUrl: "application/common/templates/confirmationModalTemplate.html",
+                    controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                        $scope.message = message || 'No message';
+                        $scope.title = title || 'Confirmation';
 
-                ModalService.showModal(options)
-                    .then(function(modal) {
-                        modal.element.modal();
-                        modal.close.then(function(result) {
-                            deferred.resolve(result);
-                        });
-                    })
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss('cancel');
+                        }
 
-                return deferred.promise;
+                        $scope.accept = function() {
+                            $uibModalInstance.close(true);
+                        }
+                    }],
+                    size: 'sm'
+                }
+                return this.open(options)
             }
 
         }

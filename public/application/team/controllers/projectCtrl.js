@@ -1,9 +1,13 @@
 module.exports = function(app) {
-    app.controller('ProjectCtrl', ['$scope', 'repository', 'team',
+    app.controller('ProjectCtrl', ['$scope', '$uibModalInstance', 'repository', 'team',
 
-        function($scope, repository, team) {
+        function($scope, $uibModalInstance, repository, team) {
             $scope.team = team;
             $scope.newProjectTitle = '';
+
+            $scope.closeModal = function() {
+                $uibModalInstance.dismiss('cancel');
+            };
 
             $scope.addProject = function(team, title) {
                 $scope.newProjectTitle = '';
