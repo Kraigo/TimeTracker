@@ -20,7 +20,7 @@
         <tbody ng-repeat="(key, value) in tasks | toLocalDate: 'date' | groupBy: 'localDate'">
             <tr ng-repeat="task in value">
                 <td ng-bind="($index === 0) ? task.localDate : '' "></td>
-                <td ng-bind="(projects | filter: {_id: task.project._id})[0].title"></td>
+                <td ng-bind="(projects | filter: {_id: task.project})[0].title"></td>
                 <td ng-bind="task.description"></td>
                 <td ng-bind="task.time | secondsToDateTime | date:'HH:mm:ss'"></td>
             </tr>

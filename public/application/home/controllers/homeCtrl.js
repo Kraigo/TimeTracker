@@ -23,6 +23,9 @@ module.exports = function(app) {
                     $scope.currentTask = null;
                     task.stop();
                 } else {
+                    if ($scope.currentTask) {
+                        $scope.currentTask.stop();
+                    }
                     $scope.currentTask = task;
                     task.start();
                 }
@@ -58,9 +61,11 @@ module.exports = function(app) {
                     })
                 });
 
-                repository.getActiveTask().then(function(response) {
-                    // debugger;
-                })
+                // repository.getActiveTask().then(function(response) {
+                //     if (response.data) {
+                //         $scope.currentTask = new Task(response.data);
+                //     }
+                // })
             }
 
 
@@ -88,9 +93,9 @@ module.exports = function(app) {
                 });
             }
 
-            $scope.removeTask = function(task, collection, index) {
+            $scope.removeTask = function(task, collection) {
                 repository.removeTask(task).then(function() {
-                    collection.splice(index, 1);
+                    collection.splice(collection.indexOf(task), 1);
                 })
             }
 

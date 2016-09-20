@@ -13,10 +13,8 @@ module.exports = function(app) {
                 })
             });
 
-            repository.getTeams().then(function(response) {
-                $scope.projects = response.data.reduce(function(projects, team) {
-                    return projects.concat(team.projects);
-                }, [])
+            repository.getProjects().then(function(response) {
+                $scope.projects = response.data;
             });
 
         }
