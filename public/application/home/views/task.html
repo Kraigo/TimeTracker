@@ -1,7 +1,7 @@
 <div class="flex-table">
     <div class="flex-row" ng-repeat="task in currentDay.tasks track by $index">
         <div class="flex-cell flex-cell_nogrow">
-            <button class="btn btn-default btn-delete btn-sm" ng-click="removeTask(task, currentDay.tasks, $index)">
+            <button class="btn btn-default btn-delete btn-sm" ng-click="removeTask(task, currentDay.tasks)">
                     <i class="glyphicon glyphicon-trash"></i>
                 </button>
         </div>
@@ -14,7 +14,7 @@
         </div>
         <div class="flex-cell" style="flex-basis: 140px">
             <div class="input-group">
-                <input type="text" class="form-control input-sm" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" input-date ng-model-options="{updateOn: 'blur'}"/>
+                <input type="text" class="form-control input-sm" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" input-date ng-model-options="{updateOn: 'blur'}" />
 
                 <span class="input-group-btn">
                         <button class="btn btn-secondary btn-sm" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">

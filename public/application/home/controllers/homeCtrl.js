@@ -9,7 +9,7 @@ module.exports = function(app) {
             $scope.startWeek = moment($scope.today).startOf('isoweek').toDate();
 
             $scope.currentDay = null;
-
+            $scope.currentTask = null;
 
             $scope.week = [];
             $scope.projects = [];
@@ -20,17 +20,21 @@ module.exports = function(app) {
 
             $scope.trackTask = function(task) {
                 if (task.isTracking) {
+                    $scope.currentTask = null;
                     task.stop();
                 } else {
+                    $scope.currentTask = task;
                     task.start();
                 }
-                $scope.taskChanged(task);
+                $scope.updateTask(task);
             }
 
 
             $scope.getTasks = function() {
                 repository.getTasks($scope.startWeek).then(function(response) {
-                    response.data.forEach(function(task) {
+                    response.data.forEach(function(_task) {
+
+                        var task = new Task(_task);
 
                         for (var i = 0, day; i < $scope.week.length; i++) {
                             day = $scope.week[i];
@@ -39,9 +43,12 @@ module.exports = function(app) {
                             var taskDate = moment(task.date).startOf('day');
 
                             if (dayDate.isSame(taskDate)) {
-                                day.tasks.push(new Task(task));
-                                return;
+                                day.tasks.push(task);
+                                break;
                             }
+                        }
+                        if (task.isTracking) {
+                            $scope.currentTask = task;
                         }
                         return;
                     });
@@ -50,13 +57,15 @@ module.exports = function(app) {
                         day.tasks.push(new Task({ date: day.date }))
                     })
                 });
+
+                repository.getActiveTask().then(function(response) {
+                    // debugger;
+                })
             }
 
 
-            repository.getTeams().then(function(response) {
-                $scope.projects = response.data.reduce(function(projects, team) {
-                    return projects.concat(team.projects);
-                }, [])
+            repository.getProjects().then(function(response) {
+                $scope.projects = response.data;
             });
 
             $scope.taskChanged = function(task) {
@@ -67,7 +76,16 @@ module.exports = function(app) {
                             task._id = response.data._id;
                         }
                     });
+                    $scope.updateTask(task);
                 }, 800);
+            }
+
+            $scope.updateTask = function(task) {
+                repository.saveTask(task).then(function(response) {
+                    if (response.data._id) {
+                        task._id = response.data._id;
+                    }
+                });
             }
 
             $scope.removeTask = function(task, collection, index) {

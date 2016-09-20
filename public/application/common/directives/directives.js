@@ -28,7 +28,7 @@ module.exports = function(app) {
                     } else {
                         hours = parseInt(inputValue);
                     }
-                    
+
                     if (minutes.length === 1) {
                         minutes = minutes + '0';
                     }
@@ -72,6 +72,14 @@ module.exports = function(app) {
             restrict: 'E',
             replace: true,
             templateUrl: './application/home/views/task.html'
+        }
+    })
+
+    app.directive('tasksFooter', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: './application/home/views/footer.html'
         }
     })
 
