@@ -31,6 +31,7 @@ module.exports = function(app) {
                 stop: function() {
                     $interval.cancel(this.timer);
                     this.update();
+                    this.time -= this.time % 60000;
                     this.lastTrack = null;
                     this.isTracking = false;
                 },
