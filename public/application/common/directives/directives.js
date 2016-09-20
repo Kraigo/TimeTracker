@@ -28,6 +28,7 @@ module.exports = function(app) {
                     } else {
                         hours = parseInt(inputValue);
                     }
+                    
                     if (minutes.length === 1) {
                         minutes = minutes + '0';
                     }

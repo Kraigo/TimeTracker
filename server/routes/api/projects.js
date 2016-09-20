@@ -4,6 +4,16 @@ var appRoot = require('app-root-path');
 var Team = require(appRoot + '/server/models/Team');
 var Task = require(appRoot + '/server/models/Task');
 
+router.get('/projects', function(req, res) {
+    Team.find({ users: req.session.passport.user },
+        function(err, teams) {
+            var projects = teams.reduce(function(result, team) {
+                return result.concat(team.projects);
+            }, [])
+            res.send(projects);
+        })
+});
+
 router.post('/projects', function(req, res) {
     var data = {
         title: req.body.title

@@ -20,6 +20,16 @@ router.get('/tasks', function(req, res) {
     });
 });
 
+router.get('/tasks/active', function(req, res) {
+    var condition = {
+        'user': req.session.passport.user,
+        'isTracking': true
+    }
+    Task.findOne(condition, function(err, task) {
+        res.send(task);
+    });
+});
+
 router.post('/tasks', function(req, res) {
     var data = req.body;
     data.user = req.session.passport.user;

@@ -18,6 +18,9 @@ module.exports = function(app) {
                 }
                 return $http.get(baseUrl + '/tasks', config);
             },
+            getActiveTask: function() {
+                return $http.get(baseUrl + '/tasks/active');
+            },
             saveTask: function(task) {
 
                 var data = {
@@ -50,6 +53,9 @@ module.exports = function(app) {
             },
 
             // PROJECT //
+            getProjects: function() {
+                return $http.get(baseUrl + '/projects');
+            },
             addProject: function(teamId, title) {
                 var data = {
                     team: teamId,
