@@ -46,6 +46,7 @@
                 <div class="flex-cell" style="flex-basis: 140px">
                     <div class="input-group">
                         <!--input-date ng-model-options="{updateOn: 'blur'}"-->
+                        <!--[inputDate]-->
                         <input type="text" class="form-control input-sm" [(ngModel)]="task.time" [disabled]="task.isTracking" (ngModelChange)="taskChanged(task)" />
 
                         <span class="input-group-btn">

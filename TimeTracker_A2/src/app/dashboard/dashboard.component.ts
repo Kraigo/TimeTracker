@@ -5,7 +5,7 @@ import { Task, Day, Project } from '../shared';
 import * as moment from 'moment';
 
 @Component({
-	selector: 'toh-dashboard',
+	selector: 'tt-dashboard',
 	templateUrl: './dashboard.component.html'
 })
 
@@ -88,9 +88,9 @@ export class DashboardComponent implements OnInit {
 
 	trackTask(task: Task): void {
 		if (task.isTracking) {
-			// task.stop();
+			task.stop();
 		} else {
-			// task.start();
+			task.start();
 		}
 		this.taskChanged(task);
 	}
