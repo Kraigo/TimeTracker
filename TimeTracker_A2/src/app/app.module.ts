@@ -9,7 +9,12 @@ import { LoginComponent } from './login';
 import { ProfileComponent } from './profile';
 import { ReportComponent } from './report';
 
+
+import { RepositoryService } from './shared';
+
 import { routing } from './app.routing';
+
+import { SecondsToDatetimePipe  } from './dashboard/seconds-to-datetime.pipe';
 
 @NgModule({
     imports: [
@@ -26,9 +31,11 @@ import { routing } from './app.routing';
         ReportComponent,
         
         ExpandFocus,
-        InputDate
+        InputDate,
+        SecondsToDatetimePipe
     ],
     providers: [
+        RepositoryService
     ],
     bootstrap: [AppComponent]
 })

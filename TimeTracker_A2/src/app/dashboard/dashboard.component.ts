@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Task, Day, Project } from '../shared';
+import { RepositoryService } from '../shared';
 import * as moment from 'moment';
 
 @Component({
 	selector: 'tt-dashboard',
-	templateUrl: './dashboard.component.html'
+	templateUrl: './dashboard.component.html',
+	providers: [RepositoryService]
 })
 
 export class DashboardComponent implements OnInit {
@@ -16,16 +18,17 @@ export class DashboardComponent implements OnInit {
 	currentDay: Day;
 
 	projects: Project[] = [];
+	changeTimer: NodeJS.Timer;
 
 	constructor(
-		private router: Router
+		private router: Router,
+		private repository: RepositoryService
 	) { }
 
 	ngOnInit(): void {
 		this.fillWeek();
 		this.getTasks();
-		this.projects.push({_id: '1', title: 'Project 1'});
-		this.projects.push({_id: '2', title: 'Project 2'});
+		this.getProjects();
 	}
 
 	selectDay(day: Day): void {
@@ -52,37 +55,38 @@ export class DashboardComponent implements OnInit {
 	}
 
 	getTasks(): void {
-		// repository.getTasks($scope.startWeek).then(function(response) {
-		//     response.data.forEach(function(task) {
+		this.repository
+			.getTasks(this.startWeek)
+			.subscribe(response => {
+				response.forEach(task => {
 
-		//         for (var i = 0, day; i < $scope.week.length; i++) {
-		//             day = $scope.week[i];
+					for (var i = 0, day; i < this.week.length; i++) {
+						day = this.week[i];
 
-		//             var dayDate = moment(day.date).startOf('day');
-		//             var taskDate = moment(task.date).startOf('day');
+						var dayDate = moment(day.date).startOf('day');
+						var taskDate = moment(task.date).startOf('day');
 
-		//             if (dayDate.isSame(taskDate)) {
-		//                 day.tasks.push(new Task(task));
-		//                 return;
-		//             }
-		//         }
-		//         return;
-		//     });
+						if (dayDate.isSame(taskDate)) {
+							day.tasks.push(task);
+						}
+					}
 
-		    this.week.forEach(function(day) {
-		        day.tasks.push(new Task())
-		    })
-		// });
+				});
+
+				this.week.forEach(function(day: Day) {
+					day.tasks.push(new Task(day.date))
+				})
+			});
 	}
 
 	addTask(day: Day): void {
-		day.tasks.push(new Task());
+		day.tasks.push(new Task(day.date));
 	}
 
-	removeTask(task: Task): void {
-		// repository.removeTask(task).then(function() {
-		//     collection.splice(index, 1);
-		// })
+	removeTask(task: Task, day: Day): void {
+		this.repository.removeTask(task).subscribe( () => {
+		    day.tasks.splice(day.tasks.indexOf(task), 1);
+		})
 		this.currentDay.tasks.splice(this.currentDay.tasks.indexOf(task), 1);
 	}
 
@@ -96,13 +100,16 @@ export class DashboardComponent implements OnInit {
 	}
 
 	taskChanged(task: Task): void {
-		// $timeout.cancel(changeTimer);
-		// changeTimer = $timeout(function() {
-		//     repository.saveTask(task).then(function(response) {
-		//         if (response.data._id) {
-		//             task._id = response.data._id;
-		//         }
-		//     });
+		this.repository.saveTask(task)
+			.subscribe(res => {
+				if (res._id) {
+					task._id = res._id
+				}
+			})
+
+
+		// clearTimeout(this.changeTimer);
+		// this.changeTimer = setTimeout(function() {
 		// }, 800);
 	}
 
@@ -112,5 +119,10 @@ export class DashboardComponent implements OnInit {
 		this.fillWeek();
 		this.getTasks();
 		this.selectDay(this.week[selectedDayIndex]);
+	}
+
+	getProjects(): void {
+		this.repository.getProjects()
+			.subscribe(projects => this.projects = projects);
 	}
 }

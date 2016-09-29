@@ -1,12 +1,16 @@
 import {debug} from 'util';
 export class Task {
+    _id: string;
     userId: string;
-    date: Date;
     time: number = 0;
     description: string;
     lastTrack: Date;
     isTracking: boolean = false;
     timer;
+
+    constructor (
+        public date?: Date
+    ) {}
 
     start(): void {
         var self = this;

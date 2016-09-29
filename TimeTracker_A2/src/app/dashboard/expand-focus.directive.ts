@@ -1,6 +1,9 @@
 import { Directive, ElementRef, HostListener, Input, Renderer } from '@angular/core';
 
-@Directive({ selector: '[expandFocus]' })
+@Directive({
+    selector: '[expandFocus]'
+})
+
 export class ExpandFocus {
     constructor(private el: ElementRef, private renderer: Renderer) {
         this.expand(1);

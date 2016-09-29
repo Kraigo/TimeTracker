@@ -8,5 +8,7 @@ import '@angular/router';
 
 // RxJS
 import 'rxjs';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 import * as moment from 'moment';

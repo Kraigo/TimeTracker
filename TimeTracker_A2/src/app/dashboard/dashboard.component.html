@@ -5,8 +5,8 @@
 
     <nav>
         <ul class="pager">
-            <li class="previous"><a href (click)="changeWeek(-1)"><span>&larr;</span> Older</a></li>
-            <li class="next"><a href (click)="changeWeek(1)">Newer <span>&rarr;</span></a></li>
+            <li class="previous"><a (click)="changeWeek(-1)"><span>&larr;</span> Older</a></li>
+            <li class="next"><a (click)="changeWeek(1)">Newer <span>&rarr;</span></a></li>
         </ul>
     </nav>
 
@@ -21,14 +21,14 @@
     <div class="panel" [class.panel-primary]="currentDay.isToday" [class.panel-default]="!currentDay.isToday">
         <div class="panel-heading">
             {{currentDay.date | date : 'MMMM d, yyyy'}}
-            <!--<span class="pull-right">Total: {{currentDay.tasks | tasksTime | secondsToDateTime | date:'HH:mm:ss'}}</span>-->
+            <span class="pull-right">Total: {{currentDay.tasksTime() | secondsToDatetime | date:'HH:mm:ss'}}</span>
         </div>
         <!--<tasks-table day="currentDay"></tasks-table>-->
 
         <div class="flex-table">
             <div class="flex-row" *ngFor="let task of currentDay.tasks">
                 <div class="flex-cell flex-cell_nogrow">
-                    <button class="btn btn-default btn-delete btn-sm" (click)="removeTask(task)">
+                    <button class="btn btn-default btn-delete btn-sm" (click)="removeTask(task, day)">
                         <i class="glyphicon glyphicon-trash"></i>
                     </button>
                 </div>
