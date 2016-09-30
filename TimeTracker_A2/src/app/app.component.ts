@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef  } from '@angular/core';
 
 @Component({
     selector: 'tt-app',
@@ -6,4 +6,10 @@ import { Component } from '@angular/core';
     providers: [ ]
 })
 
-export class AppComponent  { }
+export class AppComponent  {
+    private viewContainerRef: ViewContainerRef;
+
+    public constructor(viewContainerRef:ViewContainerRef) {
+        this.viewContainerRef = viewContainerRef;
+    }
+}

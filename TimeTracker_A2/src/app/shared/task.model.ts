@@ -32,12 +32,12 @@ export class Task {
     }
 
     update(): void {        
-        if (this.lastTrack instanceof Date === false) {
-            this.lastTrack = new Date(this.lastTrack);
-        }
+        // if (this.lastTrack instanceof Date === false) {
+            // this.lastTrack = new Date(this.lastTrack);
+        // }
         var now: Date = new Date();
         var trackTime: number = now.getTime() - this.lastTrack.getTime();
         this.lastTrack = now;
-        this.time = parseInt(this.time) + parseInt(trackTime);
+        this.time = Math.floor(this.time) + Math.floor(trackTime);
     }
 }

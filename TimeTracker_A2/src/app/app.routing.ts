@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard';
 import { LoginComponent } from './login';
 import { ProfileComponent } from './profile';
 import { ReportComponent } from './report';
+import { TeamComponent } from './team';
 
 const appRoutes: Routes = [
     {
@@ -22,6 +23,10 @@ const appRoutes: Routes = [
     {
         path: 'report',
         component: ReportComponent
+    },
+    {
+        path: 'team',
+        component: TeamComponent
     },
     {
         path: '',

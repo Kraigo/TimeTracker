@@ -68,7 +68,7 @@ export class RepositoryService {
     getTeams(): Observable<Team[]> {
         return this.http
             .get(this.teamsUrl)
-            .map((r: Response) => r.json() as Project[]);
+            .map((r: Response) => r.json() as Team[]);
     }
 
     addTeam(title: string): Observable<Team> {
