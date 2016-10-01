@@ -21,7 +21,7 @@
     <div class="panel" [class.panel-primary]="currentDay.isToday" [class.panel-default]="!currentDay.isToday">
         <div class="panel-heading">
             {{currentDay.date | date : 'MMMM d, yyyy'}}
-            <span class="pull-right">Total: {{currentDay.tasksTime() | secondsToDatetime | date:'HH:mm:ss'}}</span>
+            <span class="pull-right">Total: {{currentDay.tasksTime() | timeToDate | date:'HH:mm:ss'}}</span>
         </div>
         <!--<tasks-table day="currentDay"></tasks-table>-->
 

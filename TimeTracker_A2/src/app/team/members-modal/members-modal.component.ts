@@ -1,29 +1,38 @@
-import { Component, OnInit, Input, Output, ElementRef, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, ElementRef, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
+
+import { Team, Project, RepositoryService } from '../../shared';
 
 @Component({
 	selector: 'tt-members-modal',
 	templateUrl: './members-modal.component.html',
-    exportAs: 'membersModal'
+    exportAs: 'modal'
 })
 
 export class MembersModalComponent implements AfterViewInit {
-    // ngOnInit() {
-        
-    // }
 
-    // public set config(conf:ModalOptions) {
-    //     this._config = this.getConfig(conf);
-    // };
+    @ViewChild('modal') public modal: ModalDirective;
 
-    @Input() title:string;
-    @Output() public onShow:EventEmitter<any> = new EventEmitter();
-    @Output() public onShown:EventEmitter<any> = new EventEmitter();
-    @Output() public onHide:EventEmitter<any> = new EventEmitter();
-    @Output() public onHidden:EventEmitter<any> = new EventEmitter();
+    @Input() team: Team;
 
-    ngAfterViewInit() {
+    ngAfterViewInit() { }
 
+    constructor(
+        public repository: RepositoryService
+    ) {}
+
+    show(){
+        this.modal.show(); 
+    }
+
+    addMember(team: Team, email: string) {
+        this.repository
+            .addInvitation(team, email)
+            .subscribe(invitation => this.team.invitations.push(invitation))
+
+    }
+
+    removeMember(project: Project, team: Team) {
     }
 
 }

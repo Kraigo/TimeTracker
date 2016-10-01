@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { Task } from './task.model';
@@ -35,9 +35,11 @@ export class RepositoryService {
             .map((r: Response) => r.json() as User);
     }
 
-    getTasks(weekStart: Date): Observable<Task[]> {
+    getTasks(weekStart?: Date): Observable<Task[]> {
+        var params = { weekStart: weekStart };
+
         return this.http
-            .get(this.tasksUrl + `?weekStart=${weekStart.toJSON()}`)
+            .get(this.tasksUrl, params)
             .map((r: Response) => r.json() as Task[]);
     }
 
@@ -120,10 +122,10 @@ export class RepositoryService {
             .map((r: Response) => r.json() as Invitation);
     }
     
-    acceptInvitation(invitation: Invitation): Observable<string> {
+    acceptInvitation(invitation: Invitation): Observable<Team> {
         let body = {id: invitation._id}
         return this.http
             .put(this.invitationsUrl + '/accept', body)
-            .map((r: Response) => r.text());
+            .map((r: Response) => r.json() as Team);
     }
 }

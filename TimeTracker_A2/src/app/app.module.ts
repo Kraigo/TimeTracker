@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 /* Custom */
-import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { Ng2BootstrapModule, ModalModule, DropdownModule  } from 'ng2-bootstrap/ng2-bootstrap';
 
 /* App */
 import { AppComponent }   from './app.component';
@@ -11,15 +11,12 @@ import { DashboardComponent, ExpandFocus, InputDate } from './dashboard';
 import { LoginComponent } from './login';
 import { ProfileComponent } from './profile';
 import { ReportComponent } from './report';
-import { TeamComponent } from './team';
-import { MembersModalComponent } from './team/members-modal/members-modal.component';
+import { TeamComponent, MembersModalComponent, ProjectsModalComponent } from './team';
 
 
-import { RepositoryService } from './shared';
+import { RepositoryService, TimeToDatePipe, TaskProjectPipe } from './shared';
 
 import { routing } from './app.routing';
-
-import { SecondsToDatetimePipe  } from './dashboard/seconds-to-datetime.pipe';
 
 @NgModule({
     imports: [
@@ -27,7 +24,10 @@ import { SecondsToDatetimePipe  } from './dashboard/seconds-to-datetime.pipe';
         FormsModule,
         HttpModule,
         routing,
-        ModalModule
+
+        Ng2BootstrapModule,
+        ModalModule,
+        DropdownModule
     ],
     declarations: [
         AppComponent,
@@ -37,10 +37,14 @@ import { SecondsToDatetimePipe  } from './dashboard/seconds-to-datetime.pipe';
         ReportComponent,
         TeamComponent,
         MembersModalComponent,
+        ProjectsModalComponent,
         
         ExpandFocus,
         InputDate,
-        SecondsToDatetimePipe
+
+        // Pipe
+        TimeToDatePipe,
+        TaskProjectPipe
     ],
     providers: [
         RepositoryService

@@ -1,4 +1,3 @@
-import {debug} from 'util';
 export class Task {
     _id: string;
     userId: string;
@@ -6,6 +5,7 @@ export class Task {
     description: string;
     lastTrack: Date;
     isTracking: boolean = false;
+    project: string
     timer;
 
     constructor (

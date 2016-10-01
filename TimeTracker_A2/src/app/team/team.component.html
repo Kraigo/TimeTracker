@@ -14,7 +14,7 @@
 
 
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="New Team Title" [(ngModel)]="newTeam.title">
+        <input type="text" class="form-control" placeholder="New Team Title" [(ngModel)]="newTeamTitle">
         <span class="input-group-btn">
             <button class="btn btn-default" type="button" (click)="addTeam()">Add Team</button>
         </span>
@@ -56,4 +56,5 @@
     </div>
 </div>
 
-<tt-members-modal #c="membersModal"></tt-members-modal>
+<tt-members-modal #membersModal="modal" [team]="selectedTeam"></tt-members-modal>
+<tt-projects-modal #projectsModal="modal" [team]="selectedTeam"></tt-projects-modal>

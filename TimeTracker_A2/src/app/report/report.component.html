@@ -28,9 +28,31 @@
         <tbody>
             <tr>
                 <td colspan="3" align="right">Total:</td>
-                <td><b ng-bind="tasks | tasksTime | secondsToDateTime | date:'HH:mm:ss'"></b></td>
+                <td><b ng-bind="tasks | tasksTime | timeToDate | date:'HH:mm:ss'"></b></td>
             </tr>
         </tbody>-->
+
+
+        <tbody>
+            <tr *ngFor="let task of tasks">
+                <td>
+                    {{task.date | date : 'short'}}
+                </td>
+                <td>
+                    {{(projects | taskProject : task) ? (projects | taskProject : task).title : null}}
+                </td>
+                <td>
+                    {{task.description}}
+                </td>
+                <td>{{task.time | timeToDate | date:'HH:mm:ss'}}</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td colspan="3" align="right">Total:</td>
+                <!--<td><b ng-bind="tasks | tasksTime | timeToDate | date:'HH:mm:ss'"></b></td>-->
+            </tr>
+        </tbody>
     </table>
 
 
