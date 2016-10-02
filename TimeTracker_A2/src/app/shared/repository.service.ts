@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs';
 
-import { Task } from './task.model';
-import { User } from './user.model';
-import { Project } from './project.model';
-import { Team } from './team.model';
-import { Invitation } from './invitation.model';
+import { Task } from './models/task.model';
+import { User } from './models/user.model';
+import { Project } from './models/project.model';
+import { Team } from './models/team.model';
+import { Invitation } from './models/invitation.model';
 
 @Injectable()
 

@@ -29,6 +29,18 @@ export class DashboardComponent implements OnInit {
 		this.fillWeek();
 		this.getTasks();
 		this.getProjects();
+
+		let tasks: Task[] = [];
+		tasks.push({
+			_id: 'asd',
+			date: new Date(),
+			description: 'f',
+			isTracking: true,
+			lastTrack: null,
+			project: 'asd',
+			time: 0,
+			user: '123'
+		})
 	}
 
 	selectDay(day: Day): void {
@@ -57,8 +69,8 @@ export class DashboardComponent implements OnInit {
 	getTasks(): void {
 		this.repository
 			.getTasks(this.startWeek)
-			.subscribe(response => {
-				response.forEach(task => {
+			.subscribe(tasks => {
+				tasks.forEach(task => {
 
 					for (var i = 0, day; i < this.week.length; i++) {
 						day = this.week[i];

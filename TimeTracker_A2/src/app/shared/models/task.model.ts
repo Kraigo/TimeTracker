@@ -1,16 +1,18 @@
 export class Task {
     _id: string;
-    userId: string;
+    user: string;
     time: number = 0;
     description: string;
     lastTrack: Date;
     isTracking: boolean = false;
-    project: string
-    timer;
+    project: string;
+    date: Date;
 
     constructor (
-        public date?: Date
-    ) {}
+        date?: Date
+    ) {
+        this.date = date;
+    }
 
     start(): void {
         var self = this;
