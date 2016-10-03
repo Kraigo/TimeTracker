@@ -1,0 +1,56 @@
+<div class="container">
+
+    <div class="page-header">
+        <h2>Teams</h2>
+    </div>
+
+    <div class="alert alert-info" role="alert" ng-repeat="invitation in invitations">
+        You has been invited to team <b ng-bind="invitation.team"></b>
+        <div class="pull-right" style="margin-top: -6px">
+            <button class="btn btn-default btn-xs" ng-click="acceptInvitation(invitation)">Accept</button>
+            <button class="btn btn-danger btn-xs" ng-click="refuseInvitation(invitation)">Refuse</button>
+        </div>
+    </div>
+
+
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="New Team Title" ng-model="newTeam.title">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="addTeam()">Add Team</button>
+        </span>
+    </div>
+    <br>
+
+    <div class="panel panel-default" ng-repeat="team in teams">
+        <div class="panel-heading">
+            Team: <b ng-bind="team.title"></b>
+            <span class="pull-right label label-info" ng-if="team.isOwner">Owner</span>
+        </div>
+        <div class="panel-body" ng-if="team.isOwner">
+            <button class="btn btn-primary btn-xs" ng-click="openProjects(team)">Projects</button>
+            <button class="btn btn-primary btn-xs" ng-click="openMembers(team)">Members</button>
+            <button class="btn btn-danger btn-xs" ng-click="removeTeam(team)">Remove</button>
+        </div>
+
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <td>
+                        Projects Count
+                    </td>
+                    <td>
+                        <span ng-bind="team.projects.length"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Members Count
+                    </td>
+                    <td>
+                        <span ng-bind="team.users.length"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>

@@ -1,0 +1,33 @@
+<div class="flex-table">
+    <div class="flex-row" ng-repeat="task in currentDay.tasks track by $index">
+        <div class="flex-cell flex-cell_nogrow">
+            <button class="btn btn-default btn-delete btn-sm" ng-click="removeTask(task, currentDay.tasks)">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </button>
+        </div>
+        <div class="flex-cell" style="flex-basis: 200px">
+            <select class="form-control input-sm" ng-model="task.project" ng-options="project._id as project.title for project in projects" ng-change="taskChanged(task)">
+                </select>
+        </div>
+        <div class="flex-cell flex-cell_wrap flex-cell_grow">
+            <textarea expand-focus type="text" class="form-control input-sm noresize" ng-model="task.description" ng-change="taskChanged(task)"></textarea>
+        </div>
+        <div class="flex-cell" style="flex-basis: 140px">
+            <div class="input-group">
+                <input type="text" class="form-control input-sm" ng-model="task.time" ng-disabled="task.isTracking" ng-change="taskChanged(task)" input-date ng-model-options="{updateOn: 'blur'}" />
+
+                <span class="input-group-btn">
+                        <button class="btn btn-secondary btn-sm" type="button" ng-click="trackTask(task)" ng-class="{'btn-warning': task.isTracking}">
+                            <i class="glyphicon glyphicon-time"></i>
+                        </button>
+                    </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-row">
+        <div class="flex-cell flex-cell_grow">
+            <button ng-click="addTask(currentDay)" class="btn btn-default btn-block">Add more</button>
+        </div>
+    </div>
+</div>

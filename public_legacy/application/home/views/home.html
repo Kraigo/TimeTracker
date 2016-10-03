@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Track your time</h1>
+    </div>
+
+    <nav>
+        <ul class="pager">
+            <li class="previous"><a href ng-click="changeWeek(-1)"><span>&larr;</span> Older</a></li>
+            <li class="next"><a href ng-click="changeWeek(1)">Newer <span>&rarr;</span></a></li>
+        </ul>
+    </nav>
+
+    <ul class="nav nav-tabs nav-justified">
+        <li ng-repeat="day in week" ng-click="selectDay(day)" ng-class="{active: day === currentDay, 'tab-primary': day.isToday}">
+            <a>
+                <b>{{ $index > 4 ? (day.date | date : 'EEE') : (day.date | date : 'EEEE')}}</b>, <small>{{day.date | date : 'MMM dd'}}</small>
+                <!--<span class="badge" ng-bind="day.tasks | tasksTime | secondsToDateTime | date:'HH:mm'"></span>-->
+            </a>
+        </li>
+    </ul>
+
+    <div class="panel" ng-class="currentDay.isToday ? 'panel-primary' : 'panel-default'">
+        <div class="panel-heading">
+            {{currentDay.date | date : 'MMMM d, yyyy'}}
+            <span class="pull-right">Total: {{currentDay.tasks | tasksTime | secondsToDateTime | date:'HH:mm:ss'}}</span>
+
+        </div>
+        <tasks-table day="currentDay"></tasks-table>
+    </div>
+</div>
+<tasks-footer></tasks-footer>
+
+</div>
