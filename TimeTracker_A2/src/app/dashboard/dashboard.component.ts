@@ -30,8 +30,7 @@ export class DashboardComponent implements OnInit {
 		this.getTasks();
 		this.getProjects();
 
-		let tasks: Task[] = [];
-		tasks.push({
+		new Task({
 			_id: 'asd',
 			date: new Date(),
 			description: 'f',
@@ -40,7 +39,7 @@ export class DashboardComponent implements OnInit {
 			project: 'asd',
 			time: 0,
 			user: '123'
-		})
+		});
 	}
 
 	selectDay(day: Day): void {
