@@ -1,3 +1,14 @@
+interface TaskOption {
+    _id?: string;
+    user?: string;
+    time?: number
+    description?: string;
+    lastTrack?: Date;
+    isTracking?: boolean;
+    project?: string;
+    date?: Date;
+}
+
 export class Task {
     _id: string;
     user: string;
@@ -10,9 +21,9 @@ export class Task {
     private timer;
 
     constructor (
-        date?: Date
+        options: TaskOption
     ) {
-        this.date = date;
+        Object.assign(this, {}, options)
     }
 
     start(): void {

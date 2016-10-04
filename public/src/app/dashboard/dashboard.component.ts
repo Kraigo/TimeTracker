@@ -85,13 +85,13 @@ export class DashboardComponent implements OnInit {
 				});
 
 				this.week.forEach(function(day: Day) {
-					day.tasks.push(new Task(day.date))
+					day.tasks.push(new Task({date: day.date}))
 				})
 			});
 	}
 
 	addTask(day: Day): void {
-		day.tasks.push(new Task(day.date));
+		day.tasks.push(new Task({date: day.date}));
 	}
 
 	removeTask(task: Task, day: Day): void {
