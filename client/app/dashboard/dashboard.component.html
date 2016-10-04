@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="page-header">
+        <h2>Track your time</h2>
+    </div>
+
+    <nav>
+        <ul class="pager">
+            <li class="previous"><a (click)="changeWeek(-1)"><span>&larr;</span> Older</a></li>
+            <li class="next"><a (click)="changeWeek(1)">Newer <span>&rarr;</span></a></li>
+        </ul>
+    </nav>
+
+    <ul class="nav nav-tabs nav-justified">
+        <li *ngFor="let day of week; let i=index" (click)="selectDay(day)" [class.active]="day === currentDay" [class.tab-primary]="day.isToday">
+            <a>
+                <b>{{ i > 4 ? (day.date | date : 'EEE') : (day.date | date : 'EEEE')}}</b>, <small>{{day.date | date : 'MMM dd'}}</small>
+            </a>
+        </li>
+    </ul>
+
+    <div class="panel" [class.panel-primary]="currentDay.isToday" [class.panel-default]="!currentDay.isToday">
+        <div class="panel-heading">
+            {{currentDay.date | date : 'MMMM d, yyyy'}}
+            <span class="pull-right">Total: {{currentDay.tasks | tasksTime | timeToDate | date : 'HH:mm:ss'}}</span>
+        </div>
+        <!--<tasks-table day="currentDay"></tasks-table>-->
+
+        <div class="flex-table">
+            <div class="flex-row" *ngFor="let task of currentDay.tasks">
+                <div class="flex-cell flex-cell_nogrow">
+                    <button class="btn btn-default btn-delete btn-sm" (click)="removeTask(task, day)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </div>
+
+                <div class="flex-cell" style="flex-basis: 200px">
+                    <select class="form-control input-sm" [(ngModel)]="task.project" (ngModelChange)="taskChanged(task)">
+                        <option *ngFor="let project of projects" [ngValue]="project._id">{{project.title}}</option>
+                    </select>
+                </div>
+
+                <div class="flex-cell flex-cell_wrap flex-cell_grow">
+                    <textarea expandFocus type="text" class="form-control input-sm noresize" [(ngModel)]="task.description" (ngModelChange)="taskChanged(task)"></textarea>
+                </div>
+
+                <div class="flex-cell" style="flex-basis: 140px">
+                    <div class="input-group">
+                        <!--input-date ng-model-options="{updateOn: 'blur'}"-->
+                        <!--[inputDate]-->
+                        <input type="text" class="form-control input-sm" [(ngModel)]="task.time" [disabled]="task.isTracking" (ngModelChange)="taskChanged(task)" />
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary btn-sm" type="button" (click)="trackTask(task)" [class.btn-warning]="task.isTracking">
+                                <i class="glyphicon glyphicon-time"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex-row">
+                <div class="flex-cell flex-cell_grow">
+                    <button (click)="addTask(currentDay)" class="btn btn-default btn-block">Add more</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

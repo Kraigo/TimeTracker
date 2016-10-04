@@ -36,18 +36,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(favicon(__dirname + '/../public/favicon.ico'));
-app.use('/', express.static(__dirname + '/../public' + distFolder));
+app.use(favicon(__dirname + '/favicon.ico'));
 
-
+app.use('/', express.static(__dirname + '/../' + distFolder));
 
 app.use('/auth', require('./routes/auth'));
 
 app.use('/api', isLoggedIn, require('./routes/api'));
-
-app.get('/[^\.]+$', function(req, res, next) {
-    res.sendfile("index.html", { root: __dirname + '/../public/dist' });
-});
 
 app.listen(port, function() {
     console.log('Example app listening on port', port);
