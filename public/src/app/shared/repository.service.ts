@@ -11,7 +11,7 @@ import { Invitation } from './models/invitation.model';
 @Injectable()
 
 export class RepositoryService {
-    baseUrl: string = 'http://localhost:3000/api';
+    baseUrl: string = '/api';
     tasksUrl: string = this.baseUrl + '/tasks';
     projectsUrl: string = this.baseUrl + '/projects';
     teamsUrl: string = this.baseUrl + '/teams';
