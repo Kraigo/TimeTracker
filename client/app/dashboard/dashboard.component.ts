@@ -27,8 +27,8 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.fillWeek();
-		// this.getTasks();
-		// this.getProjects();
+		this.getTasks();
+		this.getProjects();
 
 		// new Task({
 		// 	_id: 'asd',

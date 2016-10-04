@@ -12,8 +12,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 // bootstrap
-// import 'ng2-bootstrap/ng2-bootstrap';
-// import 'ng2-bootstrap/components/dropdown';
+import 'ng2-bootstrap/ng2-bootstrap';
 
 import * as moment from 'moment';
 // import 'bootstrap/dist/css/bootstrap.css';

@@ -16,8 +16,6 @@ export class RepositoryService {
     projectsUrl: string = this.baseUrl + '/projects';
     teamsUrl: string = this.baseUrl + '/teams';
     invitationsUrl: string = this.baseUrl + '/invitations';
-    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-    options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http) { }
 
@@ -54,7 +52,7 @@ export class RepositoryService {
     saveTask(task: Task): Observable<Task> {
         return task._id
         ? this.http
-            .put(this.tasksUrl + `/${task._id}`, JSON.stringify(task), this.options)
+            .put(this.tasksUrl + `/${task._id}`, JSON.stringify(task))
             .map((r: Response) => r.json() as Task)
         : this.http
             .post(this.tasksUrl, JSON.stringify(task))

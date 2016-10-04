@@ -24,10 +24,10 @@ const appRoutes: Routes = [
         path: 'report',
         component: ReportComponent
     },
-    // {
-    //     path: 'team',
-    //     component: TeamComponent
-    // },
+    {
+        path: 'team',
+        component: TeamComponent
+    },
     {
         path: '',
         redirectTo: '/dashboard',
