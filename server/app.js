@@ -11,6 +11,8 @@ var favicon = require('serve-favicon');
 var port = process.env.PORT || 3000;
 var app = express();
 
+var distFolder = process.env.NODE_ENV === 'development' ? '/debug' : '/dist';
+
 mongoose.connect(process.env.MONGO_DB);
 mongoose.connection.on('error', console.error);
 
@@ -35,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(favicon(__dirname + '/../public/favicon.ico'));
-app.use('/', express.static(__dirname + '/../public/dist'));
+app.use('/', express.static(__dirname + '/../public' + distFolder));
 
 
 
@@ -52,13 +54,6 @@ app.listen(port, function() {
 });
 
 function isLoggedIn(req, res, next) {
-
-    req.session.passport = {
-        user: '57ce9a20da15ad743525a6f0'
-    }
-    next();
-    return;
-
     if (req.isAuthenticated())
         return next();
 
