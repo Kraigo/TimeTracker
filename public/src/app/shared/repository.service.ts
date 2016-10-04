@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptionsArgs } from '@angular/http';
+import { Http, Response, RequestOptionsArgs, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { Task } from './models/task.model';
@@ -16,6 +16,8 @@ export class RepositoryService {
     projectsUrl: string = this.baseUrl + '/projects';
     teamsUrl: string = this.baseUrl + '/teams';
     invitationsUrl: string = this.baseUrl + '/invitations';
+    headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+    options: RequestOptions = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http) { }
 
@@ -40,7 +42,7 @@ export class RepositoryService {
 
         return this.http
             .get(this.tasksUrl, params)
-            .map((r: Response) => r.json() as Task[]);
+            .map((r: Response) => r.json().map(task => new Task(task)));
     }
 
     getActiveTask(weekStart: Date): Observable<Task> {
@@ -49,13 +51,13 @@ export class RepositoryService {
             .map((r: Response) => r.json() as Task);
     }
 
-    saveTask(task: Task): Observable<Task> {        
+    saveTask(task: Task): Observable<Task> {
         return task._id
         ? this.http
-            .put(this.tasksUrl + `/${task._id}`, task)
+            .put(this.tasksUrl + `/${task._id}`, JSON.stringify(task), this.options)
             .map((r: Response) => r.json() as Task)
         : this.http
-            .post(this.tasksUrl, task)
+            .post(this.tasksUrl, JSON.stringify(task))
             .map((r: Response) => r.json().data as Task);
     }
 

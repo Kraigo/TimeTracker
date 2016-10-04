@@ -1,4 +1,4 @@
-interface TaskOption {
+interface TaskOptions {
     _id?: string;
     user?: string;
     time?: number
@@ -9,7 +9,7 @@ interface TaskOption {
     date?: Date;
 }
 
-export class Task {
+export class Task implements TaskOptions {
     _id: string;
     user: string;
     time: number = 0;
@@ -21,7 +21,7 @@ export class Task {
     private timer;
 
     constructor (
-        options: TaskOption
+        options: TaskOptions
     ) {
         Object.assign(this, {}, options)
     }

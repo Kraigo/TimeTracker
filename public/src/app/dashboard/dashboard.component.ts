@@ -70,7 +70,6 @@ export class DashboardComponent implements OnInit {
 			.getTasks(this.startWeek)
 			.subscribe(tasks => {
 				tasks.forEach(task => {
-
 					for (var i = 0, day; i < this.week.length; i++) {
 						day = this.week[i];
 
