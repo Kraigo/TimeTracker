@@ -47,7 +47,7 @@
                     <div class="input-group">
                         <!--input-date ng-model-options="{updateOn: 'blur'}"-->
                         <!--[inputDate]-->
-                        <input type="text" class="form-control input-sm" [(ngModel)]="task.time" [disabled]="task.isTracking" (ngModelChange)="taskChanged(task)" />
+                        <input type="text" class="form-control input-sm" [(ngModel)]="task.time" [disabled]="task.isTracking" (ngModelChange)="taskChanged(task)" inputDate />
 
                         <span class="input-group-btn">
                             <button class="btn btn-secondary btn-sm" type="button" (click)="trackTask(task)" [class.btn-warning]="task.isTracking">
@@ -56,6 +56,8 @@
                         </span>
                     </div>
                 </div>
+                
+                        {{task.time}}
 
             </div>
 
