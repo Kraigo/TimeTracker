@@ -106,21 +106,24 @@ export class DashboardComponent implements OnInit {
 		} else {
 			task.start();
 		}
-		this.taskChanged(task);
+		this.updateTask(task);
 	}
 
 	taskChanged(task: Task): void {
+		clearTimeout(this.changeTimer);
+		this.changeTimer = setTimeout(
+			() => this.updateTask(task),
+			800
+		);
+	}
+
+	updateTask(task:Task): void {
 		this.repository.saveTask(task)
 			.subscribe(res => {
 				if (res._id) {
 					task._id = res._id
 				}
 			})
-
-
-		// clearTimeout(this.changeTimer);
-		// this.changeTimer = setTimeout(function() {
-		// }, 800);
 	}
 
 	changeWeek(direction: number) {

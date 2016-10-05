@@ -19,13 +19,6 @@ export class RepositoryService {
 
     constructor(private http: Http) { }
 
-    // search(term: string): Observable<Hero[]> {
-    //     return this.http
-    //         .get(`app/heroes/?name=${term}`)
-    //         .map((r: Response) => r.json().data as Hero[])
-    //        .catch((error:any) => Observable.throw(error.text()));
-    // }
-
     // USER //
 
     getUser(): Observable<User> {
@@ -50,12 +43,20 @@ export class RepositoryService {
     }
 
     saveTask(task: Task): Observable<Task> {
+        var body = {
+            description: task.description,
+            project: task.project,
+            time: task.time,
+            date: task.date,
+            lastTrack: task.lastTrack,
+            isTracking: task.isTracking
+        }
         return task._id
         ? this.http
-            .put(this.tasksUrl + `/${task._id}`, JSON.stringify(task))
+            .put(this.tasksUrl + `/${task._id}`, body)
             .map((r: Response) => r.json() as Task)
         : this.http
-            .post(this.tasksUrl, JSON.stringify(task))
+            .post(this.tasksUrl, body)
             .map((r: Response) => r.json().data as Task);
     }
 
