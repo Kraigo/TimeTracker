@@ -9,7 +9,7 @@ import { Task } from '../models/task.model';
 export class TasksTimePipe implements PipeTransform {
   transform(tasks: Task[]): number {
         return tasks.map(function(item) {
-            return item.time;
+            return typeof item.time === 'number' ? item.time : null;
         }).reduce(function(sum, item) {
             return sum += Math.floor(item);
         }, 0);
