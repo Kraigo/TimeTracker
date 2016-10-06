@@ -21,7 +21,7 @@
     <div class="panel" [class.panel-primary]="currentDay.isToday" [class.panel-default]="!currentDay.isToday">
         <div class="panel-heading">
             {{currentDay.date | date : 'MMMM d, yyyy'}}
-            <span class="pull-right">Total: {{currentDay.tasks | tasksTime | timeToDate | date : 'HH:mm:ss'}}</span>
+            <span class="pull-right">Total: {{currentDay.tasks | tasksTime | date : 'HH:mm:ss Z'}}</span>
         </div>
         <!--<tasks-table day="currentDay"></tasks-table>-->
 
@@ -43,7 +43,7 @@
                     <textarea expandFocus type="text" class="form-control input-sm noresize" [(ngModel)]="task.description" (ngModelChange)="taskChanged(task)"></textarea>
                 </div>
 
-                <div class="flex-cell" style="flex-basis: 140px"> 
+                <div class="flex-cell" style="flex-basis: 140px">
                     <div class="input-group">
                         <input type="text" class="form-control input-sm" [(ngModel)]="task.time" [disabled]="task.isTracking" (ngModelChange)="taskChanged(task)" inputDate/>
 

@@ -36,13 +36,13 @@ export class InputDate implements OnInit {
     }
 
     viewToModel(inputValue: string) : number {
-        var newValue = 0;
-        var hours = 0;
-        var minutes = 0;
+        let newValue:any = 0;
+        let hours:any = 0;
+        let minutes:any = 0;
 
-        var matchByColon = inputValue.split(':');
-        var matchByDot = inputValue.split('.');
-        var matchBySpace = inputValue.split(' ');
+        let matchByColon = inputValue.split(':');
+        let matchByDot = inputValue.split('.');
+        let matchBySpace = inputValue.split(' ');
 
         if (matchByColon.length > 1) {
             hours = matchByColon[0];
@@ -50,7 +50,7 @@ export class InputDate implements OnInit {
         } else if (matchByDot.length > 1) {
             hours = matchByDot[0] || 0;
             minutes = matchByDot[1] || 0;
-            minutes = parseInt(60 * parseFloat('0.' + minutes));
+            minutes = Math.floor(60 * parseFloat('0.' + minutes));
         } else if (matchBySpace.length > 1) {
             hours = matchBySpace[0] || 0;
             minutes = matchBySpace[1] || 0;
@@ -71,8 +71,8 @@ export class InputDate implements OnInit {
     }
 
     modelToView(inputValue: number) {
-        var minutes = Math.floor(inputValue / 1000 / 60) % 60;
-        var hours = Math.floor(inputValue / 1000 / (60 * 60)) % 60;
+        var minutes: any = Math.floor(inputValue / 1000 / 60) % 60;
+        var hours: any = Math.floor(inputValue / 1000 / (60 * 60)) % 60;
 
         minutes = minutes.toString().length === 1 ? '0' + minutes : minutes;
         hours = hours.toString().length === 1 ? '0' + hours : hours;
