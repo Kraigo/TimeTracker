@@ -5,7 +5,7 @@ export class Day {
     date: Date;
     tasks: Task[] = [];
 
-    constructor (date: Date) {
+    constructor (date: Date = new Date()) {
         this.date = date;
     }
 

@@ -14,7 +14,7 @@ import * as moment from 'moment';
 export class DashboardComponent implements OnInit {
 	week: Day[] = [];
 	today: Date = moment().startOf('day').toDate();
-	startWeek: Date = moment(this.today).startOf('week').toDate();
+	startWeek: Date = moment(this.today).isoWeekday('Monday').toDate();
 	currentDay: Day;
 
 	projects: Project[] = [];
@@ -29,17 +29,6 @@ export class DashboardComponent implements OnInit {
 		this.fillWeek();
 		this.getTasks();
 		this.getProjects();
-
-		// new Task({
-		// 	_id: 'asd',
-		// 	date: new Date(),
-		// 	description: 'f',
-		// 	isTracking: true,
-		// 	lastTrack: null,
-		// 	project: 'asd',
-		// 	time: 0,
-		// 	user: '123'
-		// });
 	}
 
 	selectDay(day: Day): void {
@@ -128,7 +117,7 @@ export class DashboardComponent implements OnInit {
 
 	changeWeek(direction: number) {
 		var selectedDayIndex: number = this.week.indexOf(this.currentDay);
-		this.startWeek = moment(this.currentDay.date).add(direction, 'weeks').startOf('week').toDate();
+		this.startWeek = moment(this.currentDay.date).add(direction, 'weeks').isoWeekday('Monday').toDate();
 		this.fillWeek();
 		this.getTasks();
 		this.selectDay(this.week[selectedDayIndex]);
