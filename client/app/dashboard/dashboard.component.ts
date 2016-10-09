@@ -16,9 +16,10 @@ export class DashboardComponent implements OnInit {
 	today: Date = moment().startOf('day').toDate();
 	startWeek: Date = moment(this.today).isoWeekday('Monday').toDate();
 	currentDay: Day;
+	currentTask: Task;
 
 	projects: Project[] = [];
-	changeTimer: NodeJS.Timer;
+	changeTimer: any;
 
 	constructor(
 		private router: Router,
@@ -91,10 +92,15 @@ export class DashboardComponent implements OnInit {
 
 	trackTask(task: Task): void {
 		if (task.isTracking) {
-			task.stop();
-		} else {
-			task.start();
-		}
+			this.currentTask = null; 
+			task.stop();           
+        } else {
+            if (this.currentTask) {
+                this.currentTask.stop();
+            }
+            this.currentTask = task;
+            task.start();
+        }
 		this.updateTask(task);
 	}
 

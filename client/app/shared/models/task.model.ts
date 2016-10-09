@@ -23,7 +23,20 @@ export class Task implements TaskOptions {
     constructor (
         options: TaskOptions
     ) {
-        Object.assign(this, {}, options)
+        Object.assign(this, {}, options);
+
+        if (this.lastTrack) {
+            this.date = new Date(this.date);
+        }
+
+        if (this.lastTrack) {
+            this.lastTrack = new Date(this.lastTrack);
+        }
+        
+        if (this.isTracking) {
+            this.update();
+            this.start();
+        }
     }
 
     start(): void {

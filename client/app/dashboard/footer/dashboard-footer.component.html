@@ -1,0 +1,35 @@
+<footer class="footer navbar-fixed-bottom slide-top slide-top" *ngIf="task" style="background-color: whitesmoke; border-top: 1px solid #008cba;">
+    <div class="container">
+        <!--<h4>Current Tracking <button class="btn btn-default btn-xs">Go to task</button></h4>-->
+        <div class="flex-row">
+            <div class="flex-cell flex-cell_nogrow">
+                <button class="btn btn-default btn-delete btn-sm" (click)="removeTask(task, day)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+            </div>
+
+            <div class="flex-cell" style="flex-basis: 200px">
+                <select class="form-control input-sm" [(ngModel)]="task.project" (ngModelChange)="taskChanged(task)">
+                        <option *ngFor="let project of projects" [ngValue]="project._id">{{project.title}}</option>
+                    </select>
+            </div>
+
+            <div class="flex-cell flex-cell_wrap flex-cell_grow">
+                <textarea expandFocus type="text" class="form-control input-sm noresize" [(ngModel)]="task.description" (ngModelChange)="taskChanged(task)"></textarea>
+            </div>
+
+            <div class="flex-cell" style="flex-basis: 140px">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" [(ngModel)]="task.time" [disabled]="task.isTracking" (ngModelChange)="taskChanged(task)" inputDate/>
+
+                    <span class="input-group-btn">
+                            <button class="btn btn-secondary btn-sm" type="button" (click)="trackTask(task)" [class.btn-warning]="task.isTracking">
+                                <i class="glyphicon glyphicon-time"></i>
+                            </button>
+                        </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>

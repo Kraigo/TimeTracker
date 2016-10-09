@@ -1,4 +1,4 @@
-import { Directive, OnInit } from "@angular/core";
+import { Directive, OnInit, OnChanges, Input } from "@angular/core";
 import { NgModel } from '@angular/forms';
 
 @Directive({
@@ -10,21 +10,34 @@ import { NgModel } from '@angular/forms';
 })
 
 
-export class InputDate implements OnInit {
+export class InputDate implements OnInit, OnChanges {
 
     constructor(
         public control: NgModel
-    ) {    }
+    ) {
+        // control.ngOnChanges = function(val) {
+        //     console.log('changes',val);
+        //     return val
+        // }
+    }
+    @Input('ngModel') inputValue : NgModel;
 
     ngOnInit() {
-        let model = this.control.viewModel;
-        var view = this.modelToView(model);
-        setTimeout(() => this.control.valueAccessor.writeValue(view));
+        this.setViewValue();
     }
+    ngOnChanges() {
+        this.setViewValue();
+    }
+    
     onInputChange(value: string | string) {
         // if (!value || typeof value === 'number') return;
         // let model = this.viewToModel(value);
         // this.control.viewToModelUpdate(model)
+        if (typeof value === 'number') {
+            let model = this.control.viewModel;
+            var view = this.modelToView(model);
+            this.control.valueAccessor.writeValue(view);
+        }
     }
 
     onBlur() {
@@ -79,6 +92,12 @@ export class InputDate implements OnInit {
 
         var dateValue = hours + ':' + minutes;
         return dateValue;
+    }
+
+    setViewValue() {
+        let model = this.control.viewModel;
+        var view = this.modelToView(model);        
+        setTimeout(() => this.control.valueAccessor.writeValue(view));
     }
 
 }

@@ -8,7 +8,7 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 /* App */
 import { AppComponent }   from './app.component';
-import { DashboardComponent, ExpandFocus, InputDate } from './dashboard';
+import { DashboardComponent, DashboardFooterComponent, ExpandFocus, InputDate } from './dashboard';
 import { LoginComponent } from './login';
 import { ProfileComponent } from './profile';
 import { ReportComponent } from './report';
@@ -34,6 +34,7 @@ import { routing } from './app.routing';
     declarations: [
         AppComponent,
         DashboardComponent,
+        DashboardFooterComponent,
         LoginComponent,
         ProfileComponent,
         ReportComponent,
