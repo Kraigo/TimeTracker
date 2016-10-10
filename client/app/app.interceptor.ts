@@ -1,47 +1,48 @@
-// import { Injectable } from '@angular/core';
-// import { Http, Headers } from '@angular/http';
+import {window} from 'd:/Projects/TimeTracker/node_modules/rxjs/operator/window';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Http, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
-// @Injectable()
+@Injectable()
 
-// export class HttpClient {
-//     constructor(
-//         public http: Http
-//     ) { }   
+export class HttpClient {
+    constructor(
+        public http: Http,
+        private router: Router
+    ) { }   
 
-//     get(url, params) {
-//         let headers = new Headers();
-//         this.createAuthorizationHeader(headers);
-//         return this.http.get(url, {
-//             headers: headers
-//         });
-//     }
+    get(url, params?) {
+        return this.http.get(url, params)
+            .catch(error => this.handleError(error));
+    }
 
-//     post(url, data) {
-//         let headers = new Headers();
-//         this.createAuthorizationHeader(headers);
-//         return this.http.post(url, data, {
-//             headers: headers
-//         });
-//     }
+    post(url, body) {
+        return this.http.post(url, body)
+            .catch(error => this.handleError(error));
+    }
 
-//     put(url, data) {
-//         let headers = new Headers();
-//         this.createAuthorizationHeader(headers);
-//         return this.http.post(url, data, {
-//             headers: headers
-//         });
-//     }
+    put(url, body) {
+        return this.http.put(url, body)
+            .catch(error => this.handleError(error));
+    }
 
-//     delete(url, data) {
-//         let headers = new Headers();
-//         this.createAuthorizationHeader(headers);
-//         return this.http.post(url, data, {
-//             headers: headers
-//         });
-//     }
+    delete(url) {
+        return this.http.delete(url)
+            .catch(error => this.handleError(error));
+    }
 
-//      createAuthorizationHeader(headers: Headers) {
-//         headers.append('Authorization', 'Basic ' +
-//             btoa('username:password'));
-//     }
-// }
+    handleError(error: any) {
+        
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+
+        console.error(errMsg);
+
+        if (error.status > 400) {
+             this.router.navigateByUrl('/login');
+        }
+
+        return Observable.throw(errMsg);
+    }
+}

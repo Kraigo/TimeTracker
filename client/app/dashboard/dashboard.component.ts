@@ -1,3 +1,4 @@
+import {DateFormatter} from 'd:/Projects/TimeTracker/node_modules/ng2-bootstrap/components/datepicker/date-formatter';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -14,7 +15,7 @@ import * as moment from 'moment';
 export class DashboardComponent implements OnInit {
 	week: Day[] = [];
 	today: Date = moment().startOf('day').toDate();
-	startWeek: Date = moment(this.today).isoWeekday('Monday').toDate();
+	startWeek: Date;
 	currentDay: Day;
 	currentTask: Task;
 
@@ -27,8 +28,7 @@ export class DashboardComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.fillWeek();
-		this.getTasks();
+		this.viewToday();
 		this.getProjects();
 	}
 
@@ -132,5 +132,20 @@ export class DashboardComponent implements OnInit {
 	getProjects(): void {
 		this.repository.getProjects()
 			.subscribe(projects => this.projects = projects);
+	}
+
+	viewToday() {
+		let today = moment().startOf('day');
+		if (this.startWeek && today.isSame(this.startWeek, 'week')) {
+			this.week.forEach(day => {
+				if (today.isSame(day.date)) {
+					this.selectDay(day);
+				}
+			})
+		} else {
+			this.startWeek = moment(this.today).isoWeekday('Monday').toDate();
+			this.fillWeek();
+			this.getTasks();
+		}
 	}
 }

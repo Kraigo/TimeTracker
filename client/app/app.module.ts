@@ -7,6 +7,7 @@ import { ModalModule, DropdownModule  } from 'ng2-bootstrap';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 /* App */
+import { HttpClient } from './app.interceptor';
 import { AppComponent }   from './app.component';
 import { DashboardComponent, DashboardFooterComponent, ExpandFocus, InputDate } from './dashboard';
 import { LoginComponent } from './login';
@@ -51,7 +52,8 @@ import { routing } from './app.routing';
         TasksTimePipe
     ],
     providers: [
-        RepositoryService
+        RepositoryService,
+        HttpClient
     ],
     bootstrap: [AppComponent]
 })

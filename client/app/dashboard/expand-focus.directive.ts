@@ -1,3 +1,4 @@
+import {el} from 'd:/Projects/TimeTracker/node_modules/@angular/platform-browser/testing/browser_util';
 import { Directive, ElementRef, HostListener, Input, Renderer } from '@angular/core';
 
 @Directive({
@@ -7,6 +8,7 @@ import { Directive, ElementRef, HostListener, Input, Renderer } from '@angular/c
 export class ExpandFocus {
     constructor(private el: ElementRef, private renderer: Renderer) {
         this.expand(1);
+        el.nativeElement.classList.add('expand-focus');
     }
 
     @HostListener('focus') oFocus() {

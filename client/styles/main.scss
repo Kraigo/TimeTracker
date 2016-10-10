@@ -19,7 +19,7 @@ body {}
     resize: none;
 }
 
-textarea[expand-focus]:focus {
+textarea.expand-focus:focus {
     margin-bottom: -1.5em;
     z-index: 10;
     position: relative;
@@ -30,6 +30,9 @@ textarea[expand-focus]:focus {
 /* Tabs */
 
 .nav-tabs {
+    li:hover {
+        cursor: pointer;
+    }
     .tab-primary a {
         border-color: $primary-border-color;
         &:hover {
