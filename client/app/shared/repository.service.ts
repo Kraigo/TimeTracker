@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptionsArgs, Headers, RequestOptions } from '@angular/http';
+import { Http, Response, RequestOptionsArgs, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { Task } from './models/task.model';
@@ -31,11 +31,12 @@ export class RepositoryService {
     }
 
     getTasks(weekStart?: Date): Observable<Task[]> {
-        var params = { weekStart: weekStart };
+        let params = new URLSearchParams();
+        params.set('weekStart', weekStart.toISOString());
 
         return this.http
-            .get(this.tasksUrl, params)
-            .map((r: Response) => r.json().map(task => new Task(task)));
+            .get(this.tasksUrl, {search: params})
+            .map((r: Response) => r.json().map(task => new Task(task)))
     }
 
     getActiveTask(weekStart: Date): Observable<Task> {
