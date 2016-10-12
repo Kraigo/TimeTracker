@@ -62,6 +62,9 @@ export class Task implements TaskOptions {
         // if (this.lastTrack instanceof Date === false) {
             // this.lastTrack = new Date(this.lastTrack);
         // }
+
+        if (!this.lastTrack) return;
+        
         var now: Date = new Date();
         var trackTime: number = now.getTime() - this.lastTrack.getTime();
         this.lastTrack = now;

@@ -16,4 +16,3 @@ import 'ng2-bootstrap/ng2-bootstrap';
 
 import * as moment from 'moment';
 // import 'bootstrap/dist/css/bootstrap.css';
-import 'ng2-slim-loading-bar';

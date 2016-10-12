@@ -9,30 +9,19 @@ import { NgModel } from '@angular/forms';
     }
 })
 
-
-export class InputDate implements OnInit, OnChanges {
+export class InputDate implements OnInit {
 
     constructor(
         public control: NgModel
     ) {
-        // control.ngOnChanges = function(val) {
-        //     console.log('changes',val);
-        //     return val
-        // }
+        this.control.valueChanges.subscribe(val => this.onInputChange(val))
     }
-    @Input('ngModel') inputValue : NgModel;
 
     ngOnInit() {
         this.setViewValue();
     }
-    ngOnChanges() {
-        this.setViewValue();
-    }
     
-    onInputChange(value: string | string) {
-        // if (!value || typeof value === 'number') return;
-        // let model = this.viewToModel(value);
-        // this.control.viewToModelUpdate(model)
+    onInputChange(value: string) {
         if (typeof value === 'number') {
             let model = this.control.viewModel;
             var view = this.modelToView(model);
@@ -95,7 +84,7 @@ export class InputDate implements OnInit, OnChanges {
     }
 
     setViewValue() {
-        let model = this.control.viewModel;
+        let model = this.control.model;
         var view = this.modelToView(model);        
         setTimeout(() => this.control.valueAccessor.writeValue(view));
     }

@@ -4,7 +4,6 @@ import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 /* Custom */
 import { ModalModule, DropdownModule  } from 'ng2-bootstrap';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 /* App */
 import { HttpClient } from './app.interceptor';
@@ -26,8 +25,6 @@ import { routing } from './app.routing';
         FormsModule,
         HttpModule,
         routing,
-
-        SlimLoadingBarModule.forRoot(),
 
         ModalModule,
         DropdownModule

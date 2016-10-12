@@ -32,7 +32,7 @@ export class RepositoryService {
 
     getTasks(weekStart?: Date): Observable<Task[]> {
         let params = new URLSearchParams();
-        params.set('weekStart', weekStart.toISOString());
+        params.set('weekStart', weekStart ? weekStart.toISOString() : null);
 
         return this.http
             .get(this.tasksUrl, {search: params})
@@ -60,7 +60,7 @@ export class RepositoryService {
             .map((r: Response) => r.json() as Task)
         : this.http
             .post(this.tasksUrl, body)
-            .map((r: Response) => r.json().data as Task);
+            .map((r: Response) => r.json() as Task)
     }
 
     removeTask(task: Task): Observable<string> {

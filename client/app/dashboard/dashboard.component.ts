@@ -21,9 +21,9 @@ export class DashboardComponent implements OnInit {
 	currentTask: Task;
 
 	projects: Project[] = [];
-	changeTimer: any;
 
 	tasksSubject$ = new Subject<Date>();
+	taskUpdateSubject$ = new Subject<Task>();
 
 	constructor(
 		private router: Router,
@@ -32,7 +32,11 @@ export class DashboardComponent implements OnInit {
 		this.tasksSubject$
 			.debounceTime(400)
 			.switchMap(weekDate => this.repository.getTasks(weekDate))
-			.subscribe(tasks => this.setTasks.call(this, tasks))
+			.subscribe(tasks => this.setTasks.call(this, tasks));
+
+		this.taskUpdateSubject$
+			.debounceTime(600)
+			.subscribe(task => this.updateTask.call(this, task))
 	}
 
 	ngOnInit(): void {
@@ -101,8 +105,16 @@ export class DashboardComponent implements OnInit {
 
 	trackTask(task: Task): void {
 		if (task.isTracking) {
-			this.currentTask = null; 
-			task.stop();           
+			this.currentTask = null;
+			task.stop();
+			
+			this.week.forEach(day => {				
+				day.tasks.forEach(_task => {
+					if (_task.isTracking && _task._id == task._id) {
+						_task.stop();
+					}
+				});
+			});
         } else {
             if (this.currentTask) {
                 this.currentTask.stop();
@@ -114,11 +126,7 @@ export class DashboardComponent implements OnInit {
 	}
 
 	taskChanged(task: Task): void {
-		clearTimeout(this.changeTimer);
-		this.changeTimer = setTimeout(
-			() => this.updateTask(task),
-			800
-		);
+		this.taskUpdateSubject$.next(task);
 	}
 
 	updateTask(task:Task): void {
@@ -142,7 +150,11 @@ export class DashboardComponent implements OnInit {
 		this.repository.getProjects()
 			.subscribe(projects => this.projects = projects);
 	}
-
+	viewDay(date: Date) {
+		this.startWeek = moment(date).isoWeekday('Monday').toDate();
+		this.fillWeek();
+		this.getTasks();
+	}
 	viewToday() {
 		let today = moment().startOf('day');
 		if (this.startWeek && today.isSame(this.startWeek, 'week')) {
@@ -152,9 +164,7 @@ export class DashboardComponent implements OnInit {
 				}
 			})
 		} else {
-			this.startWeek = moment(this.today).isoWeekday('Monday').toDate();
-			this.fillWeek();
-			this.getTasks();
+			this.viewDay(this.today);
 		}
 	}
 }

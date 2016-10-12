@@ -1,9 +1,7 @@
 <div class="container">
-    <!--<div class="page-header">
-        <h2>Track your time</h2>
-    </div>-->
+
     <div>
-        <button class="btn btn-default" (click)="viewToday()">Today</button>
+        <button class="btn btn-default btn-xs" (click)="viewToday()">Today</button>
     </div>
 
     <nav>
@@ -70,4 +68,4 @@
     </div>
 </div>
 
-<tt-dashboard-footer [task]="currentTask"></tt-dashboard-footer>
+<tt-dashboard-footer [task]="currentTask" (trackTackEvent)="trackTask($event)" (taskChangedEvent)="taskChanged($event)" (gotoTaskDate)="viewDay($event)"></tt-dashboard-footer>
