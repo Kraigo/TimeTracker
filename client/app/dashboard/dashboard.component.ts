@@ -1,6 +1,7 @@
 import {DateFormatter} from 'd:/Projects/TimeTracker/node_modules/ng2-bootstrap/components/datepicker/date-formatter';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 import { Task, Day, Project } from '../shared';
 import { RepositoryService } from '../shared';
@@ -22,14 +23,22 @@ export class DashboardComponent implements OnInit {
 	projects: Project[] = [];
 	changeTimer: any;
 
+	tasksSubject$ = new Subject<Date>();
+
 	constructor(
 		private router: Router,
 		private repository: RepositoryService
-	) { }
+	) {
+		this.tasksSubject$
+			.debounceTime(400)
+			.switchMap(weekDate => this.repository.getTasks(weekDate))
+			.subscribe(tasks => this.setTasks.call(this, tasks))
+	}
 
 	ngOnInit(): void {
 		this.viewToday();
 		this.getProjects();
+		this.getTasks();	
 	}
 
 	selectDay(day: Day): void {
@@ -56,27 +65,27 @@ export class DashboardComponent implements OnInit {
 	}
 
 	getTasks(): void {
-		this.repository
-			.getTasks(this.startWeek)
-			.subscribe(tasks => {
-				tasks.forEach(task => {
-					for (var i = 0, day; i < this.week.length; i++) {
-						day = this.week[i];
+		this.tasksSubject$.next(this.startWeek);
+	}
 
-						var dayDate = moment(day.date).startOf('day');
-						var taskDate = moment(task.date).startOf('day');
+	setTasks(tasks: Task[]): void {
+		tasks.forEach(task => {
+			for (var i = 0, day; i < this.week.length; i++) {
+				day = this.week[i];
 
-						if (dayDate.isSame(taskDate)) {
-							day.tasks.push(task);
-						}
-					}
+				var dayDate = moment(day.date).startOf('day');
+				var taskDate = moment(task.date).startOf('day');
 
-				});
+				if (dayDate.isSame(taskDate)) {
+					day.tasks.push(task);
+				}
+			}
 
-				this.week.forEach(function(day: Day) {
-					day.tasks.push(new Task({date: day.date}))
-				})
-			});
+		});
+
+		this.week.forEach(function(day: Day) {
+			day.tasks.push(new Task({date: day.date}))
+		})
 	}
 
 	addTask(day: Day): void {
