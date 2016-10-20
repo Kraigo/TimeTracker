@@ -98,11 +98,11 @@ export class RepositoryService {
             .map((r: Response) => r.json() as Project[]);
     }
 
-    addProject(team: Team, title: string): Observable<Team> {
+    addProject(team: Team, title: string): Observable<Project[]> {
         let body = { team: team._id, title: title }
         return this.http
             .post(this.projectsUrl, body)
-            .map((r: Response) => r.json() as Team);
+            .map((r: Response) => r.json() as Project[]);
     }
 
     removeProject(project: Project): Observable<string> {

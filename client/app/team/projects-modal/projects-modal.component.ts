@@ -1,7 +1,7 @@
 import { Component, Input, Output, ElementRef, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component.js';
 
-import { Team, Project } from '../../shared';
+import { Team, Project, RepositoryService } from '../../shared';
 
 @Component({
 	selector: 'tt-projects-modal',
@@ -10,6 +10,12 @@ import { Team, Project } from '../../shared';
 })
 
 export class ProjectsModalComponent implements AfterViewInit {
+    
+    newProjectTitle: string;
+
+    constructor(        
+        public repository: RepositoryService
+    ) {}
 
     @ViewChild('modal') public modal: ModalDirective;
 
@@ -17,25 +23,22 @@ export class ProjectsModalComponent implements AfterViewInit {
     
     ngAfterViewInit() { }
 
-    newProjectTitle: string;   
-
     show(){
         this.modal.show(); 
     }
 
     addProject(team, title) {
-        // $scope.newProjectTitle = '';
-
-        //         repository.addProject(team._id, title).then(function(response) {
-        //             // team.projects.push(response.data);
-        //             team.projects = response.data;
-        //         })
+        this.repository
+            .addProject(team, title)
+            .subscribe(projects => this.team.projects = projects);
+            
+        this.newProjectTitle = '';
 
     }
 
-    removeProject(project, team) {
-// repository.removeProject(project._id).then(function(response) {
-//                     team.projects.splice(team.projects.indexOf(project), 1)
-//                 })
+    removeProject(project) {
+        this.repository
+            .removeProject(project)
+            .subscribe(res => this.team.projects.splice(this.team.projects.indexOf(project), 1));
     }
 }
