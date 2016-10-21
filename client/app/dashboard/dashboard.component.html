@@ -1,12 +1,10 @@
 <div class="container">
 
-    <div>
-        <button class="btn btn-default btn-xs" (click)="viewToday()">Today</button>
-    </div>
-
     <nav>
         <ul class="pager">
             <li class="previous"><a (click)="changeWeek(-1)"><span>&larr;</span> Previous week</a></li>
+            <li><button class="btn btn-default btn-xs" (click)="viewToday()">Today</button></li>
+            <!--<li><button class="btn btn-default btn-xs" (click)="weekMode()">Week view</button></li>-->
             <li class="next"><a (click)="changeWeek(1)">Next week <span>&rarr;</span></a></li>
         </ul>
     </nav>
@@ -68,4 +66,4 @@
     </div>
 </div>
 
-<tt-dashboard-footer [task]="currentTask" (trackTackEvent)="trackTask($event)" (taskChangedEvent)="taskChanged($event)" (gotoTaskDate)="viewDay($event)"></tt-dashboard-footer>
+<tt-dashboard-footer [task]="currentTask" [projects]="projects" (trackTackEvent)="trackTask($event)" (taskChangedEvent)="taskChanged($event)" (gotoTaskDate)="viewDay($event)"></tt-dashboard-footer>

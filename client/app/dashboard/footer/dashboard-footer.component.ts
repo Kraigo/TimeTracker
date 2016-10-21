@@ -25,6 +25,7 @@ import { Task } from '../../shared';
 export class DashboardFooterComponent implements OnInit {
     constructor() { }
     @Input() task: Task;
+    @Input() projects: Task;
     @Output() trackTackEvent: EventEmitter<any> = new EventEmitter();
     @Output() taskChangedEvent: EventEmitter<any> = new EventEmitter();
     @Output() gotoTaskDate: EventEmitter<any> = new EventEmitter();

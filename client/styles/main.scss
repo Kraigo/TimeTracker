@@ -69,3 +69,9 @@ textarea.expand-focus:focus {
 .table-modal tbody tr th {
     border-top: none;
 }
+
+.report-tbody {
+    & > tr:first-child {
+        background-color: #fafafa;
+    }
+}

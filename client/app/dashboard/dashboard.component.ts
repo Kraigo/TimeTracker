@@ -85,6 +85,10 @@ export class DashboardComponent implements OnInit {
 				}
 			}
 
+			if (task.isTracking) {
+				this.currentTask = task;
+			}
+
 		});
 
 		this.week.forEach(function(day: Day) {
@@ -166,5 +170,9 @@ export class DashboardComponent implements OnInit {
 		} else {
 			this.viewDay(this.today);
 		}
+	}
+
+	weekMode() {
+		
 	}
 }

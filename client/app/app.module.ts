@@ -15,7 +15,7 @@ import { ReportComponent } from './report';
 import { TeamComponent, MembersModalComponent, ProjectsModalComponent } from './team';
 
 
-import { RepositoryService, TimeToDatePipe, TaskProjectPipe, TasksTimePipe } from './shared';
+import { RepositoryService, TimeToDatePipe, TaskProjectPipe, TasksTimePipe, ArrayFilterPipe } from './shared';
 
 import { routing } from './app.routing';
 
@@ -46,7 +46,8 @@ import { routing } from './app.routing';
         // Pipe
         TimeToDatePipe,
         TaskProjectPipe,
-        TasksTimePipe
+        TasksTimePipe,
+        ArrayFilterPipe
     ],
     providers: [
         RepositoryService,
