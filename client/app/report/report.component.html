@@ -34,12 +34,12 @@
 		</thead>
 
 
-		<tbody class="report-tbody" *ngFor="let week of weeks">
-            <tr *ngIf="(week.tasks | filter: search).length">
+		<tbody class="report-tbody" *ngFor="let week of tasks | filter: search | groupTasksByWeek">
+            <tr>
                 <th colspan="3"><b>{{week.date | date: 'MMM dd'}} - {{week.dateEnd | date: 'MMM dd'}} (Week {{week.number}})</b></th>
                 <th><b>{{week.tasks | filter: search | tasksTime | timeToDate | date:'HH:mm'}}</b></th>
             </tr>
-			<tr *ngFor="let task of week.tasks | filter: search">
+			<tr *ngFor="let task of week.tasks">
 				<td>
 					{{task.date | date : 'shortDate'}}
 				</td>

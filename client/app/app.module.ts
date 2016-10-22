@@ -11,7 +11,7 @@ import { AppComponent }   from './app.component';
 import { DashboardComponent, DashboardFooterComponent, ExpandFocus, InputDate } from './dashboard';
 import { LoginComponent } from './login';
 import { ProfileComponent } from './profile';
-import { ReportComponent } from './report';
+import { ReportComponent, GroupTasksByWeekPipe } from './report';
 import { TeamComponent, MembersModalComponent, ProjectsModalComponent } from './team';
 
 
@@ -47,7 +47,8 @@ import { routing } from './app.routing';
         TimeToDatePipe,
         TaskProjectPipe,
         TasksTimePipe,
-        ArrayFilterPipe
+        ArrayFilterPipe,
+        GroupTasksByWeekPipe
     ],
     providers: [
         RepositoryService,
