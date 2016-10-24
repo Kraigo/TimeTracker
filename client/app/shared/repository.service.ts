@@ -91,8 +91,12 @@ export class RepositoryService {
     }
     
     removeTeamMember(team: Team, user: User): Observable<any> {
+        let body = {
+            team: team._id,
+            user: user._id
+        }
         return this.http
-            .delete(this.teamsUrl + `/${team._id}/${user._id}`)
+            .put(this.teamsUrl + `/leave`, body)
             .map((r: Response) => r.text());
     }
 

@@ -21,7 +21,8 @@ router.get('/invitations', function(req, res) {
 });
 router.post('/invitations', function(req, res) {
     var condition = {
-        _id: req.body.team
+        _id: req.body.team,
+        'invitations.email': { $ne: req.body.email}
     };
 
     var data = {
@@ -33,7 +34,7 @@ router.post('/invitations', function(req, res) {
     }
 
     Team.findOneAndUpdate(condition, data, { new: true }, function(err, team) {
-        res.send(team);
+        res.send(team.invitations.filter(a => a.email === req.body.email )[0]);
     });
 });
 
@@ -56,8 +57,12 @@ router.put('/invitations/accept', function(req, res) {
     });
 })
 
-router.delete('/invitations', function(req, res) {
-    // TODO Delete invitation
+router.delete('/invitations/:id', function(req, res) {
+    Team.findOneAndUpdate({'invitations._id': req.params.id}, 
+        { $pull: { invitations: { _id: req.params.id } } },
+        function(err, team) {
+            res.send(req.params.id);
+        });
 })
 
 module.exports = router;

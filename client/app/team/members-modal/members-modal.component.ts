@@ -1,4 +1,5 @@
 import { Component, Input, Output, ElementRef, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { Team, Project, User, Invitation, RepositoryService } from '../../shared';
 
@@ -9,6 +10,7 @@ import { Team, Project, User, Invitation, RepositoryService } from '../../shared
 })
 
 export class MembersModalComponent implements AfterViewInit {
+    public newMemberEmail: string;
 
     @ViewChild('modal') public modal: ModalDirective;
 
@@ -27,7 +29,8 @@ export class MembersModalComponent implements AfterViewInit {
     addMember(team: Team, email: string) {
         this.repository
             .addInvitation(team, email)
-            .subscribe(invitation => {
+            .subscribe(invitation => {                
+                this.newMemberEmail = '';
                 this.team.invitations.push(invitation)
             })
 
@@ -37,7 +40,7 @@ export class MembersModalComponent implements AfterViewInit {
         this.repository
             .removeTeamMember(team, user)
             .subscribe(res => {
-                this.team.users.splice(this.team.users.indexOf(user), 1)
+                this.team.users.splice(this.team.users.indexOf(user), 1);
             })
     }
 
@@ -45,7 +48,7 @@ export class MembersModalComponent implements AfterViewInit {
         this.repository
             .removeInvitation(invitation)
             .subscribe(res => {
-                this.team.invitations.splice(this.team.invitations.indexOf(invitation), 1)
+                this.team.invitations.splice(this.team.invitations.indexOf(invitation), 1);
             })
     }
 

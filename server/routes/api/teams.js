@@ -32,12 +32,16 @@ router.post('/teams', function(req, res) {
 
 router.delete('/teams/:id', function(req, res) {
     Team.findByIdAndRemove(req.params.id, function(err, team) {
-        res.send();
+        res.send(req.params.id);
     })
 });
 
-router.put('/teams/leave/:id', function(req, res) {
-    //TODO Leave from team
+router.put('/teams/leave', function(req, res) {
+    Team.findByIdAndUpdate(req.body.team,
+        { $pull: { users: req.body.user } },
+        function(err, team) {
+            res.send(req.body.user);
+        })
 });
 
 module.exports = router;

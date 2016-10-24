@@ -27,7 +27,7 @@
 
                         <tr *ngFor="let user of team.users">
                             <td>
-                                <button class="btn btn-default btn-delete btn-xs" (click)="removeMember(user, team)">
+                                <button class="btn btn-default btn-delete btn-xs" (click)="removeMember(team, user)">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
                             </td>
@@ -50,7 +50,7 @@
 
                         <tr *ngFor="let invitation of team.invitations">
                             <td>
-                                <button class="btn btn-default btn-delete btn-xs" (click)="removeInvitation(team, user)">
+                                <button class="btn btn-default btn-delete btn-xs" (click)="removeInvitation(invitation)">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
                             </td>
@@ -68,10 +68,12 @@
             </div>
 
             <div class="modal-footer">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="New member" [(ngModel)]="newMemberEmail">
+                <div class="input-group" [class.has-error]="newMemberModel.invalid && newMemberModel.dirty">
+                    <input type="text" class="form-control" placeholder="New member"
+                        [(ngModel)]="newMemberEmail" pattern="^[a-zA-Z0-9](\.?[\-_a-zA-Z0-9])*@[a-zA-Z0-9\-]{1,}(\.[a-zA-Z]{2,}){1,}$"
+                        #newMemberModel="ngModel">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" (click)="addMember(team, newMemberEmail);">Invite Member</button>
+                        <button class="btn btn-default" type="button" (click)="addMember(team, newMemberEmail)" [disabled]="newMemberModel.invalid">Invite Member</button>
                     </span>
                 </div>
             </div>
