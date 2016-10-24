@@ -39,7 +39,7 @@ export class HttpClient {
 
         console.error(errMsg);
 
-        if (error.status > 400) {
+        if (error.status == 403 || error.status == 401) {
              this.router.navigateByUrl('/login');
         }
 

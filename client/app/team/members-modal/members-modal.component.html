@@ -1,5 +1,5 @@
 <div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content" *ngIf="team">
 
             <div class="modal-header">
@@ -22,7 +22,7 @@
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Invintation</th>
+                            <th>Invitation</th>
                         </tr>
 
                         <tr *ngFor="let user of team.users">
@@ -42,7 +42,7 @@
                             </td>
                         </tr>
 
-                        <tr ng-if="!team.users.length">
+                        <tr *ngIf="team.users.length === 0">
                             <td colspan="4" align="center">
                                 <p>No one member in this team</p>
                             </td>
@@ -50,6 +50,9 @@
 
                         <tr *ngFor="let invitation of team.invitations">
                             <td>
+                                <button class="btn btn-default btn-delete btn-xs" (click)="removeInvitation(team, user)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
                             </td>
                             <td>
                             </td>

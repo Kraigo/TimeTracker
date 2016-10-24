@@ -89,6 +89,12 @@ export class RepositoryService {
             .delete(this.teamsUrl + `/${team._id}`)
             .map((r: Response) => r.text());
     }
+    
+    removeTeamMember(team: Team, user: User): Observable<any> {
+        return this.http
+            .delete(this.teamsUrl + `/${team._id}/${user._id}`)
+            .map((r: Response) => r.text());
+    }
 
      // PROJECT //
 
@@ -107,7 +113,7 @@ export class RepositoryService {
 
     removeProject(project: Project): Observable<string> {
         return this.http
-            .delete(this.tasksUrl + `/${project._id}`)
+            .delete(this.projectsUrl + `/${project._id}`)
             .map((r: Response) => r.text());
     }
 
@@ -131,5 +137,10 @@ export class RepositoryService {
         return this.http
             .put(this.invitationsUrl + '/accept', body)
             .map((r: Response) => r.json() as Team);
+    }
+    removeInvitation(invitation: Invitation): Observable<string> {
+        return this.http
+            .delete(this.invitationsUrl + `/${invitation._id}`)
+            .map((r: Response) => r.text());
     }
 }

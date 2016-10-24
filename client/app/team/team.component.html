@@ -32,26 +32,28 @@
             <button class="btn btn-danger btn-xs" (click)="removeTeam(team)">Remove</button>
         </div>
 
-        <!--<table class="table table-condensed">
-            <tbody>
+        <table class="table table-condensed">
+            <thead>
                 <tr>
-                    <td>
-                        Projects Count
-                    </td>
-                    <td>
-                        {{team.projects.length}}
-                    </td>
+                    <th>Projects</th>
+                    <th>Tasks</th>
+                    <th>Time</th>
                 </tr>
-                <tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let project of team.projects">
                     <td>
-                        Members Count
+                        {{project.title}}
                     </td>
                     <td>
-                        {{team.users.length}}
+                        -
+                    </td>
+                    <td>
+                        -
                     </td>
                 </tr>
             </tbody>
-        </table>-->
+        </table>
 
     </div>
 </div>
