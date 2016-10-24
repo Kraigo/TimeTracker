@@ -1,4 +1,3 @@
-import {DateFormatter} from 'd:/Projects/TimeTracker/node_modules/ng2-bootstrap/components/datepicker/date-formatter';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component.js';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { Team, Invitation, RepositoryService} from '../shared';
 

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 /* Custom */
-import { ModalModule, DropdownModule  } from 'ng2-bootstrap';
+import { ModalModule, DropdownModule  } from 'ng2-bootstrap/ng2-bootstrap';
 
 /* App */
 import { HttpClient } from './app.interceptor';
