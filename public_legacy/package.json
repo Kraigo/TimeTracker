@@ -8,6 +8,9 @@
     "build": "webpack -p",
     "start": "node server/app.js"
   },
+  "engines": {
+    "node": "6.9.1"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
