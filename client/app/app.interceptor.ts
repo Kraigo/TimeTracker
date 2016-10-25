@@ -1,4 +1,3 @@
-import {window} from 'd:/Projects/TimeTracker/node_modules/rxjs/operator/window';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers } from '@angular/http';
