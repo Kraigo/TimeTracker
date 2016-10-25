@@ -25,7 +25,7 @@ export class Task implements TaskOptions {
     ) {
         Object.assign(this, {}, options);
 
-        if (this.lastTrack) {
+        if (this.date) {
             this.date = new Date(this.date);
         }
 

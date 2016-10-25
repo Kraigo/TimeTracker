@@ -29,9 +29,10 @@ export class InputDate implements OnInit {
         }
     }
 
-    onBlur() {
-        let val:any = this.control.viewModel.toString();      
-        let model = this.viewToModel(val);
+    onBlur() {    
+        let model = typeof this.control.viewModel == 'number'
+                ? this.control.viewModel
+                : this.viewToModel(this.control.viewModel);
         var view = this.modelToView(model);
         this.control.valueAccessor.writeValue(view)
         this.control.viewToModelUpdate(model);
