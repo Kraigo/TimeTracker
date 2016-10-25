@@ -10,6 +10,7 @@ import { Team, Task, RepositoryService} from '../../shared';
 export class TeamActivityComponent implements OnInit {
 
     activity: Task[] = [];
+    loaded: boolean;
     @Input() team: Team;
     
     constructor(
@@ -17,10 +18,13 @@ export class TeamActivityComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.loaded = false;
+        
         this.repository
             .getTeamActivity(this.team)
             .subscribe(tasks => {
-                this.activity = this.activity.concat(tasks)
+                this.activity = this.activity.concat(tasks);
+                this.loaded = true;
             });       
     }
 }

@@ -100,9 +100,12 @@ export class RepositoryService {
             .map((r: Response) => r.text());
     }
 
-    getTeamActivity(team: Team): Observable<Task[]> {
+    getTeamActivity(team: Team, dateStart?: Date): Observable<Task[]> {        
+        let params = new URLSearchParams();
+        params.set('dateStart', dateStart ? dateStart.toISOString() : null);
+
         return this.http
-            .get(this.teamsUrl + `/${team._id}/activity`)
+            .get(this.teamsUrl + `/${team._id}/activity`, {search: params})
             .map((r: Response) => r.json() as Task[]);
     }
 

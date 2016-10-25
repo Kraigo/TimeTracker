@@ -25,7 +25,7 @@ export class Task implements TaskOptions {
     ) {
         Object.assign(this, {}, options);
 
-        if (this.date) {
+        if (this.date && !(this.date instanceof Date)) {
             this.date = new Date(this.date);
         }
 

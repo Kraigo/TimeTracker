@@ -22,7 +22,6 @@
             {{currentDay.date | date : 'MMMM d, yyyy'}}
             <span class="pull-right">Total: {{currentDay.tasks | tasksTime | timeToDate | date : 'HH:mm:ss'}}</span>
         </div>
-        <!--<tasks-table day="currentDay"></tasks-table>-->
 
         <div class="flex-table">
             <div class="flex-row" *ngFor="let task of currentDay.tasks">
@@ -58,7 +57,7 @@
 
             <div class="flex-row">
                 <div class="flex-cell flex-cell_grow">
-                    <button (click)="addTask(currentDay)" class="btn btn-default btn-block">Add more</button>
+                    <button (click)="addTask(currentDay)" class="btn btn-default btn-block btn-xs">Add more</button>
                 </div>
             </div>
         </div>
