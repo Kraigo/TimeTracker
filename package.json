@@ -9,7 +9,7 @@
     "test": "karma start",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "typings": "typings install",
-    "postinstall": "npm run build"
+    "postinstall": "npm install --save-dev && npm run build"
   },
   "author": "",
   "license": "ISC",
