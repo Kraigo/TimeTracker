@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var appRoot = require('app-root-path');
 var Team = require(appRoot + '/server/models/Team');
+var Task = require(appRoot + '/server/models/Task');
 
 router.get('/teams', function(req, res) {
     Team.find({ users: req.session.passport.user }).populate(['users']).lean().exec(function(err, teams) {
@@ -43,5 +44,25 @@ router.put('/teams/leave', function(req, res) {
             res.send(req.body.user);
         })
 });
+
+router.get('/teams/:id/activity', function(req,res) {
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    Team.findById(req.params.id, function(err, team) {
+
+        Task.find({
+                project: {$in: team.projects.map(p => p._id)},
+                date: {$gte: today}
+            })
+            .sort({user: 'asc'})
+            .populate('user')
+            .exec(function(err, tasks) {
+                res.send(tasks);
+            })
+    })
+
+    
+    
+})
 
 module.exports = router;

@@ -100,6 +100,12 @@ export class RepositoryService {
             .map((r: Response) => r.text());
     }
 
+    getTeamActivity(team: Team): Observable<Task[]> {
+        return this.http
+            .get(this.teamsUrl + `/${team._id}/activity`)
+            .map((r: Response) => r.json() as Task[]);
+    }
+
      // PROJECT //
 
     getProjects(): Observable<Project[]> {
