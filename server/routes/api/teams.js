@@ -47,7 +47,13 @@ router.put('/teams/leave', function(req, res) {
 
 router.get('/teams/:id/activity', function(req,res) {
     var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setMilliseconds(0);
+    // TODO KEEP ALL DATE IN UTC!
+    
+    
     Team.findById(req.params.id, function(err, team) {
 
         Task.find({
