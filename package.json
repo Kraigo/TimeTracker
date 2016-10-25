@@ -28,8 +28,6 @@
     "passport-google-oauth2": "^0.1.6",
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.3.0",
-  // },
-  // "devDependencies": {
     "@angular/common": "~2.0.1",
     "@angular/compiler": "~2.0.1",
     "@angular/core": "~2.0.1",
