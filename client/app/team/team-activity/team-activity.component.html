@@ -1,6 +1,6 @@
 <ul class="list-unstyled list-condensed">
     <li *ngFor="let task of activity">
-        <b>{{task.user.fullName}}</b> - {{(team.projects | taskProject : task) ? (team.projects | taskProject : task).title : null}} - {{task.time | timeToDate | date:'HH:mm'}}
+        <b>{{task.user.fullName}}</b> - {{(team.projects | taskProject : task) ? (team.projects | taskProject : task).title : null}} - {{task.time | timeToDate}}
     </li>
     <li *ngIf="activity.length == 0 && loaded">
         No activity

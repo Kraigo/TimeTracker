@@ -37,7 +37,7 @@
 		<tbody class="report-tbody" *ngFor="let week of tasks | filter: search | groupTasksByWeek">
             <tr>
                 <th colspan="3"><b>{{week.date | date: 'MMM dd'}} - {{week.dateEnd | date: 'MMM dd'}} (Week {{week.number}})</b></th>
-                <th><b>{{week.tasks | filter: search | tasksTime | timeToDate | date:'HH:mm'}}</b></th>
+                <th><b>{{week.tasks | filter: search | tasksTime | timeToDate}}</b></th>
             </tr>
 			<tr *ngFor="let task of week.tasks">
 				<td>
@@ -49,12 +49,12 @@
 				<td>
 					{{task.description}}
 				</td>
-				<td>{{task.time | timeToDate | date:'HH:mm'}}</td>
+				<td>{{task.time | timeToDate}}</td>
 			</tr>
 		</tbody>
 		<!--<tbody>
 			<tr>
-				<td colspan="3" align="right">Total: {{tasks | filter: search | tasksTime | timeToDate | date:'HH:mm'}}</td>
+				<td colspan="3" align="right">Total: {{tasks | filter: search | tasksTime | timeToDate}}</td>
 			</tr>
 		</tbody>-->
 	</table>

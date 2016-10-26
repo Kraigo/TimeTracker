@@ -20,7 +20,7 @@
     <div class="panel" [class.panel-primary]="currentDay.isToday" [class.panel-default]="!currentDay.isToday" *ngIf="currentDay">
         <div class="panel-heading">
             {{currentDay.date | date : 'MMMM d, yyyy'}}
-            <span class="pull-right">Total: {{currentDay.tasks | tasksTime | timeToDate | date : 'HH:mm:ss'}}</span>
+            <span class="pull-right">Total: {{currentDay.tasks | tasksTime | timeToDate}}</span>
         </div>
 
         <div class="flex-table">

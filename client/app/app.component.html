@@ -20,7 +20,7 @@
                     <a routerLink="report" data-toggle="collapse" data-target="#main-navbar">Report</a>
                 </li>
                 <li routerLinkActive="active" routerLinkActiveOptions="{exact:true}">
-                    <a routerLink="team" data-toggle="collapse" data-target="#main-navbar">Team</a>
+                    <a routerLink="team" data-toggle="collapse" data-target="#main-navbar">Team <span class="badge" *ngIf="notificationInvitationsCount > 0">{{notificationInvitationsCount}}</span></a>
                 </li>
 
                 <li class="dropdown" dropdown>

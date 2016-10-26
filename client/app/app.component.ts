@@ -1,15 +1,29 @@
-import { Component, ViewContainerRef  } from '@angular/core';
+import { Component, ViewContainerRef, OnInit  } from '@angular/core';
+import { RepositoryService } from './shared';
 
 @Component({
     selector: 'tt-app',
     templateUrl: './app.component.html',
-    providers: [ ]
+    providers: [ RepositoryService ]
 })
 
-export class AppComponent  {
-    private viewContainerRef: ViewContainerRef;
+export class AppComponent implements OnInit  {
+    public notificationInvitationsCount: number;
 
-    public constructor(viewContainerRef:ViewContainerRef) {
+    public constructor(
+        private viewContainerRef:ViewContainerRef,
+        private repository: RepositoryService
+    ) {
         this.viewContainerRef = viewContainerRef;
+    }
+
+    ngOnInit() {
+        this.checkNewInvitations();
+    }
+
+    checkNewInvitations() {
+        this.repository
+            .getInvitations()
+            .subscribe(invitations => this.notificationInvitationsCount = invitations.length)
     }
 }
