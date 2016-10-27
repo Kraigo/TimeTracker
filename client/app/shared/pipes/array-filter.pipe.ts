@@ -10,7 +10,7 @@ export class ArrayFilterPipe  implements PipeTransform {
         return items.filter(item => {
             for (let field in conditions) {
                 if (!conditions[field]) {
-                    return true;
+                    continue;
                 } else if (item[field] !== conditions[field]) {
                     return false;
                 }

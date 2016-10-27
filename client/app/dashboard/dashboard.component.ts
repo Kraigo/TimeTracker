@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
-import { Task, Day, Project } from '../shared';
+import { Task, Day, Project, Category } from '../shared';
 import { RepositoryService } from '../shared';
 import * as moment from 'moment';
 
@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
 	currentTask: Task;
 
 	projects: Project[] = [];
+	categories: Category[] = [];
 
 	tasksSubject$ = new Subject<Date>();
 	taskUpdateSubject$ = new Subject<Task>();
@@ -41,6 +42,7 @@ export class DashboardComponent implements OnInit {
 	ngOnInit(): void {
 		this.viewToday();
 		this.getProjects();
+		this.getCategories();
 		this.getTasks();	
 	}
 
@@ -102,11 +104,14 @@ export class DashboardComponent implements OnInit {
 		day.tasks.push(new Task({date: now}));
 	}
 
-	removeTask(task: Task, day: Day): void {
-		this.repository.removeTask(task).subscribe( () => {
-		    day.tasks.splice(day.tasks.indexOf(task), 1);
-		})
-		this.currentDay.tasks.splice(this.currentDay.tasks.indexOf(task), 1);
+	removeTask(task: Task): void {
+		if (task._id) {
+			this.repository.removeTask(task).subscribe( () => {
+				this.currentDay.tasks.splice(this.currentDay.tasks.indexOf(task), 1);
+			})
+		} else {
+			this.currentDay.tasks.splice(this.currentDay.tasks.indexOf(task), 1);
+		}
 	}
 
 	trackTask(task: Task): void {
@@ -141,7 +146,11 @@ export class DashboardComponent implements OnInit {
 				if (res._id) {
 					task._id = res._id
 				}
-			})
+			});
+
+		if (this.currentDay.tasks.indexOf(task) === this.currentDay.tasks.length -1) {
+			this.addTask(this.currentDay);
+		}
 	}
 
 	changeWeek(direction: number) {
@@ -156,6 +165,12 @@ export class DashboardComponent implements OnInit {
 		this.repository.getProjects()
 			.subscribe(projects => this.projects = projects);
 	}
+	
+	getCategories(): void {
+		this.repository.getCategories()
+			.subscribe(categories => this.categories = categories);
+	}
+
 	viewDay(date: Date) {
 		this.startWeek = moment(date).isoWeekday('Monday').toDate();
 		this.fillWeek();

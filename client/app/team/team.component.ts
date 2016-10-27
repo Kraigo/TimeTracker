@@ -16,8 +16,9 @@ export class TeamComponent implements OnInit {
     newTeamTitle: string;
     selectedTeam: Team;
     
-    @ViewChild('membersModal') public membersModal: ModalDirective;
     @ViewChild('projectsModal') public projectsModal: ModalDirective;
+    @ViewChild('categoriesModal') public categoriesModal: ModalDirective;
+    @ViewChild('membersModal') public membersModal: ModalDirective;
 
     constructor(
         public repository: RepositoryService
@@ -33,14 +34,19 @@ export class TeamComponent implements OnInit {
             .subscribe(invitations => this.invitations = this.invitations.concat(invitations))
     }
 
-    openMembers(team: Team) {
-        this.selectedTeam = team;
-        this.membersModal.show();
-    }
-
     openProjects(team: Team) {
         this.selectedTeam = team;
         this.projectsModal.show();
+    }
+
+    openCategories(team: Team) {
+        this.selectedTeam = team;
+        this.categoriesModal.show();
+    }
+
+    openMembers(team: Team) {
+        this.selectedTeam = team;
+        this.membersModal.show();
     }
     
     addTeam() {

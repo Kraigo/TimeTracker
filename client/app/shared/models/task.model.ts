@@ -15,8 +15,9 @@ export class Task implements TaskOptions {
     time: number = 0;    
     description: string;
     lastTrack: Date;
-    isTracking: boolean = false;    
+    isTracking: boolean = false;
     project: string;
+    category: string;
     date: Date = new Date();
     private timer;
 

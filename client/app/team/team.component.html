@@ -26,41 +26,23 @@
             Team: <b>{{team.title}}</b>
             <span class="pull-right label label-info" *ngIf="team.isOwner">Owner</span>
         </div>
-        <div class="panel-body" *ngIf="team.isOwner">
-            <button class="btn btn-primary btn-xs" (click)="openProjects(team)">Projects</button>
-            <button class="btn btn-primary btn-xs" (click)="openMembers(team)">Members</button>
-            <button class="btn btn-danger btn-xs" (click)="removeTeam(team)">Remove</button>
-        </div>
 
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th>Projects</th>
-                    <th>Tasks</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let project of team.projects">
-                    <td>
-                        {{project.title}}
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="panel-footer">
+        <div class="panel-body">
+            <button class="btn btn-primary btn-xs" (click)="openProjects(team)">Projects</button>
+            <button class="btn btn-primary btn-xs" (click)="openCategories(team)">Categories</button>
+            <button class="btn btn-primary btn-xs" (click)="openMembers(team)">Members</button>
+            <button class="btn btn-danger btn-xs" (click)="removeTeam(team)" *ngIf="team.isOwner">Remove</button>
+
+            <hr>
+            
             <h5>Activity over the last 24 hours</h5>
-            <tt-team-activity [team]="team"></tt-team-activity>            
+            <tt-team-activity [team]="team"></tt-team-activity>   
         </div>
 
     </div>
 </div>
 
-<tt-members-modal #membersModal="modal" [team]="selectedTeam"></tt-members-modal>
+
 <tt-projects-modal #projectsModal="modal" [team]="selectedTeam"></tt-projects-modal>
+<tt-categories-modal #categoriesModal="modal" [team]="selectedTeam"></tt-categories-modal>
+<tt-members-modal #membersModal="modal" [team]="selectedTeam"></tt-members-modal>

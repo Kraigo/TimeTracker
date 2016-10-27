@@ -26,6 +26,7 @@ router.post('/teams', function(req, res) {
             .findById(team._id)
             .populate(['users'])
             .exec(function(err, team) {
+                team.isOwner = req.session.passport.user === team.owner.toString();
                 res.send(team);
             })
     });

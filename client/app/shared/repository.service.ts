@@ -7,6 +7,7 @@ import { User } from './models/user.model';
 import { Project } from './models/project.model';
 import { Team } from './models/team.model';
 import { Invitation } from './models/invitation.model';
+import { Category } from './models/category.model';
 
 import { HttpClient } from '../app.interceptor';
 
@@ -14,10 +15,6 @@ import { HttpClient } from '../app.interceptor';
 
 export class RepositoryService {
     baseUrl: string = '/api';
-    tasksUrl: string = this.baseUrl + '/tasks';
-    projectsUrl: string = this.baseUrl + '/projects';
-    teamsUrl: string = this.baseUrl + '/teams';
-    invitationsUrl: string = this.baseUrl + '/invitations';
 
     constructor(private http: HttpClient) { }
 
@@ -31,24 +28,28 @@ export class RepositoryService {
     }
 
     getTasks(weekStart?: Date): Observable<Task[]> {
+        let url = this.baseUrl + '/tasks';
         let params = new URLSearchParams();
         params.set('weekStart', weekStart ? weekStart.toISOString() : null);
 
         return this.http
-            .get(this.tasksUrl, {search: params})
+            .get(url, {search: params})
             .map((r: Response) => r.json().map(task => new Task(task)))
     }
 
     getActiveTask(weekStart: Date): Observable<Task> {
+        let url = this.baseUrl + '/tasks';        
         return this.http
-            .get(this.tasksUrl)
+            .get(url)
             .map((r: Response) => r.json() as Task);
     }
 
     saveTask(task: Task): Observable<Task> {
-        var body = {
+        let url = this.baseUrl + '/tasks';
+        let body = {
             description: task.description,
             project: task.project,
+            category: task.category,
             time: task.time,
             date: task.date,
             lastTrack: task.lastTrack,
@@ -56,104 +57,141 @@ export class RepositoryService {
         }
         return task._id
         ? this.http
-            .put(this.tasksUrl + `/${task._id}`, body)
+            .put(url + `/${task._id}`, body)
             .map((r: Response) => r.json() as Task)
         : this.http
-            .post(this.tasksUrl, body)
+            .post(url, body)
             .map((r: Response) => r.json() as Task)
     }
 
     removeTask(task: Task): Observable<string> {
+        let url = this.baseUrl + `/tasks/${task._id}`; 
         return this.http
-            .delete(this.tasksUrl + `/${task._id}`)
+            .delete(url)
             .map((r: Response) => r.text());
     }
 
     // TEAM //
 
     getTeams(): Observable<Team[]> {
+        let url = this.baseUrl + '/teams';
         return this.http
-            .get(this.teamsUrl)
+            .get(url)
             .map((r: Response) => r.json() as Team[]);
     }
 
     addTeam(title: string): Observable<Team> {
+        let url = this.baseUrl + '/teams';
         let body = {title: title}
         return this.http
-            .post(this.teamsUrl, body)
+            .post(url, body)
             .map((r: Response) => r.json() as Team);
     }
     
     removeTeam(team: Project): Observable<string> {
+        let url = this.baseUrl + `/teams/${team._id}`;
         return this.http
-            .delete(this.teamsUrl + `/${team._id}`)
+            .delete(url)
             .map((r: Response) => r.text());
     }
     
     removeTeamMember(team: Team, user: User): Observable<any> {
+        let url = this.baseUrl + '/teams/leave';
         let body = {
             team: team._id,
             user: user._id
         }
         return this.http
-            .put(this.teamsUrl + `/leave`, body)
+            .put(url, body)
             .map((r: Response) => r.text());
     }
 
-    getTeamActivity(team: Team, dateStart?: Date): Observable<Task[]> {        
+    getTeamActivity(team: Team, dateStart?: Date): Observable<Task[]> {
+        let url = this.baseUrl + `/teams/${team._id}/activity`;
         let params = new URLSearchParams();
         params.set('dateStart', dateStart ? dateStart.toISOString() : null);
 
         return this.http
-            .get(this.teamsUrl + `/${team._id}/activity`, {search: params})
+            .get(url, {search: params})
             .map((r: Response) => r.json() as Task[]);
     }
 
      // PROJECT //
 
     getProjects(): Observable<Project[]> {
+        let url = this.baseUrl + '/projects';
         return this.http
-            .get(this.projectsUrl)
+            .get(url)
             .map((r: Response) => r.json() as Project[]);
     }
 
     addProject(team: Team, title: string): Observable<Project[]> {
+        let url = this.baseUrl + '/projects';
         let body = { team: team._id, title: title }
         return this.http
-            .post(this.projectsUrl, body)
+            .post(url, body)
             .map((r: Response) => r.json() as Project[]);
     }
 
     removeProject(project: Project): Observable<string> {
+        let url = this.baseUrl + `/projects/${project._id}`;
         return this.http
-            .delete(this.projectsUrl + `/${project._id}`)
+            .delete(url)
+            .map((r: Response) => r.text());
+    }
+
+     // Categories //
+
+    getCategories(): Observable<Category[]> {
+        let url = this.baseUrl + '/categories';
+        return this.http
+            .get(url)
+            .map((r: Response) => r.json() as Category[]);
+    }
+
+    addCategory(team: Team, title: string): Observable<Category[]> {
+        let url = this.baseUrl + '/categories';
+        let body = { team: team._id, title: title }
+        return this.http
+            .post(url, body)
+            .map((r: Response) => r.json() as Category[]);
+    }
+
+    removeCategory(category: Category): Observable<string> {
+        let url = this.baseUrl + `/categories/${category._id}`;
+        return this.http
+            .delete(url)
             .map((r: Response) => r.text());
     }
 
     // INVITATION //
 
     getInvitations(): Observable<Invitation[]> {
+        let url = this.baseUrl + '/invitations';
         return this.http
-            .get(this.invitationsUrl)
+            .get(url)
             .map((r: Response) => r.json() as Invitation[]);
     }
 
     addInvitation(team: Team, email: string): Observable<Invitation> {
+        let url = this.baseUrl + '/invitations';
         let body = {team: team._id, email: email}
         return this.http
-            .post(this.invitationsUrl, body)
+            .post(url, body)
             .map((r: Response) => r.json() as Invitation);
     }
     
     acceptInvitation(invitation: Invitation): Observable<Team> {
+        let url = this.baseUrl + '/invitations/accept';
         let body = {id: invitation._id}
         return this.http
-            .put(this.invitationsUrl + '/accept', body)
+            .put(url, body)
             .map((r: Response) => r.json() as Team);
     }
     removeInvitation(invitation: Invitation): Observable<string> {
+        let url = this.baseUrl + `/invitations/${invitation._id}`;
         return this.http
-            .delete(this.invitationsUrl + `/${invitation._id}`)
+            .delete(url)
             .map((r: Response) => r.text());
     }
 }

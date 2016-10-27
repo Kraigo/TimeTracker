@@ -11,22 +11,16 @@
 
             <div class="modal-body">
                 <table class="table table-valign table-modal" style="margin: 0">
-                    <colgroup>
-                        <col width="1">
-                        <col>
-                        <col>
-                        <col width="1">
-                    </colgroup>
                     <tbody>
                         <tr>
-                            <th></th>
+                            <th width="1" *ngIf="team.isOwner"></th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Invitation</th>
+                            <th width="1">Invitation</th>
                         </tr>
 
                         <tr *ngFor="let user of team.users">
-                            <td>
+                            <td *ngIf="team.isOwner">
                                 <button class="btn btn-default btn-delete btn-xs" (click)="removeMember(team, user)">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
@@ -67,7 +61,7 @@
                 </table>
             </div>
 
-            <div class="modal-footer">
+            <div class="modal-footer" *ngIf="team.isOwner">
                 <div class="input-group" [class.has-error]="newMemberModel.invalid && newMemberModel.dirty">
                     <input type="text" class="form-control" placeholder="New member"
                         [(ngModel)]="newMemberEmail" pattern="^[a-zA-Z0-9](\.?[\-_a-zA-Z0-9])*@[a-zA-Z0-9\-]{1,}(\.[a-zA-Z]{2,}){1,}$"

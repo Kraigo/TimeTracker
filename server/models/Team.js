@@ -7,6 +7,9 @@ var shema = new mongoose.Schema({
     projects: [{
         title: String
     }],
+    categories: [{
+        title: String
+    }],
     users: [{
         type: ObjectId,
         ref: "User"
@@ -17,6 +20,10 @@ var shema = new mongoose.Schema({
             type: String,
             default: false
         }
+    }],
+    administrators: [{
+        type: ObjectId,
+        ref: "User"
     }]
 });
 

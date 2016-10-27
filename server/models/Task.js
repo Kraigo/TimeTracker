@@ -9,6 +9,10 @@ var shema = new mongoose.Schema({
         type: ObjectId,
         ref: "Project"
     },
+    category: {
+        type: ObjectId,
+        ref: "Category"
+    },
     user: {
         type: ObjectId,
         ref: 'User'

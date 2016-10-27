@@ -12,10 +12,10 @@ import { DashboardComponent, DashboardFooterComponent, ExpandFocus, InputDate } 
 import { LoginComponent } from './login';
 import { ProfileComponent } from './profile';
 import { ReportComponent, GroupTasksByWeekPipe } from './report';
-import { TeamComponent, MembersModalComponent, ProjectsModalComponent, TeamActivityComponent } from './team';
+import { TeamComponent, MembersModalComponent, ProjectsModalComponent, CategoriesModalComponent, TeamActivityComponent } from './team';
 
 
-import { RepositoryService, TimeToDatePipe, TaskProjectPipe, TasksTimePipe, ArrayFilterPipe } from './shared';
+import { RepositoryService, TimeToDatePipe, TaskProjectPipe, TaskCategoryPipe, TasksTimePipe, ArrayFilterPipe } from './shared';
 
 import { routing } from './app.routing';
 
@@ -39,6 +39,7 @@ import { routing } from './app.routing';
         TeamComponent,
         MembersModalComponent,
         ProjectsModalComponent,
+        CategoriesModalComponent,
         TeamActivityComponent,
         
         ExpandFocus,
@@ -47,6 +48,7 @@ import { routing } from './app.routing';
         // Pipe
         TimeToDatePipe,
         TaskProjectPipe,
+        TaskCategoryPipe,
         TasksTimePipe,
         ArrayFilterPipe,
         GroupTasksByWeekPipe

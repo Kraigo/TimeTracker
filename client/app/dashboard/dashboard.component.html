@@ -26,14 +26,20 @@
         <div class="flex-table">
             <div class="flex-row" *ngFor="let task of currentDay.tasks">
                 <div class="flex-cell flex-cell_nogrow">
-                    <button class="btn btn-default btn-delete btn-sm" (click)="removeTask(task, day)">
+                    <button class="btn btn-default btn-delete btn-sm" (click)="removeTask(task)">
                         <i class="glyphicon glyphicon-trash"></i>
                     </button>
                 </div>
 
-                <div class="flex-cell" style="flex-basis: 200px">
+                <div class="flex-cell" style="flex-basis: 160px">
                     <select class="form-control input-sm" [(ngModel)]="task.project" (ngModelChange)="taskChanged(task)">
                         <option *ngFor="let project of projects" [ngValue]="project._id">{{project.title}}</option>
+                    </select>
+                </div>
+
+                <div class="flex-cell" style="flex-basis: 160px" *ngIf="categories.length > 0">
+                    <select class="form-control input-sm" [(ngModel)]="task.category" (ngModelChange)="taskChanged(task)">
+                        <option *ngFor="let category of categories" [ngValue]="category._id">{{category.title}}</option>
                     </select>
                 </div>
 

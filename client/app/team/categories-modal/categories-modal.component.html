@@ -6,7 +6,7 @@
                 <button type="button" class="close" aria-label="Close" (click)="modal.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">The projects {{team.title + '\'s'}}</h4>
+                <h4 class="modal-title" id="myModalLabel">The categories {{team.title + '\'s'}}</h4>
             </div>
 
 
@@ -18,20 +18,20 @@
                             <th>Title</th>
                         </tr>
 
-                        <tr *ngFor="let project of team.projects">
+                        <tr *ngFor="let category of team.categories">
                             <td *ngIf="team.isOwner">
-                                <button class="btn btn-default btn-delete btn-xs" (click)="removeProject(project)">
-                                                    <i class="glyphicon glyphicon-trash"></i>
-                                                </button>
+                                <button class="btn btn-default btn-delete btn-xs" (click)="removeCategory(category)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
                             </td>
                             <td>
-                                {{project.title}}
+                                {{category.title}}
                             </td>
                         </tr>
 
-                        <tr *ngIf="!team.projects.length">
+                        <tr *ngIf="!team.categories.length">
                             <td colspan="2" align="center">
-                                <p>No one projects in this team</p>
+                                <p>No one categories in this team</p>
                             </td>
                         </tr>
                     </tbody>
@@ -40,9 +40,9 @@
 
             <div class="modal-footer" *ngIf="team.isOwner">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="New project" [(ngModel)]="newProjectTitle">
+                    <input type="text" class="form-control" placeholder="New category" [(ngModel)]="newCategoryTitle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" (click)="addProject(team, newProjectTitle);">Add Project</button>
+                        <button class="btn btn-default" type="button" (click)="addCategory(team, newCategoryTitle);">Add Category</button>
                     </span>
                 </div>
             </div>
