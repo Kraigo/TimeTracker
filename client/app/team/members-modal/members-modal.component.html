@@ -43,7 +43,7 @@
                         </tr>
 
                         <tr *ngFor="let invitation of team.invitations">
-                            <td>
+                            <td *ngIf="team.isOwner">
                                 <button class="btn btn-default btn-delete btn-xs" (click)="removeInvitation(invitation)">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>

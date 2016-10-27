@@ -27,11 +27,15 @@ export class TeamComponent implements OnInit {
     ngOnInit() {
         this.repository
             .getTeams()
-            .subscribe(teams => this.teams = this.teams.concat(teams))
+            .subscribe(teams => {
+                this.teams = this.teams.concat(teams)
+            })
 
         this.repository
             .getInvitations()
-            .subscribe(invitations => this.invitations = this.invitations.concat(invitations))
+            .subscribe(invitations => {
+                this.invitations = this.invitations.concat(invitations)
+            })
     }
 
     openProjects(team: Team) {
