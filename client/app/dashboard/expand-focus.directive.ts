@@ -1,4 +1,3 @@
-import {el} from 'd:/Projects/TimeTracker/node_modules/@angular/platform-browser/testing/browser_util';
 import { Directive, ElementRef, HostListener, Input, Renderer } from '@angular/core';
 
 @Directive({
